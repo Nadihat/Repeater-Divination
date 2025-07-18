@@ -1,0 +1,4 @@
+# Repeater Divination
+The Intention Repeater Tarot by Thomas Sweet/AnthroHeart (https://intentionrepeater.boards.net; https://github.com/tsweet77/openrouter-tarot) was translated by Gemini CLI (Pro 2.5) into Lenormand, Geomancy, Runes and probably others to come. Enjoy!
+
+The Tarot file is GPL3.
