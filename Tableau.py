@@ -28,10 +28,14 @@ def hash_question(question: str, salt: str = "", times: int = THINK_DEPTH) -> in
 
 # === SHUFFLE ALL CARDS FOR THE TABLEAU ===
 def shuffle_deck(question: str) -> List[str]:
+    """
+    Performs a time-sensitive deterministic shuffle based on the hash of the question.
+    The same question asked at different times will produce a different shuffle.
+    """
     shuffled_deck = list(cards)
     timestamp = int(time.time())
     
-    # Perform a deterministic shuffle based on the hash of the question
+    # Perform a deterministic Fisher-Yates shuffle seeded by the hash
     for i in range(DECK_SIZE - 1, 0, -1):
         salt = f"{question}-shuffle{i}-time{timestamp}"
         j = hash_question(question, salt) % (i + 1)
