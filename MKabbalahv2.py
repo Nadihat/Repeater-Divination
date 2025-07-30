@@ -37,9 +37,8 @@ def reveal_sephirot(question: str, count: int) -> List[Tuple[str, str]]:
     states = ['Normal', 'Excessive', 'Deficient']
 
     for i in range(count):
-        nonce = 0
+        sephirah_salt = f"{question}-sephirah{i}-time{timestamp}"
         while True:
-            sephirah_salt = f"{question}-sephirah{i}-time{timestamp}-nonce{nonce}"
             index = hash_question(question, sephirah_salt) % NUM_SEPHUROT
             if index not in used_indices:
                 used_indices.add(index)
@@ -52,7 +51,7 @@ def reveal_sephirot(question: str, count: int) -> List[Tuple[str, str]]:
                 
                 revealed.append((sephirah_name, state))
                 break
-            nonce += 1
+            sephirah_salt += "."
     return revealed
 
 # === INTERPRETATION REQUEST ===
