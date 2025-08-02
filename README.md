@@ -10,7 +10,9 @@ IAstrology.py the same.
 
 RxRunes.py is 888Runes.py plus reversed. A most interesting note is that symmetrical runes (that look the same any side) such as Gebo do not have a reversed form.
 
-MKabbalahv2.py is 888k `THINK_DEPTH` and contains Excessive (too much) and Deficient (too little) Sephiroth. This gives in total 30 possible meanings for each slot and is I believe better than involving the Qlippoth (the evil side). This version doesn't have the Lightning Flash (the proper order that is always the same) It is the latest version.
+MKabbalahv2.py is 888k `THINK_DEPTH` and contains Excessive (too much) and Deficient (too little) Sephiroth. This gives in total 30 possible meanings for each slot and is I believe better than involving the Qlippoth (the evil side). This version doesn't have the Lightning Flash (the proper order that is always the same) 
+
+MKabbalahv3.py shifts the B/E/D rate to 50/25/25. It is the latest version.
 
 MKabbalah.py is an old version that hashes little compared to v2.
 HKabbalah.py was a transition version.
