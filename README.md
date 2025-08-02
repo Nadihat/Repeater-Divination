@@ -17,5 +17,7 @@ HKabbalah.py was a transition version.
 Kabbalah.py was the original version.
 
 August 1, 2025: Added 2Astrology.py, which contains Transits.
+5Astrology.py contains Parallels and Conjunctions (sextiles, squares etc)
+6Astrology.py includes Ceres, Juno, Vesta... Eris, Makemake, Gonggong etc.
 
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
