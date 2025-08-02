@@ -16,4 +16,6 @@ MKabbalah.py is an old version that hashes little compared to v2.
 HKabbalah.py was a transition version.
 Kabbalah.py was the original version.
 
+August 1, 2025: Added 2Astrology.py, which contains Transits.
+
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
