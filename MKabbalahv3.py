@@ -175,7 +175,8 @@ def main():
 
     revealed = reveal_sephirot(question, count)
 
-    console.print(f"\n[bold magenta]The Revealed Sephirot{{'h' if count > 1 else ''}}:[/bold magenta]")
+    word = "Sephirah" if count == 1 else "Sephiroth"
+    console.print(f"\n[bold magenta]The Revealed {word}:[/bold magenta]")
 
     if count == 10:
         # For a full tree reading, we show all sephirot in their proper order with states
