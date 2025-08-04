@@ -12,7 +12,14 @@ RxRunes.py is 888Runes.py plus reversed. A most interesting note is that symmetr
 
 MKabbalahv2.py is 888k `THINK_DEPTH` and contains Excessive (too much) and Deficient (too little) Sephiroth. This gives in total 30 possible meanings for each slot and is I believe better than involving the Qlippoth (the evil side). This version doesn't have the Lightning Flash (the proper order that is always the same) 
 
-MKabbalahv3.py shifts the B/E/D rate to 50/25/25. It is the latest version.
+MKabbalahv3.py shifts the B/E/D rate to 50/25/25.
+MKabbalahv4.py adds the 22 Paths.
+MKabbalahv5.py adds a Variable Path Reading.
+MKabbalahv6.py adds the Horizontal Reading (Archetypal/Creative/Formative/Material)
+MKabbalahv7.py changes the path logic to be a 25% roll, determined by hashes.
+The tool said v6 is a balanced, useful tool, whereas v7 is "lost in fog and moonlight" and may deliver "soft, unclear" answers.
+
+So I would use v6 for now.
 
 MKabbalah.py is an old version that hashes little compared to v2.
 HKabbalah.py was a transition version.
@@ -20,6 +27,6 @@ Kabbalah.py was the original version.
 
 August 1, 2025: Added 2Astrology.py, which contains Transits.
 5Astrology.py contains Parallels and Conjunctions (sextiles, squares etc)
-6Astrology.py includes Ceres, Juno, Vesta... Eris, Makemake, Gonggong etc.
+6Astrology.py includes Ceres, Juno, Vesta... Eris, Makemake, Gonggong etc. This produces an extraordinary information volume: if you don't need these smaller bodies (as they can muddle up a reading by inventing wrong details about wounds [Ceres iirc], etc), use 5Astrology.py.
 
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
