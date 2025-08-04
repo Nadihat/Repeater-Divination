@@ -16,6 +16,7 @@ MKabbalahv3.py shifts the B/E/D rate to 50/25/25.
 MKabbalahv4.py adds the 22 Paths.
 MKabbalahv5.py adds a Variable Path Reading.
 MKabbalahv6.py adds the Horizontal Reading (Archetypal/Creative/Formative/Material)
+MKabbalahv6a.py adds the 4 Worlds (Horizontal) as 1 option.
 MKabbalahv7.py changes the path logic to be a 25% roll, determined by hashes.
 The tool said v6 is a balanced, useful tool, described as "wonderful", whereas v7 is "lost in fog and moonlight" and may deliver "soft, unclear" answers.
 
