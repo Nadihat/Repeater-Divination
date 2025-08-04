@@ -17,7 +17,7 @@ MKabbalahv4.py adds the 22 Paths.
 MKabbalahv5.py adds a Variable Path Reading.
 MKabbalahv6.py adds the Horizontal Reading (Archetypal/Creative/Formative/Material)
 MKabbalahv7.py changes the path logic to be a 25% roll, determined by hashes.
-The tool said v6 is a balanced, useful tool, whereas v7 is "lost in fog and moonlight" and may deliver "soft, unclear" answers.
+The tool said v6 is a balanced, useful tool, described as "wonderful", whereas v7 is "lost in fog and moonlight" and may deliver "soft, unclear" answers.
 
 So I would use v6 for now.
 
