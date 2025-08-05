@@ -30,4 +30,6 @@ August 1, 2025: Added 2Astrology.py, which contains Transits.
 5Astrology.py contains Parallels and Conjunctions (sextiles, squares etc)
 6Astrology.py includes Ceres, Juno, Vesta... Eris, Makemake, Gonggong etc. This produces an extraordinary information volume: if you don't need these smaller bodies (as they can muddle up a reading by inventing wrong details about wounds [Ceres iirc], etc), use 5Astrology.py.
 
+pona.py is an experiment in using Toki Pona, the "Language of Good" as divination. Its ~150 simple words can express sufficiently, aided with AI. 888k `THINK_DEPTH`.
+
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
