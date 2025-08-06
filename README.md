@@ -36,4 +36,6 @@ lat.py is the same but for Latin. latv2.py adds more words.
 
 The same for Traditional Chinese, in chin.py and chinv2.py.
 
+cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
+
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
