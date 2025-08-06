@@ -32,4 +32,8 @@ August 1, 2025: Added 2Astrology.py, which contains Transits.
 
 pona.py is an experiment in using Toki Pona, the "Language of Good" as divination. Its ~150 simple words can express sufficiently, aided with AI. 888k `THINK_DEPTH`.
 
+lat.py is the same but for Latin. latv2.py adds more words.
+
+The same for Traditional Chinese, in chin.py and chinv2.py.
+
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
