@@ -34,7 +34,7 @@ pona.py is an experiment in using Toki Pona, the "Language of Good" as divinatio
 
 lat.py is the same but for Latin. latv2.py adds more words.
 
-The same for Traditional Chinese, in chin.py and chinv2.py.
+The same for Traditional Chinese, in chin.py and chinv2.py. chinv3.py has 2000 words.
 
 cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
 
