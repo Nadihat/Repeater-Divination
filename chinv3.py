@@ -239,7 +239,7 @@ def main():
 
     drawn_words = draw_words(question, word_count)
 
-    console.print(f"\n[bold magenta]Your Word{{'s' if word_count > 1 else ''}}:[/bold magenta]")
+    console.print(f"\n[bold magenta]Your Word{'s' if word_count > 1 else ''}:[/bold magenta]")
     for i, word in enumerate(drawn_words):
         console.print(f"[bold]{i+1}. {word}[/bold]")
 
