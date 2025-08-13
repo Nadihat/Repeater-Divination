@@ -38,4 +38,6 @@ The same for Traditional Chinese, in chin.py and chinv2.py. chinv3.py has 2000 w
 
 cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
 
+tarot.js is an alternate path to remove the "frozen/collision" bug that plagued early versions. It uses node.
+
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
