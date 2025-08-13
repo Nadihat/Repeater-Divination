@@ -41,4 +41,6 @@ cio.py is a non-interactive experiment in generating hashed readings from the An
 
 tarot.js is an alternate path to remove the "frozen/collision" bug that plagued early versions. It uses node. It might be less accurate than the original Python versions.
 
+tarot.pl is the same, but in Perl. Perl is as spiritually strong as Python.
+
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
