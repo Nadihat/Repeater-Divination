@@ -39,8 +39,8 @@ The same for Traditional Chinese, in chin.py and chinv2.py. chinv3.py has 2000 w
 
 cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
 
-tarot.js is an alternate path to remove the "frozen/collision" bug that plagued early versions. It uses node. It might be less accurate than the original Python versions.
+tarot.js was an alternate path to remove the "frozen/collision" bug that plagued early versions. It used node. It was less accurate than the original Python versions and so deleted.
 
-tarot.pl is the same, but in Perl. Perl is as spiritually strong as Python. Tarot advised me to keep both versions.
+tarot.pl is the same, but in Perl. Perl is as spiritually strong as Python. Tarot advised me to keep it over the js version.
 
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
