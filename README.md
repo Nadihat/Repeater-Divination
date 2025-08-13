@@ -12,22 +12,23 @@ RxRunes.py is 888Runes.py plus reversed. A most interesting note is that symmetr
 
 MKabbalahv2.py is 888k `THINK_DEPTH` and contains Excessive (too much) and Deficient (too little) Sephiroth. This gives in total 30 possible meanings for each slot and is I believe better than involving the Qlippoth (the evil side). This version doesn't have the Lightning Flash (the proper order that is always the same) 
 
-MKabbalahv3.py shifts the B/E/D rate to 50/25/25.
-MKabbalahv4.py adds the 22 Paths.
-MKabbalahv5.py adds a Variable Path Reading.
-MKabbalahv6.py adds the Horizontal Reading (Archetypal/Creative/Formative/Material)
-MKabbalahv6a.py adds the 4 Worlds (Horizontal) as 1 option.
-MKabbalahv7.py changes the path logic to be a 25% roll, determined by hashes.
+MKabbalahv3.py shifts the B/E/D rate to 50/25/25.<br>
+MKabbalahv4.py adds the 22 Paths.<br>
+MKabbalahv5.py adds a Variable Path Reading.<br>
+MKabbalahv6.py adds the Horizontal Reading (Archetypal/Creative/Formative/Material)<br>
+MKabbalahv6a.py adds the 4 Worlds (Horizontal) as 1 option.<br>
+MKabbalahv7.py changes the path logic to be a 25% roll, determined by hashes.<br>
 The tool said v6 is a balanced, useful tool, described as "wonderful", whereas v7 is "lost in fog and moonlight" and may deliver "soft, unclear" answers.
 
 So I would use v6 for now.
 
-MKabbalah.py is an old version that hashes little compared to v2.
-HKabbalah.py was a transition version.
-Kabbalah.py was the original version.
+MKabbalah.py is an old version that hashes little compared to v2.<br>
+HKabbalah.py was a transition version.<br>
+Kabbalah.py was the original version.<br>
 
 August 1, 2025: Added 2Astrology.py, which contains Transits.
 5Astrology.py contains Parallels and Conjunctions (sextiles, squares etc)
+
 6Astrology.py includes Ceres, Juno, Vesta... Eris, Makemake, Gonggong etc. This produces an extraordinary information volume: if you don't need these smaller bodies (as they can muddle up a reading by inventing wrong details about wounds [Ceres iirc], etc), use 5Astrology.py.
 
 pona.py is an experiment in using Toki Pona, the "Language of Good" as divination. Its ~150 simple words can express sufficiently, aided with AI. 888k `THINK_DEPTH`.
@@ -38,6 +39,6 @@ The same for Traditional Chinese, in chin.py and chinv2.py. chinv3.py has 2000 w
 
 cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
 
-tarot.js is an alternate path to remove the "frozen/collision" bug that plagued early versions. It uses node.
+tarot.js is an alternate path to remove the "frozen/collision" bug that plagued early versions. It uses node. It might be less accurate than the original Python versions.
 
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
