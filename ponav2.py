@@ -7,8 +7,6 @@ from typing import List
 from rich import print
 from rich.console import Console
 
-#Definition of 50 uncommon and obscure words: 
-
 # === CONFIGURATION ===
 # The model can be specified via command-line argument.
 # See a list of models at https://openrouter.ai/models

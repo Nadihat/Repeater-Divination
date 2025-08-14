@@ -32,7 +32,7 @@ August 1, 2025: Added 2Astrology.py, which contains Transits.
 6Astrology.py includes Ceres, Juno, Vesta... Eris, Makemake, Gonggong etc. This produces an extraordinary information volume: if you don't need these smaller bodies (as they can muddle up a reading by inventing wrong details about wounds [Ceres iirc], etc), use 5Astrology.py.
 
 pona.py is an experiment in using Toki Pona, the "Language of Good" as divination. Its ~150 simple words can express sufficiently, aided with AI. 888k `THINK_DEPTH`.<br>
-ponav2.py includes all of the words https://nimi.li deems rare and obscure, bringing the total up to 181.
+ponav2.py includes all of the words https://nimi.li deems uncommon and obscure, bringing the total up to 181. Make sure to include the explainer, else AI may hallucinate.
 
 lat.py is the same but for Latin. latv2.py adds more words.
 
