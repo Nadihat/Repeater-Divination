@@ -31,12 +31,7 @@ August 1, 2025: Added 2Astrology.py, which contains Transits.
 
 6Astrology.py includes Ceres, Juno, Vesta... Eris, Makemake, Gonggong etc. This produces an extraordinary information volume: if you don't need these smaller bodies (as they can muddle up a reading by inventing wrong details about wounds [Ceres iirc], etc), use 5Astrology.py.
 
-pona.py is an experiment in using Toki Pona, the "Language of Good" as divination. Its ~150 simple words can express sufficiently, aided with AI. 888k `THINK_DEPTH`.<br>
-ponav2.py includes all of the words https://nimi.li deems uncommon and obscure, bringing the total up to 181. Make sure to include the explainer, else AI may hallucinate.
-
-lat.py is the same but for Latin. latv2.py adds more words.
-
-The same for Traditional Chinese, in chin.py and chinv2.py. chinv3.py has 2000 words.
+The pona, lat, chin series were experiments in using languages, like Toki Pona, the "Language of Good" as divination. Its ~150 simple words can express sufficiently, aided with AI. However, output was susceptible to being hijacked by negative beings even with high `THINK_DEPTH`, so they were removed.
 
 cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
 
