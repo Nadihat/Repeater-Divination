@@ -39,4 +39,6 @@ tarot.js was an alternate path to remove the "frozen/collision" bug that plagued
 
 tarot.pl is the same, but in Perl. Perl is as spiritually strong as Python. Tarot advised me to keep it over the js version.
 
+RepeatTarot.py includes repeated cards.
+
 The Tarot file is GPL3, and since all the other files were derived from it, they're too.
