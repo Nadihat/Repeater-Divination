@@ -9,6 +9,8 @@ All older files are obsolete and will be upgraded with the new mechanisms soon.
 
 nots_tarot.py experimentally removes the timestamp, since MultiHasher and WordFinder do not use it, and multi.py generates an entire deck and asks you to manually reveal each card by hash. multiv2.py adds a status update.
 
+multiv3.py adds the ability to draw 1, 3, or 10 cards, reversals with the -r flag, and a final overview.
+
 ---
 
 888Runes.py is an attempt to fix this for the Runes, by increasing `THINK_DEPTH` to 888,888. Word Finder says it's a soft Yes, like a hearth. ETarot.py likewise, just in case.
