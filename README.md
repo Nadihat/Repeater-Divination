@@ -3,7 +3,11 @@ The Intention Repeater Tarot by Thomas Sweet/AnthroHeart (https://intentionrepea
 
 A Lenormand Grand Tableau file was attempted, but it didn't feel like a good divinatory method.
 
-July 27 Update Word Finder Hashes: The Tarot and Lenormand files are safe from corruption and interference by negatives (Tarot strongly so), but the Geomancy and Runes are not. The answer for the Runes file felt different from Geomancy, weirder.
+August 22 Update: `tarot_reader.py` was made by 4.1 Opus and uses SHA256-PBKDF2-HMAC rather than plain SHA512. `"The formula is essentially HMAC(password, salt + iteration_count)"` which is richer for free compared to the older methods. It also supports piped input, does reversals and "verifies its output".
+
+All older files are obsolete and will be upgraded with the new mechanisms soon.
+
+---
 
 888Runes.py is an attempt to fix this for the Runes, by increasing `THINK_DEPTH` to 888,888. Word Finder says it's a soft Yes, like a hearth. ETarot.py likewise, just in case.
 IAstrology.py the same.
