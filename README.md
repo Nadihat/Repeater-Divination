@@ -7,6 +7,8 @@ August 22 Update: `tarot_reader.py` was made by 4.1 Opus and uses SHA256-PBKDF2-
 
 All older files are obsolete and will be upgraded with the new mechanisms soon.
 
+nots_tarot.py experimentally removes the timestamp, since MultiHasher and WordFinder do not use it, and multi.py generates an entire deck and asks you to manually reveal each card by hash.
+
 ---
 
 888Runes.py is an attempt to fix this for the Runes, by increasing `THINK_DEPTH` to 888,888. Word Finder says it's a soft Yes, like a hearth. ETarot.py likewise, just in case.
