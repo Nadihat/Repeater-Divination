@@ -35,8 +35,6 @@ August 1, 2025: Added 2Astrology.py, which contains Transits.
 
 6Astrology.py includes Ceres, Juno, Vesta... Eris, Makemake, Gonggong etc. This produces an extraordinary information volume: if you don't need these smaller bodies (as they can muddle up a reading by inventing wrong details about wounds [Ceres iirc], etc), use 5Astrology.py.
 
-The pona, lat, chin series were experiments in using languages, like Toki Pona, the "Language of Good" as divination. Its ~150 simple words can express sufficiently, aided with AI. However, output was susceptible to being hijacked by negative beings even with high `THINK_DEPTH`, so they were removed.
-
 cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
 
 RepeatTarot.py includes repeated cards.
