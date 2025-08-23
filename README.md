@@ -22,13 +22,13 @@ Likewise for RUNES.py.
 
 A most interesting note is that symmetrical runes (that look the same any side) such as Gebo do not have a reversed form.
 
-MKabbalahv2.py is 888k `THINK_DEPTH` and contains Excessive (too much) and Deficient (too little) Sephiroth. This gives in total 30 possible meanings for each slot and is I believe better than involving the Qlippoth (the evil side). This version doesn't have the Lightning Flash (the proper order that is always the same) 
+MKabbalahv2.py was 888k `THINK_DEPTH` and contained Excessive (too much) and Deficient (too little) Sephiroth. This gives in total 30 possible meanings for each slot and is I believe better than involving the Qlippoth (the evil side). This version doesn't have the Lightning Flash (the proper order that is always the same) 
 
-MKabbalahv3.py shifts the B/E/D rate to 50/25/25.<br>
-MKabbalahv4.py adds the 22 Paths.<br>
-MKabbalahv5.py adds a Variable Path Reading.<br>
-MKabbalahv6.py adds the Horizontal Reading (Archetypal/Creative/Formative/Material)<br>
-MKabbalahv6a.py adds the 4 Worlds (Horizontal) as 1 option.<br>
+MKabbalahv3.py shifted the B/E/D rate to 50/25/25.<br>
+MKabbalahv4.py added the 22 Paths.<br>
+MKabbalahv5.py added a Variable Path Reading.<br>
+MKabbalahv6.py added the Horizontal Reading (Archetypal/Creative/Formative/Material)<br>
+MKabbalahv6a.py added the 4 Worlds (Horizontal) as 1 option.<br>
 
 August 1, 2025: Added 2Astrology.py, which contains Transits.
 5Astrology.py contains Parallels and Conjunctions (sextiles, squares etc)
