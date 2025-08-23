@@ -11,6 +11,8 @@ nots_tarot.py experimentally removes the timestamp, since MultiHasher and WordFi
 
 multiv3.py adds the ability to draw 1, 3, or 10 cards, reversals with the -r flag, and a final overview. multiv4.py makes it so that you must type 3 or more hash prefix characters. v5 adds the original query in the overview.
 
+TAROT.py was further beautified/cleaned up by GPT5.
+
 ---
 
 888Runes.py is an attempt to fix this for the Runes, by increasing `THINK_DEPTH` to 888,888. Word Finder says it's a soft Yes, like a hearth. ETarot.py likewise, just in case.
