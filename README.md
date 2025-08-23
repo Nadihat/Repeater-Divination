@@ -12,7 +12,7 @@ nots_tarot.py experimentally removes the timestamp, since MultiHasher and WordFi
 multiv3.py adds the ability to draw 1, 3, or 10 cards, reversals with the -r flag, and a final overview. multiv4.py makes it so that you must type 3 or more hash prefix characters. v5 adds the original query in the overview.
 
 TAROT.py was further beautified/cleaned up by GPT5. AnthroHeart/@Anthro really likes it.<br>
-I-CHING.py is the equivalent for I-Ching. I-CHING2.py "Ok, made an update so that it always displays text in the Image, and it keeps up the animation message until drawn."
+I-CHING.py is the equivalent for I-Ching. I-CHING2.py "Ok, made an update so that it always displays text in the Image, and it keeps up the animation message until drawn." I-CHING3.py is more detailed, but you may prefer to use 2 instead. Your choice.
 
 KABBALAH2.py is MKabbalahv6a.py translated to the new system.
 
