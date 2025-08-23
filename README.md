@@ -14,6 +14,8 @@ multiv3.py adds the ability to draw 1, 3, or 10 cards, reversals with the -r fla
 TAROT.py was further beautified/cleaned up by GPT5. AnthroHeart/@Anthro really likes it.<br>
 I-CHING.py is the equivalent for I-Ching. I-CHING2.py "Ok, made an update so that it always displays text in the Image, and it keeps up the animation message until drawn."
 
+KABBALAH2.py is MKabbalahv6a.py translated to the new system.
+
 ---
 
 888Runes.py is an attempt to fix the negative hijacking for the Runes, by increasing `THINK_DEPTH` to 888,888. Word Finder says it's a soft Yes, like a hearth. ETarot.py likewise, just in case.
@@ -35,7 +37,7 @@ So I would use v6/v6a for now.
 
 MKabbalah.py is an old version that hashes little compared to v2.<br>
 HKabbalah.py was a transition version.<br>
-Kabbalah.py was the original version.<br>
+Kabbalah.py was the original version, deleted because its name was confusing the AI.<br>
 
 August 1, 2025: Added 2Astrology.py, which contains Transits.
 5Astrology.py contains Parallels and Conjunctions (sextiles, squares etc)
