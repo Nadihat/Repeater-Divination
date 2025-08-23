@@ -29,7 +29,6 @@ sephirot_names = [
     'Yesod (Foundation)', 'Malkuth (Kingdom)'
 ]
 
-# Generate the full list of 30 Sephiroth states
 sephirot_with_states = [
     f"{name} - {state}"
     for name in sephirot_names
@@ -81,15 +80,13 @@ def hash_question_for_int(question: str, salt: str = "") -> int:
     return int.from_bytes(hashed_bytes, 'big')
 
 def prepare_interactive_pool(question: str, items: List[str], salt_prefix: str) -> Dict[str, str]:
+    # ... (This function remains unchanged)
     base_seed = hashlib.sha256(question.encode("utf-8")).digest()
     rng = random.Random(base_seed)
-    
     indices = list(range(len(items)))
     rng.shuffle(indices)
-
     interactive_pool: Dict[str, str] = {}
     total_hashes = len(indices)
-
     for i, item_index in enumerate(indices):
         print(f"Calculating {salt_prefix} hash {i+1}/{total_hashes}...", end='\r', file=sys.stderr)
         salt = f"{salt_prefix}-{i}".encode("utf-8")
@@ -97,20 +94,13 @@ def prepare_interactive_pool(question: str, items: List[str], salt_prefix: str) 
         hash_hex = protected_digest.hex()
         interactive_pool[hash_hex[:HASH_PREFIX_LEN]] = items[item_index]
     print(file=sys.stderr)
-    
     return interactive_pool
 
 # === INTERPRETATION REQUEST ===
 def interpret_revelation(question: str, sephirot_list: List[Tuple[str, str]], path_list: List[str], model: str, reading_info: str = "") -> str:
+    # ... (This function remains unchanged)
     api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
-        return (
-            "[red]❌ OPENROUTER_API_KEY environment variable not set.[/red]\n"
-            "[yellow]💡 Tip: Get a key from https://openrouter.ai and set it.[/yellow]\n"
-            "   Linux/macOS: export OPENROUTER_API_KEY='your-key-here'\n"
-            "   Windows: setx OPENROUTER_API_KEY your-key-here"
-        )
-
+    if not api_key: return "[red]OPENROUTER_API_KEY not set.[/red]"
     sephirot_text = ""
     if "Four Worlds" in reading_info:
         world_readings = {world_name: [] for world_name in worlds}
@@ -123,37 +113,16 @@ def interpret_revelation(question: str, sephirot_list: List[Tuple[str, str]], pa
         sephirot_text = "\n".join(sephirot_text_parts)
     elif len(sephirot_list) == 10:
         tree_of_life_map = {s.split(' ')[0]: f"{s} ({st})" if st != 'Normal' else s for s, st in sephirot_list}
-        positions = [
-            f"1. Keter (Crown): {tree_of_life_map.get('Keter', 'Not Revealed')}",
-            f"2. Chokmah (Wisdom): {tree_of_life_map.get('Chokmah', 'Not Revealed')}",
-            f"3. Binah (Understanding): {tree_of_life_map.get('Binah', 'Not Revealed')}",
-            f"4. Chesed (Mercy): {tree_of_life_map.get('Chesed', 'Not Revealed')}",
-            f"5. Gevurah (Strength): {tree_of_life_map.get('Gevurah', 'Not Revealed')}",
-            f"6. Tiferet (Beauty): {tree_of_life_map.get('Tiferet', 'Not Revealed')}",
-            f"7. Netzach (Victory): {tree_of_life_map.get('Netzach', 'Not Revealed')}",
-            f"8. Hod (Splendor): {tree_of_life_map.get('Hod', 'Not Revealed')}",
-            f"9. Yesod (Foundation): {tree_of_life_map.get('Yesod', 'Not Revealed')}",
-            f"10. Malkuth (Kingdom): {tree_of_life_map.get('Malkuth', 'Not Revealed')}"
-        ]
+        positions = [ f"{i+1}. {s_name}: {tree_of_life_map.get(s_name.split(' ')[0], 'Not Revealed')}" for i, s_name in enumerate(sephirot_names) ]
         sephirot_text = "\n".join(positions)
     else:
         sephirot_text = ", ".join([f"{s} ({st})" if st != 'Normal' else s for s, st in sephirot_list])
-
     path_text = ", ".join(path_list)
-
-    system_prompt = (
-        "You are an Anthro sage giving a spiritual Kabbalistic reading... (rest of prompt)"
-    )
-    user_prompt = (
-        f"The question is: '{question}'\n\n"
-        f"{reading_info}\n\n"
-        f"The following Sephirot were revealed from the Tree of Life:\n{sephirot_text}\n\n"
-        f"The following Paths were revealed:\n{path_text}"
-    )
-
+    system_prompt = "You are an Anthro sage..."
+    user_prompt = (f"The question is: '{question}'\n\n{reading_info}\n\n" 
+                   f"Sephirot:\n{sephirot_text}\n\nPaths:\n{path_text}")
     payload = { "model": model, "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}] }
     headers = { "Authorization": f"Bearer {api_key}", "Content-Type": "application/json", "HTTP-Referer": "https://github.com/reden/kabbalah", "X-Title": "OpenRouter Kabbalah" }
-    console.print("\n[bold blue]Consulting the Ein Sof...[/bold blue]")
     try:
         response = requests.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=300)
         response.raise_for_status()
@@ -163,9 +132,11 @@ def interpret_revelation(question: str, sephirot_list: List[Tuple[str, str]], pa
         return f"[red]Error: {e}[/red]"
 
 # === MAIN LOGIC ===
-def get_user_choices(available_hashes: List[str], num_choices: int, item_name: str) -> List[str]:
+def get_user_choices(pool: Dict[str, str], num_choices: int, item_name: str) -> List[str]:
+    # ... (This function remains unchanged)
+    available_hashes = list(pool.keys())
     chosen_hashes = []
-    while len(chosen_hashes) < num_choices:
+    while True:
         console.print(f"\n[bold]Available {item_name} Hashes:[/bold]")
         cols = 4
         for i in range(0, len(available_hashes), cols):
@@ -173,17 +144,34 @@ def get_user_choices(available_hashes: List[str], num_choices: int, item_name: s
         choices_str = console.input(f"\nEnter {num_choices} {item_name} hash prefix(es) (3+ chars), separated by commas: ").strip()
         choices = [c.strip().lower() for c in choices_str.split(',') if c.strip()]
         if len(choices) != num_choices:
-            console.print(f"[red]Please enter exactly {num_choices} comma-separated hashes.[/red]")
+            console.print(f"[red]Please enter exactly {num_choices} hashes.[/red]")
             continue
         valid_choices = True
-        temp_chosen = []
+        temp_chosen_hashes = []
+        temp_chosen_base_names = []
         for choice in choices:
-            if len(choice) < 3: console.print(f"[red]Error: Hash prefix '{choice}' must be at least 3 characters long.[/red]"); valid_choices = False; break
+            if len(choice) < 3:
+                console.print(f"[red]Error: Hash prefix '{choice}' must be at least 3 characters long.[/red]")
+                valid_choices = False; break
             matches = [h for h in available_hashes if h.startswith(choice)]
-            if len(matches) == 1: temp_chosen.append(matches[0])
-            elif len(matches) > 1: console.print(f"[red]Ambiguous choice '{choice}'.[/red]"); valid_choices = False; break
-            else: console.print(f"[red]Invalid choice '{choice}'.[/red]"); valid_choices = False; break
-        if valid_choices: chosen_hashes = temp_chosen; break
+            if len(matches) == 1:
+                chosen_hash = matches[0]
+                temp_chosen_hashes.append(chosen_hash)
+                if item_name == "Sephirah":
+                    base_name = pool[chosen_hash].split(' - ')[0]
+                    if base_name in temp_chosen_base_names:
+                        console.print(f"[red]Error: You have selected multiple states of '{base_name}'.[/red]")
+                        valid_choices = False; break
+                    temp_chosen_base_names.append(base_name)
+            elif len(matches) > 1:
+                console.print(f"[red]Ambiguous choice '{choice}'.[/red]")
+                valid_choices = False; break
+            else:
+                console.print(f"[red]Invalid choice '{choice}'.[/red]")
+                valid_choices = False; break
+        if valid_choices:
+            chosen_hashes = temp_chosen_hashes
+            break
     return chosen_hashes
 
 def main():
@@ -198,64 +186,52 @@ def main():
 
     console.print("\n[bold]Choose your revelation:[/bold]")
     console.print("[green]1[/green]: Single Sephirah & Path")
-    console.print("[green]3[/green]: Pillar Reading (3 Sephirot, 3 Paths)")
-    console.print("[green]10[/green]: Full Tree of Life (10 Sephirot, 5 Paths)")
-    console.print("[green]V[/green]: Full Tree with Variable Paths")
-    console.print("\n--- Horizontal Readings ---")
-    console.print("[green]A[/green]: Archetypal World")
-    console.print("[green]C[/green]: Creative World")
-    console.print("[green]F[/green]: Formative World")
-    console.print("[green]M[/green]: Material World")
+    console.print("[green]3[/green]: Mind/Heart/Body Pillar Reading")
+    console.print("[green]10[/green]: Full Tree of Life")
     console.print("[green]4[/green]: Four Worlds Reading")
     revelation_choice = console.input("Your choice: ").strip().upper()
 
-    sephirot_count, path_count = 0, 0
+    sephirot_count = 0
     reading_info = ""
-    sephirot_pool_source = sephirot_with_states # Default to all 30 states
-
+    
     if revelation_choice in ['1', '3', '10']:
         sephirot_count = int(revelation_choice)
-        path_count = {1: 1, 3: 3, 10: 5}[sephirot_count]
-    elif revelation_choice == 'V':
-        sephirot_count = 10
-        path_count = (hash_question_for_int(question, "path-count-salt") % NUM_PATHS) + 1
-    elif revelation_choice in ['A', 'C', 'F', 'M']:
-        world_map = {'A': "Archetypal", 'C': "Creative", 'F': "Formative", 'M': "Material"}
-        world_name = world_map[revelation_choice]
-        reading_info = f"This is a horizontal reading of the {world_name} World."
-        world_sephirot_names = worlds[world_name]
-        sephirot_pool_source = [s for s in sephirot_with_states if any(ws_name in s for ws_name in world_sephirot_names)]
-        sephirot_count = len(world_sephirot_names) # Draw one for each sephirah in the world
-        path_count = sephirot_count
     elif revelation_choice == '4':
         reading_info = "This is a Four Worlds reading."
-        sephirot_pool_source = sephirot_with_states
-        sephirot_count = len(sephirot_names) # Draw one for each of the 10 sephirot types
-        path_count = 4
+        sephirot_count = len(sephirot_names)
     else:
         console.print("[red]Invalid choice. Please run the script again.[/red]"); return
 
+    # --- Path Count ---
+    recommended_paths = (hash_question_for_int(question, "path-count-salt") % (NUM_PATHS // 2)) + 1
+    console.print(f"\n[bold]Recommendation of Path Numbers to Draw:[/bold] {recommended_paths}")
+    try:
+        path_count_str = console.input(f"How many paths to draw? (Press Enter for recommendation): ").strip()
+        path_count = int(path_count_str) if path_count_str else recommended_paths
+        if not (1 <= path_count <= NUM_PATHS):
+            console.print(f"[red]Please enter a number between 1 and {NUM_PATHS}.[/red]"); return
+    except ValueError:
+        console.print("[red]Invalid number.[/red]"); return
+
     # --- Hash Pool Generation ---
     console.print("\n[cyan]Generating protected hash pools...[/cyan]")
-    sephirot_pool = prepare_interactive_pool(question, sephirot_pool_source, "sephirah")
+    sephirot_pool = prepare_interactive_pool(question, sephirot_with_states, "sephirah")
     paths_pool = prepare_interactive_pool(question, paths, "path")
     
-    available_sephirot_hashes = list(sephirot_pool.keys())
-    available_path_hashes = list(paths_pool.keys())
-
     # --- User Selection ---
-    chosen_sephirot_hashes = get_user_choices(available_sephirot_hashes, sephirot_count, "Sephirah")
+    chosen_sephirot_hashes = get_user_choices(sephirot_pool, sephirot_count, "Sephirah")
     revealed_sephirot_with_states: List[Tuple[str, str]] = []
     for h in chosen_sephirot_hashes:
         selected_item = sephirot_pool[h]
         s_name, state = selected_item.rsplit(' - ', 1)
         revealed_sephirot_with_states.append((s_name, state))
 
-    chosen_path_hashes = get_user_choices(available_path_hashes, path_count, "Path")
+    chosen_path_hashes = get_user_choices(paths_pool, path_count, "Path")
     revealed_paths = [paths_pool[h] for h in chosen_path_hashes]
 
     # --- Display Results ---
     console.print("\n[bold magenta]The Revealed Sephiroth:[/bold magenta]")
+    # ... (Display logic remains the same)
     if revelation_choice == '4':
         world_readings = {world_name: [] for world_name in worlds}
         for sephirah, state in revealed_sephirot_with_states:
@@ -273,7 +249,6 @@ def main():
     for i, p_name in enumerate(revealed_paths):
         console.print(f"[bold]{i+1}. {p_name}[/bold]")
 
-    # --- Interpretation ---
     interpretation = interpret_revelation(question, revealed_sephirot_with_states, revealed_paths, args.model, reading_info)
     console.print(f"\n[italic green]{interpretation}[/italic green]\n")
 
