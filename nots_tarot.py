@@ -249,7 +249,7 @@ class ReadingDisplay:
             orientation = "Reversed" if drawn_card.is_reversed else "Upright"
             
             table.add_row(
-                f"[cyan]{position_label}[/cyan],
+                f"[cyan]{position_label}[/cyan]",
                 f"[{card_style}]{drawn_card.card.name}[/{card_style}]",
                 f"[{orient_style}]{orientation}[/{orient_style}]"
             )
