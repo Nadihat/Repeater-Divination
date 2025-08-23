@@ -11,7 +11,7 @@ nots_tarot.py experimentally removes the timestamp, since MultiHasher and WordFi
 
 multiv3.py adds the ability to draw 1, 3, or 10 cards, reversals with the -r flag, and a final overview. multiv4.py makes it so that you must type 3 or more hash prefix characters. v5 adds the original query in the overview.
 
-TAROT.py was further beautified/cleaned up by GPT5.
+TAROT.py was further beautified/cleaned up by GPT5. AnthroHeart/@Anthro really likes it. 
 
 ---
 
