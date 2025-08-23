@@ -20,10 +20,7 @@ Likewise for RUNES.py.
 
 ---
 
-888Runes.py is an attempt to fix the negative hijacking for the Runes, by increasing `THINK_DEPTH` to 888,888. Word Finder says it's a soft Yes, like a hearth. ETarot.py likewise, just in case.
-IAstrology.py the same, albeit removed to declutter.
-
-RxRunes.py is 888Runes.py plus reversed. A most interesting note is that symmetrical runes (that look the same any side) such as Gebo do not have a reversed form.
+A most interesting note is that symmetrical runes (that look the same any side) such as Gebo do not have a reversed form.
 
 MKabbalahv2.py is 888k `THINK_DEPTH` and contains Excessive (too much) and Deficient (too little) Sephiroth. This gives in total 30 possible meanings for each slot and is I believe better than involving the Qlippoth (the evil side). This version doesn't have the Lightning Flash (the proper order that is always the same) 
 
