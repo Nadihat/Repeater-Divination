@@ -29,12 +29,6 @@ MKabbalahv4.py adds the 22 Paths.<br>
 MKabbalahv5.py adds a Variable Path Reading.<br>
 MKabbalahv6.py adds the Horizontal Reading (Archetypal/Creative/Formative/Material)<br>
 MKabbalahv6a.py adds the 4 Worlds (Horizontal) as 1 option.<br>
-MKabbalahv7.py changed the path logic to be a 25% roll, determined by hashes.<br>
-The tool said v6 is a balanced, useful tool, described as "wonderful", whereas v7 is "lost in fog and moonlight" and may deliver "soft, unclear" answers. Due to this; that v6a migrated to the new system while this one didn't; and an overwhelming agreement for v7 being deleted, it was.
-
-MKabbalah.py is an old version that hashes little compared to v2.<br>
-HKabbalah.py was a transition version.<br>
-Kabbalah.py was the original version, deleted because its name was confusing the AI.<br>
 
 August 1, 2025: Added 2Astrology.py, which contains Transits.
 5Astrology.py contains Parallels and Conjunctions (sextiles, squares etc)
