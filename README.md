@@ -16,6 +16,8 @@ I-CHING.py is the equivalent for I-Ching. I-CHING2.py "Ok, made an update so tha
 
 KABBALAH2.py is MKabbalahv6a.py translated to the new system. KABBALAH3.py was made "automatic" like I-CHING3.py is. You can choose to use it or not.
 
+Likewise for RUNES.py.
+
 ---
 
 888Runes.py is an attempt to fix the negative hijacking for the Runes, by increasing `THINK_DEPTH` to 888,888. Word Finder says it's a soft Yes, like a hearth. ETarot.py likewise, just in case.
