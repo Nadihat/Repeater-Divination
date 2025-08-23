@@ -12,6 +12,7 @@ import random
 from typing import List, Tuple, Dict
 from rich import print
 from rich.console import Console
+from rich.table import Table
 
 # === CONFIGURATION ===
 HASH_PREFIX_LEN = 8
@@ -102,9 +103,15 @@ def get_user_choices(pool: Dict[str, str], num_choices: int, item_name: str) -> 
     chosen_hashes = []
     while True:
         console.print(f"\n[bold]Available {item_name} Hashes:[/bold]")
+        table = Table.grid(expand=True)
         cols = 4
+        for _ in range(cols):
+            table.add_column()
+
         for i in range(0, len(available_hashes), cols):
-            console.print("  ".join(f"[{h}]" for h in available_hashes[i:i + cols]))
+            row = [f"[{h}]" for h in available_hashes[i:i+cols]]
+            table.add_row(*row)
+        console.print(table)
         choices_str = console.input(f"\nEnter {num_choices} {item_name} hash prefix(es) (3+ chars), separated by commas: ").strip()
         choices = [c.strip().lower() for c in choices_str.split(',') if c.strip()]
         if len(choices) != num_choices:
@@ -146,6 +153,11 @@ def main():
     question = console.input("[bold yellow]Inscribe your sacred query to generate the hashes[/bold yellow]: ").strip()
     if not question: console.print("[red]A question is required.[/red]"); return
 
+    # --- Hash Pool Generation ---
+    console.print("\n[cyan]Generating protected hash pools for all 30 Sephiroth and 22 Paths...[/cyan]")
+    sephirot_pool = prepare_interactive_pool(question, sephirot_with_states, "sephirah")
+    paths_pool = prepare_interactive_pool(question, paths, "path")
+
     console.print("\n[bold]Choose your revelation:[/bold]")
     console.print("[green]1[/green]: Single Sephirah & Path")
     console.print("[green]3[/green]: Mind/Heart/Body Pillar Reading")
@@ -175,10 +187,6 @@ def main():
     except ValueError:
         console.print("[red]Invalid number.[/red]"); return
 
-    # --- Hash Pool Generation ---
-    console.print("\n[cyan]Generating protected hash pools...[/cyan]")
-    sephirot_pool = prepare_interactive_pool(question, sephirot_with_states, "sephirah")
-    
     # --- User Selection ---
     chosen_sephirot_hashes = get_user_choices(sephirot_pool, sephirot_count, "Sephirah")
     revealed_sephirot_with_states: List[Tuple[str, str]] = []
@@ -189,7 +197,6 @@ def main():
 
     revealed_paths = []
     if path_count > 0:
-        paths_pool = prepare_interactive_pool(question, paths, "path")
         chosen_path_hashes = get_user_choices(paths_pool, path_count, "Path")
         revealed_paths = [paths_pool[h] for h in chosen_path_hashes]
 
