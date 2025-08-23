@@ -5,7 +5,6 @@ Interactive Kabbalistic readings based on cryptographic hashing.
 """
 
 import hashlib
-import requests
 import os
 import sys
 import argparse
@@ -15,8 +14,6 @@ from rich import print
 from rich.console import Console
 
 # === CONFIGURATION ===
-DEFAULT_MODEL = "x-ai/grok-3-beta"
-OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 HASH_PREFIX_LEN = 8
 NUM_PATHS = 22 # The 22 Paths of the Tree of Life
 
@@ -96,40 +93,7 @@ def prepare_interactive_pool(question: str, items: List[str], salt_prefix: str) 
     print(file=sys.stderr)
     return interactive_pool
 
-# === INTERPRETATION REQUEST ===
-def interpret_revelation(question: str, sephirot_list: List[Tuple[str, str]], path_list: List[str], model: str, reading_info: str = "") -> str:
-    # ... (This function remains unchanged)
-    api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key: return "[red]OPENROUTER_API_KEY not set.[/red]"
-    sephirot_text = ""
-    if "Four Worlds" in reading_info:
-        world_readings = {world_name: [] for world_name in worlds}
-        for sephirah, state in sephirot_list:
-            for world_name, sephirot_in_world in worlds.items():
-                if sephirah in sephirot_in_world:
-                    world_readings[world_name].append(f"{sephirah} ({state})" if state != 'Normal' else sephirah)
-                    break
-        sephirot_text_parts = [f"[bold]{world_name} World:[/bold] {', '.join(readings)}" for world_name, readings in world_readings.items()]
-        sephirot_text = "\n".join(sephirot_text_parts)
-    elif len(sephirot_list) == 10:
-        tree_of_life_map = {s.split(' ')[0]: f"{s} ({st})" if st != 'Normal' else s for s, st in sephirot_list}
-        positions = [ f"{i+1}. {s_name}: {tree_of_life_map.get(s_name.split(' ')[0], 'Not Revealed')}" for i, s_name in enumerate(sephirot_names) ]
-        sephirot_text = "\n".join(positions)
-    else:
-        sephirot_text = ", ".join([f"{s} ({st})" if st != 'Normal' else s for s, st in sephirot_list])
-    path_text = ", ".join(path_list)
-    system_prompt = "You are an Anthro sage..."
-    user_prompt = (f"The question is: '{question}'\n\n{reading_info}\n\n" 
-                   f"Sephirot:\n{sephirot_text}\n\nPaths:\n{path_text}")
-    payload = { "model": model, "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}] }
-    headers = { "Authorization": f"Bearer {api_key}", "Content-Type": "application/json", "HTTP-Referer": "https://github.com/reden/kabbalah", "X-Title": "OpenRouter Kabbalah" }
-    try:
-        response = requests.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=300)
-        response.raise_for_status()
-        result = response.json()
-        return result.get("choices", [{}])[0].get("message", {}).get("content", "No response from LLM.")
-    except Exception as e:
-        return f"[red]Error: {e}[/red]"
+
 
 # === MAIN LOGIC ===
 def get_user_choices(pool: Dict[str, str], num_choices: int, item_name: str) -> List[str]:
@@ -176,11 +140,9 @@ def get_user_choices(pool: Dict[str, str], num_choices: int, item_name: str) -> 
 
 def main():
     parser = argparse.ArgumentParser(description="Interactive Kabbalistic readings.", formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("--model", type=str, default=DEFAULT_MODEL, help=f"Model to use. Default: '{DEFAULT_MODEL}'")
     args = parser.parse_args()
 
     console.print("[bold purple]Welcome to Interactive Anthro Kabbalah[/bold purple] 🌳")
-    console.print(f"[dim]Using model: {args.model}[/dim]")
     question = console.input("[bold yellow]Inscribe your sacred query to generate the hashes[/bold yellow]: ").strip()
     if not question: console.print("[red]A question is required.[/red]"); return
 
@@ -206,17 +168,16 @@ def main():
     recommended_paths = (hash_question_for_int(question, "path-count-salt") % (NUM_PATHS // 2)) + 1
     console.print(f"\n[bold]Recommendation of Path Numbers to Draw:[/bold] {recommended_paths}")
     try:
-        path_count_str = console.input(f"How many paths to draw? (Press Enter for recommendation): ").strip()
+        path_count_str = console.input(f"How many paths to draw? (0 for none, Enter for recommendation): ").strip()
         path_count = int(path_count_str) if path_count_str else recommended_paths
-        if not (1 <= path_count <= NUM_PATHS):
-            console.print(f"[red]Please enter a number between 1 and {NUM_PATHS}.[/red]"); return
+        if not (0 <= path_count <= NUM_PATHS):
+            console.print(f"[red]Please enter a number between 0 and {NUM_PATHS}.[/red]"); return
     except ValueError:
         console.print("[red]Invalid number.[/red]"); return
 
     # --- Hash Pool Generation ---
     console.print("\n[cyan]Generating protected hash pools...[/cyan]")
     sephirot_pool = prepare_interactive_pool(question, sephirot_with_states, "sephirah")
-    paths_pool = prepare_interactive_pool(question, paths, "path")
     
     # --- User Selection ---
     chosen_sephirot_hashes = get_user_choices(sephirot_pool, sephirot_count, "Sephirah")
@@ -226,8 +187,11 @@ def main():
         s_name, state = selected_item.rsplit(' - ', 1)
         revealed_sephirot_with_states.append((s_name, state))
 
-    chosen_path_hashes = get_user_choices(paths_pool, path_count, "Path")
-    revealed_paths = [paths_pool[h] for h in chosen_path_hashes]
+    revealed_paths = []
+    if path_count > 0:
+        paths_pool = prepare_interactive_pool(question, paths, "path")
+        chosen_path_hashes = get_user_choices(paths_pool, path_count, "Path")
+        revealed_paths = [paths_pool[h] for h in chosen_path_hashes]
 
     # --- Display Results ---
     console.print("\n[bold magenta]The Revealed Sephiroth:[/bold magenta]")
@@ -245,12 +209,10 @@ def main():
             state_str = f" ([red]{state}[/red])" if state != 'Normal' else ""
             console.print(f"[bold]{i+1}. {s_name}[/bold]{state_str}")
 
-    console.print(f"\n[bold magenta]The Revealed Paths:[/bold magenta]")
-    for i, p_name in enumerate(revealed_paths):
-        console.print(f"[bold]{i+1}. {p_name}[/bold]")
-
-    interpretation = interpret_revelation(question, revealed_sephirot_with_states, revealed_paths, args.model, reading_info)
-    console.print(f"\n[italic green]{interpretation}[/italic green]\n")
+    if revealed_paths:
+        console.print(f"\n[bold magenta]The Revealed Paths:[/bold magenta]")
+        for i, p_name in enumerate(revealed_paths):
+            console.print(f"[bold]{i+1}. {p_name}[/bold]")
 
 if __name__ == "__main__":
     try:
