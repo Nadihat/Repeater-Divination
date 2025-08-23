@@ -15,7 +15,7 @@ from rich.console import Console
 from rich.table import Table
 
 # === CONFIGURATION ===
-HASH_PREFIX_LEN = 8
+HASH_PREFIX_LEN = 10
 NUM_PATHS = 22 # The 22 Paths of the Tree of Life
 
 console = Console()
