@@ -18,6 +18,8 @@ KABBALAH2.py is MKabbalahv6a.py translated to the new system. KABBALAH3.py was m
 
 Likewise for RUNES.py.
 
+ANTHRO_ORACLE.py draws animal totems. It isn't automatic.
+
 ---
 
 A most interesting note is that symmetrical runes (that look the same any side) such as Gebo do not have a reversed form.
