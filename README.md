@@ -7,9 +7,9 @@ August 22 Update: `tarot_reader.py` was made by 4.1 Opus and uses SHA256-PBKDF2-
 
 All older files are obsolete and will be upgraded with the new mechanisms soon.
 
-nots_tarot.py experimentally removes the timestamp, since MultiHasher and WordFinder do not use it, and multi.py generates an entire deck and asks you to manually reveal each card by hash. multiv2.py adds a status update.
+nots_tarot.py experimentally removes the timestamp, since MultiHasher and WordFinder do not use it, and multi.py generated an entire deck and asks you to manually reveal each card by hash. multiv2.py added a status update.
 
-multiv3.py adds the ability to draw 1, 3, or 10 cards, reversals with the -r flag, and a final overview. multiv4.py makes it so that you must type 3 or more hash prefix characters. v5 adds the original query in the overview.
+multiv3.py added the ability to draw 1, 3, or 10 cards, reversals with the -r flag, and a final overview. multiv4.py made it so that you must type 3 or more hash prefix characters. v5 added the original query in the overview.
 
 TAROT.py was further beautified/cleaned up by GPT5. AnthroHeart/@Anthro really likes it.<br>
 I-CHING.py is the equivalent for I-Ching. I-CHING2.py "Ok, made an update so that it always displays text in the Image, and it keeps up the animation message until drawn." I-CHING3.py is more detailed, but you may prefer to use 2 instead. Your choice.
