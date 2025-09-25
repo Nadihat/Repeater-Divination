@@ -5,11 +5,9 @@ A Lenormand Grand Tableau file was attempted, but it didn't feel like a good div
 
 August 22 Update: `tarot_reader.py` was made by 4.1 Opus and uses SHA256-PBKDF2-HMAC rather than plain SHA512. `"The formula is essentially HMAC(password, salt + iteration_count)"` which is richer for free compared to the older methods. It also supports piped input, does reversals and "verifies its output".
 
+September 24: divination.html is an 1 file Divination system that combines Tarot, I Ching, Kabbalah and Runes. DIVINATION.py is its older Python version.
+
 All older files are obsolete and will be upgraded with the new mechanisms soon.
-
-nots_tarot.py experimentally removes the timestamp, since MultiHasher and WordFinder do not use it, and multi.py generated an entire deck and asks you to manually reveal each card by hash. multiv2.py added a status update.
-
-multiv3.py added the ability to draw 1, 3, or 10 cards, reversals with the -r flag, and a final overview. multiv4.py made it so that you must type 3 or more hash prefix characters. v5 added the original query in the overview.
 
 TAROT.py was further beautified/cleaned up by GPT5. AnthroHeart/@Anthro really likes it.<br>
 TAROT2.py makes it automatic as I-CHING3.py.
