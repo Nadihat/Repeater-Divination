@@ -6,7 +6,8 @@ A Lenormand Grand Tableau file was attempted, but it didn't feel like a good div
 August 22 Update: `tarot_reader.py` was made by 4.1 Opus and uses SHA256-PBKDF2-HMAC rather than plain SHA512. `"The formula is essentially HMAC(password, salt + iteration_count)"` which is richer for free compared to the older methods. It also supports piped input, does reversals and "verifies its output".
 
 September 24: divination.html is an 1 file Divination system that combines Tarot, I Ching, Kabbalah and Runes. DIVINATION.py is its older Python version.<br>
-DivinationColors.html is the v2, with a grid of numbers. DivinationColors2.html includes an automated button.
+DivinationColors.html is the v2, with a grid of numbers. DivinationColors2.html includes an automated button.<br>
+DivinationColors3.html is the newest version with < > buttons "or going back and forth on automated draws.
 
 All older files are obsolete and will be upgraded with the new mechanisms soon.
 
