@@ -7,7 +7,8 @@ August 22 Update: `tarot_reader.py` was made by 4.1 Opus and uses SHA256-PBKDF2-
 
 September 24: divination.html was an 1 file Divination system that combines Tarot, I Ching, Kabbalah and Runes. DIVINATION.py is its older Python version.<br>
 DivinationColors.html was the v2, with a grid of numbers. DivinationColors2.html includes an automated button.<br>
-DivinationColors3.html is the newest version with < > buttons for going back and forth on automated draws.
+DivinationColors3.html is the newest version with < > buttons for going back and forth on automated draws.<br>
+DivinationToolAdvanced.html includes Dreamspell and Taixuanjing, a Chinese divination book, similar to IChing, but with 81 tetragrams.
 
 All older files are obsolete and will be upgraded with the new mechanisms soon.
 
