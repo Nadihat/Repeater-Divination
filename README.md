@@ -29,7 +29,7 @@ ANTHRO_ORACLE.py draws animal totems. It isn't automatic.
 
 ---
 
-A most interesting note is that symmetrical runes (that look the same any side) such as Gebo do not have a reversed form.
+Symmetrical runes (that look the same any side) such as Gebo do not traditionally have a reversed form. Despite this, recent tool versions do include their reversed forms.
 
 MKabbalahv2.py was 888k `THINK_DEPTH` and contained Excessive (too much) and Deficient (too little) Sephiroth. This gives in total 30 possible meanings for each slot and is I believe better than involving the Qlippoth (the evil side). This version doesn't have the Lightning Flash (the proper order that is always the same) 
 
