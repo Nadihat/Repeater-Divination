@@ -69,6 +69,9 @@
         --lingqijing-color: #95a5a6;
         --kabbalah-color: #f1c40f;
         --dreamspell-color: #00bfff;
+        --ogham-color: #27ae60;
+        --astrology-color: #8e44ad;
+        --meihua-color: #e74c3c;
       }
 
       *,
@@ -346,6 +349,36 @@
         }
       }
 
+      .manual-selection-container {
+        display: none;
+        margin-top: 24px;
+      }
+
+      .checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 20px 0 0;
+        cursor: pointer;
+        padding: 12px;
+        border-radius: 8px;
+        background: var(--chip-bg);
+        border: 1px solid var(--border);
+      }
+
+      .checkbox-wrapper label {
+        color: var(--text);
+        font-weight: 600;
+        flex: 1;
+      }
+
+      .checkbox-wrapper input[type="checkbox"] {
+        cursor: pointer;
+        width: 1.3em;
+        height: 1.3em;
+        accent-color: var(--brand-2);
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .fade-in {
           animation-duration: 0.001ms !important;
@@ -463,6 +496,21 @@
         border-color: var(--dreamspell-color);
       }
 
+      .ogham-grid .divination-square.selected {
+        background-color: var(--ogham-color);
+        border-color: var(--ogham-color);
+      }
+
+      .astrology-grid .divination-square.selected {
+        background-color: var(--astrology-color);
+        border-color: var(--astrology-color);
+      }
+
+      .meihua-grid .divination-square.selected {
+        background-color: var(--meihua-color);
+        border-color: var(--meihua-color);
+      }
+
       @media (max-width: 859px) {
         body {
           padding: 12px;
@@ -530,12 +578,271 @@
           <legend>Step 2 — Choose Your Numbers</legend>
 
           <p class="callout">
-            Step 2. Use the "Auto-Select" button to generate a set of numbers based on your intent.
+            Step 2. Use "Auto-Select" for an intent-driven reading, or enable manual selection below.
             <span>
-              You can press the automation button as many times as you wish
-              until it feels right. Click “Generate Summary” when ready.
+              You can use auto-select repeatedly. Click “Generate Summary”
+              when ready.
             </span>
           </p>
+
+          <div class="checkbox-wrapper">
+            <input type="checkbox" id="manual-mode-toggle" />
+            <label for="manual-mode-toggle">Enable Manual Number Selection</label>
+          </div>
+
+          <div id="manual-selection-container" class="manual-selection-container">
+            <div class="grid cols-2">
+            <div class="row">
+              <label for="tarot-grid">
+                Tarot
+                <span id="tarot-feedback" class="hint">(Select 1, 3, or 10)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="tarot-grid"
+                  class="divination-grid-container tarot-grid"
+                ></div>
+              </div>
+              <div id="tarot-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="runes-grid">
+                Runes
+                <span id="runes-feedback" class="hint">(Select 1 or 3)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="runes-grid"
+                  class="divination-grid-container runes-grid"
+                ></div>
+              </div>
+              <div id="runes-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="iching-grid">
+                I-Ching
+                <span id="iching-feedback" class="hint">(Select 1 hexagram)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="iching-grid"
+                  class="divination-grid-container iching-grid"
+                ></div>
+              </div>
+              <div id="iching-error" class="error" aria-live="polite"></div>
+
+              <label for="iching-lines-grid">
+                Moving Lines
+                <span id="iching-lines-feedback" class="hint">(Optional, 0 selected)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="iching-lines-grid"
+                  class="divination-grid-container iching-grid"
+                ></div>
+              </div>
+              <div id="iching-lines-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="taixuanjing-grid">
+                Taixuanjing
+                <span id="taixuanjing-feedback" class="hint">(Select 1 tetragram)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="taixuanjing-grid"
+                  class="divination-grid-container taixuanjing-grid"
+                ></div>
+              </div>
+              <div id="taixuanjing-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="lingqijing-up-grid">
+                Lingqijing (Up)
+                <span id="lingqijing-up-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="lingqijing-up-grid"
+                  class="divination-grid-container lingqijing-grid"
+                ></div>
+              </div>
+              <div id="lingqijing-up-error" class="error" aria-live="polite"></div>
+
+              <label for="lingqijing-middle-grid">
+                Lingqijing (Middle)
+                <span id="lingqijing-middle-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="lingqijing-middle-grid"
+                  class="divination-grid-container lingqijing-grid"
+                ></div>
+              </div>
+              <div id="lingqijing-middle-error" class="error" aria-live="polite"></div>
+
+              <label for="lingqijing-down-grid">
+                Lingqijing (Down)
+                <span id="lingqijing-down-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="lingqijing-down-grid"
+                  class="divination-grid-container lingqijing-grid"
+                ></div>
+              </div>
+              <div id="lingqijing-down-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="kabbalah-grid">
+                Kabbalah
+                <span id="kabbalah-feedback" class="hint">(Optional, 0 selected)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="kabbalah-grid"
+                  class="divination-grid-container kabbalah-grid"
+                ></div>
+              </div>
+              <div id="kabbalah-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="dreamspell-solar-seal-grid">
+                Dreamspell Solar Seal
+                <span id="dreamspell-solar-seal-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="dreamspell-solar-seal-grid"
+                  class="divination-grid-container dreamspell-grid"
+                ></div>
+              </div>
+              <div id="dreamspell-solar-seal-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="dreamspell-galactic-tone-grid">
+                Dreamspell Galactic Tone
+                <span id="dreamspell-galactic-tone-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="dreamspell-galactic-tone-grid"
+                  class="divination-grid-container dreamspell-grid"
+                ></div>
+              </div>
+              <div id="dreamspell-galactic-tone-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="ogham-grid">
+                Ogham
+                <span id="ogham-feedback" class="hint">(Select 1 or 3)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="ogham-grid"
+                  class="divination-grid-container ogham-grid"
+                ></div>
+              </div>
+              <div id="ogham-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="astrology-zodiac-grid">
+                Astrology Zodiac
+                <span id="astrology-zodiac-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="astrology-zodiac-grid"
+                  class="divination-grid-container astrology-grid"
+                ></div>
+              </div>
+              <div id="astrology-zodiac-error" class="error" aria-live="polite"></div>
+
+              <label for="astrology-planet-grid">
+                Astrology Planets
+                <span id="astrology-planet-feedback" class="hint">(Select 4)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="astrology-planet-grid"
+                  class="divination-grid-container astrology-grid"
+                ></div>
+              </div>
+              <div id="astrology-planet-error" class="error" aria-live="polite"></div>
+
+              <label for="astrology-house-grid">
+                Astrology House
+                <span id="astrology-house-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="astrology-house-grid"
+                  class="divination-grid-container astrology-grid"
+                ></div>
+              </div>
+              <div id="astrology-house-error" class="error" aria-live="polite"></div>
+
+              <label for="astrology-aspect-grid">
+                Astrology Aspects
+                <span id="astrology-aspect-feedback" class="hint">(Select 2)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="astrology-aspect-grid"
+                  class="divination-grid-container astrology-grid"
+                ></div>
+              </div>
+              <div id="astrology-aspect-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="meihua-upper-grid">
+                Meihua Upper Trigram
+                <span id="meihua-upper-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="meihua-upper-grid"
+                  class="divination-grid-container meihua-grid"
+                ></div>
+              </div>
+              <div id="meihua-upper-error" class="error" aria-live="polite"></div>
+
+              <label for="meihua-lower-grid">
+                Meihua Lower Trigram
+                <span id="meihua-lower-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="meihua-lower-grid"
+                  class="divination-grid-container meihua-grid"
+                ></div>
+              </div>
+              <div id="meihua-lower-error" class="error" aria-live="polite"></div>
+
+              <label for="meihua-moving-line-grid">
+                Meihua Moving Line
+                <span id="meihua-moving-line-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="meihua-moving-line-grid"
+                  class="divination-grid-container meihua-grid"
+                ></div>
+              </div>
+              <div id="meihua-moving-line-error" class="error" aria-live="polite"></div>
+            </div>
+          </div>
+          </div>
 
           <div class="toolbar toolbar-centered">
             <button
@@ -1231,6 +1538,32 @@
           dreamspellGalacticToneGrid: document.getElementById("dreamspell-galactic-tone-grid"),
           dreamspellGalacticToneErr: document.getElementById("dreamspell-galactic-tone-error"),
           dreamspellGalacticToneFeedback: document.getElementById("dreamspell-galactic-tone-feedback"),
+          oghamGrid: document.getElementById("ogham-grid"),
+          oghamErr: document.getElementById("ogham-error"),
+          oghamFeedback: document.getElementById("ogham-feedback"),
+          astrologyZodiacGrid: document.getElementById("astrology-zodiac-grid"),
+          astrologyZodiacErr: document.getElementById("astrology-zodiac-error"),
+          astrologyZodiacFeedback: document.getElementById("astrology-zodiac-feedback"),
+          astrologyPlanetGrid: document.getElementById("astrology-planet-grid"),
+          astrologyPlanetErr: document.getElementById("astrology-planet-error"),
+          astrologyPlanetFeedback: document.getElementById("astrology-planet-feedback"),
+          astrologyHouseGrid: document.getElementById("astrology-house-grid"),
+          astrologyHouseErr: document.getElementById("astrology-house-error"),
+          astrologyHouseFeedback: document.getElementById("astrology-house-feedback"),
+          astrologyAspectGrid: document.getElementById("astrology-aspect-grid"),
+          astrologyAspectErr: document.getElementById("astrology-aspect-error"),
+          astrologyAspectFeedback: document.getElementById("astrology-aspect-feedback"),
+          meihuaUpperGrid: document.getElementById("meihua-upper-grid"),
+          meihuaUpperErr: document.getElementById("meihua-upper-error"),
+          meihuaUpperFeedback: document.getElementById("meihua-upper-feedback"),
+          meihuaLowerGrid: document.getElementById("meihua-lower-grid"),
+          meihuaLowerErr: document.getElementById("meihua-lower-error"),
+          meihuaLowerFeedback: document.getElementById("meihua-lower-feedback"),
+          meihuaMovingLineGrid: document.getElementById("meihua-moving-line-grid"),
+          meihuaMovingLineErr: document.getElementById("meihua-moving-line-error"),
+          meihuaMovingLineFeedback: document.getElementById("meihua-moving-line-feedback"),
+          manualModeToggle: document.getElementById("manual-mode-toggle"),
+          manualSelectionContainer: document.getElementById("manual-selection-container"),
           autoSelectBtn: document.getElementById("auto-select-button"),
           navPrevBtn: document.getElementById("nav-prev-button"),
           navNextBtn: document.getElementById("nav-next-button"),
@@ -1376,9 +1709,9 @@
             label: "Dreamspell galactic tone",
           },
           ogham: {
-            element: null,
-            feedback: null,
-            error: null,
+            element: elements.oghamGrid,
+            feedback: elements.oghamFeedback,
+            error: elements.oghamErr,
             range: { min: 1, max: 25 },
             maxSelections: 3,
             allowedCounts: [1, 3],
@@ -1388,9 +1721,9 @@
             label: "Ogham slot",
           },
           astrologyZodiac: {
-            element: null,
-            feedback: null,
-            error: null,
+            element: elements.astrologyZodiacGrid,
+            feedback: elements.astrologyZodiacFeedback,
+            error: elements.astrologyZodiacErr,
             range: { min: 1, max: 12 },
             maxSelections: 1,
             allowedCounts: [1],
@@ -1400,9 +1733,9 @@
             label: "Astrology Zodiac Sign",
           },
           astrologyPlanet: {
-            element: null,
-            feedback: null,
-            error: null,
+            element: elements.astrologyPlanetGrid,
+            feedback: elements.astrologyPlanetFeedback,
+            error: elements.astrologyPlanetErr,
             range: { min: 1, max: 10 },
             maxSelections: 4,
             allowedCounts: [4],
@@ -1412,9 +1745,9 @@
             label: "Astrology Planet",
           },
           astrologyHouse: {
-            element: null,
-            feedback: null,
-            error: null,
+            element: elements.astrologyHouseGrid,
+            feedback: elements.astrologyHouseFeedback,
+            error: elements.astrologyHouseErr,
             range: { min: 1, max: 12 },
             maxSelections: 1,
             allowedCounts: [1],
@@ -1424,9 +1757,9 @@
             label: "Astrology House",
           },
           astrologyAspect: {
-            element: null,
-            feedback: null,
-            error: null,
+            element: elements.astrologyAspectGrid,
+            feedback: elements.astrologyAspectFeedback,
+            error: elements.astrologyAspectErr,
             range: { min: 1, max: 14 },
             maxSelections: 2,
             allowedCounts: [2],
@@ -1436,9 +1769,9 @@
             label: "Astrology Aspect",
           },
           meihuaUpper: {
-            element: null,
-            feedback: null,
-            error: null,
+            element: elements.meihuaUpperGrid,
+            feedback: elements.meihuaUpperFeedback,
+            error: elements.meihuaUpperErr,
             range: { min: 1, max: 8 },
             maxSelections: 1,
             allowedCounts: [1],
@@ -1448,9 +1781,9 @@
             label: "Meihua Upper Trigram",
           },
           meihuaLower: {
-            element: null,
-            feedback: null,
-            error: null,
+            element: elements.meihuaLowerGrid,
+            feedback: elements.meihuaLowerFeedback,
+            error: elements.meihuaLowerErr,
             range: { min: 1, max: 8 },
             maxSelections: 1,
             allowedCounts: [1],
@@ -1460,9 +1793,9 @@
             label: "Meihua Lower Trigram",
           },
           meihuaMovingLine: {
-            element: null,
-            feedback: null,
-            error: null,
+            element: elements.meihuaMovingLineGrid,
+            feedback: elements.meihuaMovingLineFeedback,
+            error: elements.meihuaMovingLineErr,
             range: { min: 1, max: 6 },
             maxSelections: 1,
             allowedCounts: [1],
@@ -1511,16 +1844,26 @@
 
         function bindEvents() {
           elements.prepBtn.addEventListener("click", handlePrepareSession);
+          elements.manualModeToggle.addEventListener("change", (e) => {
+            elements.manualSelectionContainer.style.display = e.target.checked ? "block" : "none";
+          });
+          Object.entries(GRID_SETTINGS).forEach(([key, config]) => {
+            if (config.element) {
+              config.element.addEventListener("click", (event) =>
+                handleGridInteraction(event, key)
+              );
+            }
+          });
           elements.autoSelectBtn.addEventListener("click", handleAutoSelect);
           elements.generateBtn.addEventListener("click", handleGenerateSummary);
           elements.clearBtn.addEventListener("click", () => clearSelections());
           elements.copyBtn.addEventListener("click", handleCopy);
           elements.startOverBtn.addEventListener("click", resetSession);
           elements.navPrevBtn.addEventListener("click", () =>
-            loadHistory(state.historyIndex - 1)
+            loadHistory(state.historyIndex - 1, elements.navPrevBtn)
           );
           elements.navNextBtn.addEventListener("click", () =>
-            loadHistory(state.historyIndex + 1)
+            loadHistory(state.historyIndex + 1, elements.navNextBtn)
           );
 
         }
@@ -1586,6 +1929,7 @@
 
           applyPattern(pattern);
           addHistory(pattern);
+          flashButton(elements.autoSelectBtn, "Selection Saved!", 1200);
         }
 
         function handleGridInteraction(event, key) {
@@ -1709,7 +2053,26 @@
           syncSelectionUI();
         }
 
-        function syncSelectionUI(targetKey) {}
+        function syncSelectionUI(targetKey) {
+          const entries = targetKey
+            ? [[targetKey, GRID_SETTINGS[targetKey]]]
+            : Object.entries(GRID_SETTINGS);
+
+          entries.forEach(([key, config]) => {
+            if (!config.element) return;
+            const selectionSet = new Set(state.selections[key]);
+            config.element.querySelectorAll(".divination-square").forEach((btn) => {
+              const number = Number(btn.dataset.number);
+              const isSelected = selectionSet.has(number);
+              btn.classList.toggle("selected", isSelected);
+              btn.setAttribute("aria-pressed", String(isSelected));
+            });
+            if (config.showOrder) {
+              updateOrderStamps(config.element, state.selections[key]);
+            }
+            updateSelectionFeedback(key);
+          });
+        }
 
         function updateOrderStamps(grid, numbers) {
           grid.querySelectorAll(".order-stamp").forEach((stamp) => stamp.remove());
@@ -1831,6 +2194,63 @@
                 isValid = true;
               } else {
                 message = `(Too many selected: ${count})`;
+              }
+              break;
+
+            case "ogham":
+              if (count === 0) {
+                message = "(Select 1 or 3)";
+              } else if ([1, 3].includes(count)) {
+                message =
+                  count === 1
+                    ? "✔ Valid (single stave)"
+                    : "✔ Valid (3 stave spread)";
+                isValid = true;
+              } else if (count === 2) {
+                message = "(1 more for a three stave spread)";
+              } else {
+                message = `(Invalid count: ${count})`;
+              }
+              break;
+
+            case "astrologyZodiac":
+            case "astrologyHouse":
+            case "meihuaUpper":
+            case "meihuaLower":
+            case "meihuaMovingLine":
+              if (count === 0) {
+                message = "(Select 1)";
+              } else if (count === 1) {
+                message = "✔ Valid (1 selected)";
+                isValid = true;
+              } else {
+                message = `(Too many selected: ${count})`;
+              }
+              break;
+
+            case "astrologyPlanet":
+              if (count === 0) {
+                message = "(Select 4)";
+              } else if (count === 4) {
+                message = "✔ Valid (4 selected)";
+                isValid = true;
+              } else if (count < 4) {
+                message = `(${4 - count} more needed)`;
+              } else {
+                message = `(Invalid count: ${count})`;
+              }
+              break;
+
+            case "astrologyAspect":
+              if (count === 0) {
+                message = "(Select 2)";
+              } else if (count === 2) {
+                message = "✔ Valid (2 selected)";
+                isValid = true;
+              } else if (count === 1) {
+                message = "(1 more needed)";
+              } else {
+                message = `(Invalid count: ${count})`;
               }
               break;
           }
@@ -2291,11 +2711,14 @@
           );
         }
 
-        function loadHistory(index) {
+        function loadHistory(index, button) {
           if (index < 0 || index >= state.history.length) return;
           state.historyIndex = index;
           applyPattern(state.history[index]);
           updateNavigationButtons();
+          if (button) {
+            flashButton(button, "Loaded", 800);
+          }
         }
 
         function clearHistory() {
@@ -2333,6 +2756,17 @@
           if (counts.length === 1) return `${counts[0]}`;
           const sorted = [...counts].sort((a, b) => a - b);
           return `${sorted.slice(0, -1).join(", ")} or ${sorted.at(-1)}`;
+        }
+
+        function flashButton(button, message, duration = 1000) {
+          const originalContent = button.innerHTML;
+          const wasDisabled = button.disabled;
+          button.innerHTML = message;
+          button.disabled = true;
+          setTimeout(() => {
+            button.innerHTML = originalContent;
+            button.disabled = wasDisabled;
+          }, duration);
         }
 
         function updateScrollShadow(grid) {
