@@ -9,7 +9,9 @@ September 24: divination.html was an 1 file Divination system that combines Taro
 DivinationColors.html was the v2, with a grid of numbers. DivinationColors2.html includes an automated button.<br>
 DivinationColors3.html is the newest version with < > buttons for going back and forth on automated draws.<br>
 DivinationToolAdvanced.html includes Dreamspell and Taixuanjing, a Chinese divination book, similar to IChing, but with 81 tetragrams.<br>
-DivinationAdvancedTool2.html includes Lingqinjing.
+DivinationAdvancedTool2.html includes Lingqinjing.<br>
+
+DivinationAdvancedTool3.html includes Astrology, Ogham, and Meihua Yishu, as well as removing the number grid. This is the ultimate version.
 
 All older files are obsolete and will be upgraded with the new mechanisms soon.
 
