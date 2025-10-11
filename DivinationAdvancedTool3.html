@@ -349,6 +349,15 @@
         }
       }
 
+      .selection-status {
+        min-height: 20px;
+        text-align: center;
+        margin-top: 16px;
+        color: var(--brand-2);
+        font-weight: 600;
+        font-size: 14px;
+      }
+
       .manual-selection-container {
         display: none;
         margin-top: 24px;
@@ -885,6 +894,7 @@
               Reset Inputs
             </button>
           </div>
+          <div id="selection-status" class="selection-status" aria-live="polite"></div>
         </fieldset>
       </section>
 
@@ -1564,6 +1574,7 @@
           meihuaMovingLineFeedback: document.getElementById("meihua-moving-line-feedback"),
           manualModeToggle: document.getElementById("manual-mode-toggle"),
           manualSelectionContainer: document.getElementById("manual-selection-container"),
+          selectionStatus: document.getElementById("selection-status"),
           autoSelectBtn: document.getElementById("auto-select-button"),
           navPrevBtn: document.getElementById("nav-prev-button"),
           navNextBtn: document.getElementById("nav-next-button"),
@@ -1860,10 +1871,10 @@
           elements.copyBtn.addEventListener("click", handleCopy);
           elements.startOverBtn.addEventListener("click", resetSession);
           elements.navPrevBtn.addEventListener("click", () =>
-            loadHistory(state.historyIndex - 1, elements.navPrevBtn)
+            loadHistory(state.historyIndex - 1)
           );
           elements.navNextBtn.addEventListener("click", () =>
-            loadHistory(state.historyIndex + 1, elements.navNextBtn)
+            loadHistory(state.historyIndex + 1)
           );
 
         }
@@ -1929,7 +1940,7 @@
 
           applyPattern(pattern);
           addHistory(pattern);
-          flashButton(elements.autoSelectBtn, "Selection Saved!", 1200);
+          updateSelectionStatus(`Reading #${state.history.length} Saved`);
         }
 
         function handleGridInteraction(event, key) {
@@ -1949,6 +1960,7 @@
             current.push(value);
           }
 
+          updateSelectionStatus("Manual selection active");
           clearError(key);
           syncSelectionUI(key);
         }
@@ -2032,6 +2044,7 @@
           clearSelections({ silent: true });
           clearErrors();
           clearHistory();
+          updateSelectionStatus("");
           elements.qSection.scrollIntoView({ behavior: "smooth", block: "start" });
           elements.q.focus();
         }
@@ -2043,6 +2056,7 @@
           syncSelectionUI();
           if (!silent) {
             clearErrors();
+            updateSelectionStatus("");
           }
         }
 
@@ -2711,14 +2725,12 @@
           );
         }
 
-        function loadHistory(index, button) {
+        function loadHistory(index) {
           if (index < 0 || index >= state.history.length) return;
           state.historyIndex = index;
           applyPattern(state.history[index]);
           updateNavigationButtons();
-          if (button) {
-            flashButton(button, "Loaded", 800);
-          }
+          updateSelectionStatus(`Loaded Reading #${index + 1}`);
         }
 
         function clearHistory() {
@@ -2758,15 +2770,8 @@
           return `${sorted.slice(0, -1).join(", ")} or ${sorted.at(-1)}`;
         }
 
-        function flashButton(button, message, duration = 1000) {
-          const originalContent = button.innerHTML;
-          const wasDisabled = button.disabled;
-          button.innerHTML = message;
-          button.disabled = true;
-          setTimeout(() => {
-            button.innerHTML = originalContent;
-            button.disabled = wasDisabled;
-          }, duration);
+        function updateSelectionStatus(message) {
+          elements.selectionStatus.textContent = message;
         }
 
         function updateScrollShadow(grid) {
