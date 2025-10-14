@@ -1,1164 +1,296 @@
 <!DOCTYPE html>
-<html>
-<head>
-<title>EngWheel</title>
-<style>
-  body {
-    font-family: monospace;
-    background-color: #f0f0f0;
-  }
-  h1 {
-    text-align: center;
-  }
-  table {
-    border-collapse: collapse;
-    margin: 0 auto;
-    background-color: white;
-  }
-  td {
-    border: 1px solid black;
-    padding: 5px;
-    text-align: center;
-  }
-</style>
-</head>
-<body>
-<h1>EngWheel</h1>
-<table>
-  <tr>
-    <td>the</td>
-    <td>of</td>
-    <td>to</td>
-    <td>and</td>
-    <td>a</td>
-    <td>in</td>
-    <td>is</td>
-    <td>it</td>
-    <td>you</td>
-    <td>that</td>
-    <td>he</td>
-    <td>was</td>
-    <td>for</td>
-    <td>on</td>
-    <td>are</td>
-    <td>with</td>
-  </tr>
-  <tr>
-    <td>as</td>
-    <td>I</td>
-    <td>his</td>
-    <td>they</td>
-    <td>be</td>
-    <td>at</td>
-    <td>one</td>
-    <td>have</td>
-    <td>this</td>
-    <td>from</td>
-    <td>or</td>
-    <td>had</td>
-    <td>by</td>
-    <td>not</td>
-    <td>word</td>
-    <td>but</td>
-  </tr>
-  <tr>
-    <td>what</td>
-    <td>some</td>
-    <td>we</td>
-    <td>can</td>
-    <td>out</td>
-    <td>other</td>
-    <td>were</td>
-    <td>all</td>
-    <td>there</td>
-    <td>when</td>
-    <td>up</td>
-    <td>use</td>
-    <td>your</td>
-    <td>how</td>
-    <td>said</td>
-    <td>an</td>
-  </tr>
-  <tr>
-    <td>each</td>
-    <td>she</td>
-    <td>which</td>
-    <td>do</td>
-    <td>their</td>
-    <td>time</td>
-    <td>if</td>
-    <td>will</td>
-    <td>way</td>
-    <td>about</td>
-    <td>many</td>
-    <td>then</td>
-    <td>them</td>
-    <td>write</td>
-    <td>would</td>
-    <td>like</td>
-  </tr>
-  <tr>
-    <td>so</td>
-    <td>these</td>
-    <td>her</td>
-    <td>long</td>
-    <td>make</td>
-    <td>thing</td>
-    <td>see</td>
-    <td>him</td>
-    <td>two</td>
-    <td>has</td>
-    <td>look</td>
-    <td>more</td>
-    <td>day</td>
-    <td>could</td>
-    <td>go</td>
-    <td>come</td>
-  </tr>
-  <tr>
-    <td>did</td>
-    <td>number</td>
-    <td>sound</td>
-    <td>no</td>
-    <td>most</td>
-    <td>people</td>
-    <td>my</td>
-    <td>over</td>
-    <td>know</td>
-    <td>water</td>
-    <td>than</td>
-    <td>call</td>
-    <td>first</td>
-    <td>who</td>
-    <td>may</td>
-    <td>down</td>
-  </tr>
-  <tr>
-    <td>side</td>
-    <td>been</td>
-    <td>now</td>
-    <td>find</td>
-    <td>any</td>
-    <td>new</td>
-    <td>work</td>
-    <td>part</td>
-    <td>take</td>
-    <td>get</td>
-    <td>place</td>
-    <td>made</td>
-    <td>live</td>
-    <td>where</td>
-    <td>after</td>
-    <td>back</td>
-  </tr>
-  <tr>
-    <td>little</td>
-    <td>only</td>
-    <td>round</td>
-    <td>man</td>
-    <td>year</td>
-    <td>came</td>
-    <td>show</td>
-    <td>every</td>
-    <td>good</td>
-    <td>me</td>
-    <td>give</td>
-    <td>our</td>
-    <td>under</td>
-    <td>name</td>
-    <td>very</td>
-    <td>through</td>
-  </tr>
-  <tr>
-    <td>just</td>
-    <td>form</td>
-    <td>sentence</td>
-    <td>great</td>
-    <td>think</td>
-    <td>say</td>
-    <td>help</td>
-    <td>low</td>
-    <td>line</td>
-    <td>differ</td>
-    <td>turn</td>
-    <td>cause</td>
-    <td>much</td>
-    <td>mean</td>
-    <td>before</td>
-    <td>move</td>
-  </tr>
-  <tr>
-    <td>right</td>
-    <td>boy</td>
-    <td>old</td>
-    <td>too</td>
-    <td>same</td>
-    <td>tell</td>
-    <td>does</td>
-    <td>set</td>
-    <td>three</td>
-    <td>want</td>
-    <td>air</td>
-    <td>well</td>
-    <td>also</td>
-    <td>play</td>
-    <td>small</td>
-    <td>end</td>
-  </tr>
-  <tr>
-    <td>put</td>
-    <td>home</td>
-    <td>read</td>
-    <td>hand</td>
-    <td>port</td>
-    <td>large</td>
-    <td>spell</td>
-    <td>add</td>
-    <td>even</td>
-    <td>land</td>
-    <td>here</td>
-    <td>must</td>
-    <td>big</td>
-    <td>high</td>
-    <td>such</td>
-    <td>follow</td>
-  </tr>
-  <tr>
-    <td>act</td>
-    <td>why</td>
-    <td>ask</td>
-    <td>men</td>
-    <td>change</td>
-    <td>went</td>
-    <td>light</td>
-    <td>kind</td>
-    <td>off</td>
-    <td>need</td>
-    <td>house</td>
-    <td>picture</td>
-    <td>try</td>
-    <td>us</td>
-    <td>again</td>
-    <td>animal</td>
-  </tr>
-  <tr>
-    <td>point</td>
-    <td>mother</td>
-    <td>world</td>
-    <td>near</td>
-    <td>build</td>
-    <td>self</td>
-    <td>earth</td>
-    <td>father</td>
-    <td>head</td>
-    <td>stand</td>
-    <td>own</td>
-    <td>page</td>
-    <td>should</td>
-    <td>country</td>
-    <td>found</td>
-    <td>answer</td>
-  </tr>
-  <tr>
-    <td>school</td>
-    <td>grow</td>
-    <td>study</td>
-    <td>still</td>
-    <td>learn</td>
-    <td>plant</td>
-    <td>cover</td>
-    <td>food</td>
-    <td>sun</td>
-    <td>four</td>
-    <td>between</td>
-    <td>state</td>
-    <td>keep</td>
-    <td>eye</td>
-    <td>never</td>
-    <td>last</td>
-  </tr>
-  <tr>
-    <td>let</td>
-    <td>thought</td>
-    <td>city</td>
-    <td>tree</td>
-    <td>cross</td>
-    <td>farm</td>
-    <td>hard</td>
-    <td>start</td>
-    <td>might</td>
-    <td>story</td>
-    <td>saw</td>
-    <td>far</td>
-    <td>sea</td>
-    <td>draw</td>
-    <td>left</td>
-    <td>late</td>
-  </tr>
-  <tr>
-    <td>run</td>
-    <td>don't</td>
-    <td>while</td>
-    <td>press</td>
-    <td>close</td>
-    <td>night</td>
-    <td>real</td>
-    <td>life</td>
-    <td>few</td>
-    <td>north</td>
-    <td>open</td>
-    <td>seem</td>
-    <td>together</td>
-    <td>next</td>
-    <td>white</td>
-    <td>children</td>
-  </tr>
-  <tr>
-    <td>begin</td>
-    <td>got</td>
-    <td>walk</td>
-    <td>example</td>
-    <td>ease</td>
-    <td>paper</td>
-    <td>group</td>
-    <td>always</td>
-    <td>music</td>
-    <td>those</td>
-    <td>both</td>
-    <td>mark</td>
-    <td>often</td>
-    <td>letter</td>
-    <td>until</td>
-    <td>mile</td>
-  </tr>
-  <tr>
-    <td>river</td>
-    <td>car</td>
-    <td>feet</td>
-    <td>care</td>
-    <td>second</td>
-    <td>book</td>
-    <td>carry</td>
-    <td>took</td>
-    <td>science</td>
-    <td>eat</td>
-    <td>room</td>
-    <td>friend</td>
-    <td>began</td>
-    <td>idea</td>
-    <td>fish</td>
-    <td>mountain</td>
-  </tr>
-  <tr>
-    <td>stop</td>
-    <td>once</td>
-    <td>base</td>
-    <td>hear</td>
-    <td>horse</td>
-    <td>cut</td>
-    <td>sure</td>
-    <td>watch</td>
-    <td>color</td>
-    <td>face</td>
-    <td>wood</td>
-    <td>main</td>
-    <td>enough</td>
-    <td>plain</td>
-    <td>girl</td>
-    <td>usual</td>
-  </tr>
-  <tr>
-    <td>young</td>
-    <td>ready</td>
-    <td>above</td>
-    <td>ever</td>
-    <td>red</td>
-    <td>list</td>
-    <td>though</td>
-    <td>feel</td>
-    <td>talk</td>
-    <td>bird</td>
-    <td>soon</td>
-    <td>body</td>
-    <td>dog</td>
-    <td>family</td>
-    <td>direct</td>
-    <td>pose</td>
-  </tr>
-  <tr>
-    <td>leave</td>
-    <td>song</td>
-    <td>measure</td>
-    <td>door</td>
-    <td>product</td>
-    <td>black</td>
-    <td>short</td>
-    <td>numeral</td>
-    <td>class</td>
-    <td>wind</td>
-    <td>question</td>
-    <td>happen</td>
-    <td>complete</td>
-    <td>ship</td>
-    <td>area</td>
-    <td>half</td>
-  </tr>
-  <tr>
-    <td>rock</td>
-    <td>order</td>
-    <td>fire</td>
-    <td>south</td>
-    <td>problem</td>
-    <td>piece</td>
-    <td>told</td>
-    <td>knew</td>
-    <td>pass</td>
-    <td>since</td>
-    <td>top</td>
-    <td>whole</td>
-    <td>king</td>
-    <td>space</td>
-    <td>heard</td>
-    <td>best</td>
-  </tr>
-  <tr>
-    <td>hour</td>
-    <td>better</td>
-    <td>true</td>
-    <td>during</td>
-    <td>hundred</td>
-    <td>five</td>
-    <td>remember</td>
-    <td>step</td>
-    <td>early</td>
-    <td>hold</td>
-    <td>west</td>
-    <td>ground</td>
-    <td>interest</td>
-    <td>reach</td>
-    <td>fast</td>
-    <td>verb</td>
-  </tr>
-  <tr>
-    <td>sing</td>
-    <td>listen</td>
-    <td>six</td>
-    <td>table</td>
-    <td>travel</td>
-    <td>less</td>
-    <td>morning</td>
-    <td>ten</td>
-    <td>simple</td>
-    <td>several</td>
-    <td>vowel</td>
-    <td>toward</td>
-    <td>war</td>
-    <td>lay</td>
-    <td>against</td>
-    <td>pattern</td>
-  </tr>
-  <tr>
-    <td>slow</td>
-    <td>center</td>
-    <td>love</td>
-    <td>person</td>
-    <td>money</td>
-    <td>serve</td>
-    <td>appear</td>
-    <td>road</td>
-    <td>map</td>
-    <td>rain</td>
-    <td>rule</td>
-    <td>govern</td>
-    <td>pull</td>
-    <td>cold</td>
-    <td>notice</td>
-    <td>voice</td>
-  </tr>
-  <tr>
-    <td>unit</td>
-    <td>power</td>
-    <td>town</td>
-    <td>fine</td>
-    <td>certain</td>
-    <td>fly</td>
-    <td>fall</td>
-    <td>lead</td>
-    <td>cry</td>
-    <td>dark</td>
-    <td>machine</td>
-    <td>note</td>
-    <td>wait</td>
-    <td>plan</td>
-    <td>figure</td>
-    <td>star</td>
-  </tr>
-  <tr>
-    <td>box</td>
-    <td>noun</td>
-    <td>field</td>
-    <td>rest</td>
-    <td>correct</td>
-    <td>able</td>
-    <td>pound</td>
-    <td>done</td>
-    <td>beauty</td>
-    <td>drive</td>
-    <td>stood</td>
-    <td>contain</td>
-    <td>front</td>
-    <td>teach</td>
-    <td>week</td>
-    <td>final</td>
-  </tr>
-  <tr>
-    <td>gave</td>
-    <td>green</td>
-    <td>oh</td>
-    <td>quick</td>
-    <td>develop</td>
-    <td>ocean</td>
-    <td>warm</td>
-    <td>free</td>
-    <td>minute</td>
-    <td>strong</td>
-    <td>mind</td>
-    <td>behind</td>
-    <td>clear</td>
-    <td>tail</td>
-    <td>produce</td>
-    <td>fact</td>
-  </tr>
-  <tr>
-    <td>street</td>
-    <td>inch</td>
-    <td>multiply</td>
-    <td>nothing</td>
-    <td>course</td>
-    <td>stay</td>
-    <td>wheel</td>
-    <td>full</td>
-    <td>force</td>
-    <td>blue</td>
-    <td>object</td>
-    <td>decide</td>
-    <td>surface</td>
-    <td>deep</td>
-    <td>moon</td>
-    <td>island</td>
-  </tr>
-  <tr>
-    <td>foot</td>
-    <td>system</td>
-    <td>busy</td>
-    <td>test</td>
-    <td>record</td>
-    <td>boat</td>
-    <td>common</td>
-    <td>gold</td>
-    <td>possible</td>
-    <td>plane</td>
-    <td>stead</td>
-    <td>dry</td>
-    <td>wonder</td>
-    <td>laugh</td>
-    <td>thousand</td>
-    <td>ago</td>
-  </tr>
-  <tr>
-    <td>ran</td>
-    <td>check</td>
-    <td>game</td>
-    <td>shape</td>
-    <td>equate</td>
-    <td>hot</td>
-    <td>miss</td>
-    <td>brought</td>
-    <td>heat</td>
-    <td>snow</td>
-    <td>tire</td>
-    <td>bring</td>
-    <td>yes</td>
-    <td>distant</td>
-    <td>fill</td>
-    <td>east</td>
-  </tr>
-  <tr>
-    <td>paint</td>
-    <td>language</td>
-    <td>among</td>
-    <td>grand</td>
-    <td>ball</td>
-    <td>yet</td>
-    <td>wave</td>
-    <td>drop</td>
-    <td>heart</td>
-    <td>am</td>
-    <td>present</td>
-    <td>heavy</td>
-    <td>dance</td>
-    <td>engine</td>
-    <td>position</td>
-    <td>arm</td>
-  </tr>
-  <tr>
-    <td>wide</td>
-    <td>sail</td>
-    <td>material</td>
-    <td>size</td>
-    <td>vary</td>
-    <td>settle</td>
-    <td>speak</td>
-    <td>weight</td>
-    <td>general</td>
-    <td>ice</td>
-    <td>matter</td>
-    <td>circle</td>
-    <td>pair</td>
-    <td>include</td>
-    <td>divide</td>
-    <td>syllable</td>
-  </tr>
-  <tr>
-    <td>felt</td>
-    <td>perhaps</td>
-    <td>pick</td>
-    <td>sudden</td>
-    <td>count</td>
-    <td>square</td>
-    <td>reason</td>
-    <td>length</td>
-    <td>represent</td>
-    <td>art</td>
-    <td>subject</td>
-    <td>region</td>
-    <td>energy</td>
-    <td>hunt</td>
-    <td>probable</td>
-    <td>bed</td>
-  </tr>
-  <tr>
-    <td>brother</td>
-    <td>egg</td>
-    <td>ride</td>
-    <td>cell</td>
-    <td>believe</td>
-    <td>fraction</td>
-    <td>forest</td>
-    <td>sit</td>
-    <td>race</td>
-    <td>window</td>
-    <td>summer</td>
-    <td>train</td>
-    <td>sleep</td>
-    <td>prove</td>
-    <td>lone</td>
-    <td>leg</td>
-  </tr>
-  <tr>
-    <td>exercise</td>
-    <td>wall</td>
-    <td>catch</td>
-    <td>mount</td>
-    <td>wish</td>
-    <td>sky</td>
-    <td>board</td>
-    <td>joy</td>
-    <td>winter</td>
-    <td>sat</td>
-    <td>written</td>
-    <td>wild</td>
-    <td>instrument</td>
-    <td>kept</td>
-    <td>glass</td>
-    <td>grass</td>
-  </tr>
-  <tr>
-    <td>cow</td>
-    <td>job</td>
-    <td>edge</td>
-    <td>sign</td>
-    <td>visit</td>
-    <td>past</td>
-    <td>soft</td>
-    <td>fun</td>
-    <td>bright</td>
-    <td>gas</td>
-    <td>weather</td>
-    <td>month</td>
-    <td>million</td>
-    <td>bear</td>
-    <td>finish</td>
-    <td>happy</td>
-  </tr>
-  <tr>
-    <td>hope</td>
-    <td>flower</td>
-    <td>clothe</td>
-    <td>strange</td>
-    <td>gun</td>
-    <td>jump</td>
-    <td>baby</td>
-    <td>eight</td>
-    <td>village</td>
-    <td>meet</td>
-    <td>root</td>
-    <td>buy</td>
-    <td>raise</td>
-    <td>solve</td>
-    <td>metal</td>
-    <td>whether</td>
-  </tr>
-  <tr>
-    <td>push</td>
-    <td>seven</td>
-    <td>paragraph</td>
-    <td>third</td>
-    <td>shall</td>
-    <td>held</td>
-    <td>hair</td>
-    <td>describe</td>
-    <td>cook</td>
-    <td>floor</td>
-    <td>either</td>
-    <td>result</td>
-    <td>burn</td>
-    <td>hill</td>
-    <td>safe</td>
-    <td>cat</td>
-  </tr>
-  <tr>
-    <td>century</td>
-    <td>consider</td>
-    <td>type</td>
-    <td>law</td>
-    <td>bit</td>
-    <td>coast</td>
-    <td>copy</td>
-    <td>phrase</td>
-    <td>silent</td>
-    <td>tall</td>
-    <td>sand</td>
-    <td>soil</td>
-    <td>roll</td>
-    <td>temperature</td>
-    <td>finger</td>
-    <td>industry</td>
-  </tr>
-  <tr>
-    <td>value</td>
-    <td>fight</td>
-    <td>lie</td>
-    <td>beat</td>
-    <td>excite</td>
-    <td>natural</td>
-    <td>view</td>
-    <td>sense</td>
-    <td>ear</td>
-    <td>else</td>
-    <td>quite</td>
-    <td>broke</td>
-    <td>case</td>
-    <td>middle</td>
-    <td>kill</td>
-    <td>son</td>
-  </tr>
-  <tr>
-    <td>lake</td>
-    <td>moment</td>
-    <td>scale</td>
-    <td>loud</td>
-    <td>spring</td>
-    <td>observe</td>
-    <td>child</td>
-    <td>straight</td>
-    <td>consonant</td>
-    <td>nation</td>
-    <td>dictionary</td>
-    <td>milk</td>
-    <td>speed</td>
-    <td>method</td>
-    <td>organ</td>
-    <td>pay</td>
-  </tr>
-  <tr>
-    <td>age</td>
-    <td>section</td>
-    <td>dress</td>
-    <td>cloud</td>
-    <td>surprise</td>
-    <td>quiet</td>
-    <td>stone</td>
-    <td>tiny</td>
-    <td>climb</td>
-    <td>cool</td>
-    <td>design</td>
-    <td>poor</td>
-    <td>lot</td>
-    <td>experiment</td>
-    <td>bottom</td>
-    <td>key</td>
-  </tr>
-  <tr>
-    <td>iron</td>
-    <td>single</td>
-    <td>stick</td>
-    <td>flat</td>
-    <td>twenty</td>
-    <td>skin</td>
-    <td>smile</td>
-    <td>crease</td>
-    <td>hole</td>
-    <td>trade</td>
-    <td>melody</td>
-    <td>trip</td>
-    <td>office</td>
-    <td>receive</td>
-    <td>row</td>
-    <td>mouth</td>
-  </tr>
-  <tr>
-    <td>exact</td>
-    <td>symbol</td>
-    <td>die</td>
-    <td>least</td>
-    <td>trouble</td>
-    <td>shout</td>
-    <td>except</td>
-    <td>wrote</td>
-    <td>seed</td>
-    <td>tone</td>
-    <td>join</td>
-    <td>suggest</td>
-    <td>clean</td>
-    <td>lady</td>
-    <td>yard</td>
-    <td>rise</td>
-  </tr>
-  <tr>
-    <td>bad</td>
-    <td>blow</td>
-    <td>oil</td>
-    <td>blood</td>
-    <td>touch</td>
-    <td>grew</td>
-    <td>cent</td>
-    <td>mix</td>
-    <td>team</td>
-    <td>wire</td>
-    <td>cost</td>
-    <td>lost</td>
-    <td>brown</td>
-    <td>wear</td>
-    <td>garden</td>
-    <td>equal</td>
-  </tr>
-  <tr>
-    <td>sent</td>
-    <td>choose</td>
-    <td>fell</td>
-    <td>fit</td>
-    <td>flow</td>
-    <td>fair</td>
-    <td>bank</td>
-    <td>collect</td>
-    <td>control</td>
-    <td>decimal</td>
-    <td>gentle</td>
-    <td>woman</td>
-    <td>captain</td>
-    <td>practice</td>
-    <td>separate</td>
-    <td>difficult</td>
-  </tr>
-  <tr>
-    <td>doctor</td>
-    <td>please</td>
-    <td>protect</td>
-    <td>noon</td>
-    <td>whose</td>
-    <td>locate</td>
-    <td>ring</td>
-    <td>character</td>
-    <td>insect</td>
-    <td>caught</td>
-    <td>period</td>
-    <td>indicate</td>
-    <td>radio</td>
-    <td>spoke</td>
-    <td>atom</td>
-    <td>human</td>
-  </tr>
-  <tr>
-    <td>history</td>
-    <td>effect</td>
-    <td>electric</td>
-    <td>expect</td>
-    <td>crop</td>
-    <td>modern</td>
-    <td>element</td>
-    <td>hit</td>
-    <td>student</td>
-    <td>corner</td>
-    <td>party</td>
-    <td>supply</td>
-    <td>bone</td>
-    <td>rail</td>
-    <td>imagine</td>
-    <td>provide</td>
-  </tr>
-  <tr>
-    <td>agree</td>
-    <td>thus</td>
-    <td>capital</td>
-    <td>won't</td>
-    <td>chair</td>
-    <td>danger</td>
-    <td>fruit</td>
-    <td>rich</td>
-    <td>thick</td>
-    <td>soldier</td>
-    <td>process</td>
-    <td>operate</td>
-    <td>guess</td>
-    <td>necessary</td>
-    <td>sharp</td>
-    <td>wing</td>
-  </tr>
-  <tr>
-    <td>create</td>
-    <td>neighbor</td>
-    <td>wash</td>
-    <td>bat</td>
-    <td>rather</td>
-    <td>crowd</td>
-    <td>corn</td>
-    <td>compare</td>
-    <td>poem</td>
-    <td>string</td>
-    <td>bell</td>
-    <td>depend</td>
-    <td>meat</td>
-    <td>rub</td>
-    <td>tube</td>
-    <td>famous</td>
-  </tr>
-  <tr>
-    <td>dollar</td>
-    <td>stream</td>
-    <td>fear</td>
-    <td>sight</td>
-    <td>thin</td>
-    <td>triangle</td>
-    <td>planet</td>
-    <td>hurry</td>
-    <td>chief</td>
-    <td>colony</td>
-    <td>clock</td>
-    <td>mine</td>
-    <td>tie</td>
-    <td>enter</td>
-    <td>major</td>
-    <td>fresh</td>
-  </tr>
-  <tr>
-    <td>search</td>
-    <td>send</td>
-    <td>yellow</td>
-    <td>gun</td>
-    <td>allow</td>
-    <td>print</td>
-    <td>dead</td>
-    <td>spot</td>
-    <td>desert</td>
-    <td>suit</td>
-    <td>current</td>
-    <td>lift</td>
-    <td>rose</td>
-    <td>continue</td>
-    <td>block</td>
-    <td>chart</td>
-  </tr>
-  <tr>
-    <td>hat</td>
-    <td>sell</td>
-    <td>success</td>
-    <td>company</td>
-    <td>subtract</td>
-    <td>event</td>
-    <td>particular</td>
-    <td>deal</td>
-    <td>swim</td>
-    <td>term</td>
-    <td>opposite</td>
-    <td>wife</td>
-    <td>shoe</td>
-    <td>shoulder</td>
-    <td>spread</td>
-    <td>arrange</td>
-  </tr>
-  <tr>
-    <td>camp</td>
-    <td>invent</td>
-    <td>cotton</td>
-    <td>born</td>
-    <td>determine</td>
-    <td>quart</td>
-    <td>nine</td>
-    <td>truck</td>
-    <td>noise</td>
-    <td>level</td>
-    <td>chance</td>
-    <td>gather</td>
-    <td>shop</td>
-    <td>stretch</td>
-    <td>throw</td>
-    <td>shine</td>
-  </tr>
-  <tr>
-    <td>property</td>
-    <td>column</td>
-    <td>molecule</td>
-    <td>select</td>
-    <td>wrong</td>
-    <td>gray</td>
-    <td>repeat</td>
-    <td>require</td>
-    <td>broad</td>
-    <td>salt</td>
-    <td>nose</td>
-    <td>plural</td>
-    <td>anger</td>
-    <td>claim</td>
-    <td>continent</td>
-    <td>oxygen</td>
-  </tr>
-  <tr>
-    <td>sugar</td>
-    <td>death</td>
-    <td>pretty</td>
-    <td>skill</td>
-    <td>women</td>
-    <td>season</td>
-    <td>solution</td>
-    <td>magnet</td>
-    <td>silver</td>
-    <td>thank</td>
-    <td>branch</td>
-    <td>match</td>
-    <td>suffix</td>
-    <td>especially</td>
-    <td>fig</td>
-    <td>afraid</td>
-  </tr>
-  <tr>
-    <td>huge</td>
-    <td>sister</td>
-    <td>steel</td>
-    <td>discuss</td>
-    <td>forward</td>
-    <td>similar</td>
-    <td>guide</td>
-    <td>experience</td>
-    <td>score</td>
-    <td>apple</td>
-    <td>bought</td>
-    <td>led</td>
-    <td>pitch</td>
-    <td>coat</td>
-    <td>mass</td>
-    <td>card</td>
-  </tr>
-  <tr>
-    <td>band</td>
-    <td>rope</td>
-    <td>slip</td>
-    <td>win</td>
-    <td>dream</td>
-    <td>evening</td>
-    <td>condition</td>
-    <td>feed</td>
-    <td>tool</td>
-    <td>total</td>
-    <td>basic</td>
-    <td>smell</td>
-    <td>valley</td>
-    <td>nor</td>
-    <td>double</td>
-    <td>seat</td>
-  </tr>
-  <tr>
-    <td>arrive</td>
-    <td>master</td>
-    <td>track</td>
-    <td>parent</td>
-    <td>shore</td>
-    <td>division</td>
-    <td>sheet</td>
-    <td>substance</td>
-    <td>favor</td>
-    <td>connect</td>
-    <td>post</td>
-    <td>spend</td>
-    <td>chord</td>
-    <td>fat</td>
-    <td>glad</td>
-    <td>original</td>
-  </tr>
-  <tr>
-    <td>share</td>
-    <td>station</td>
-    <td>dad</td>
-    <td>bread</td>
-    <td>charge</td>
-    <td>proper</td>
-    <td>bar</td>
-    <td>offer</td>
-    <td>segment</td>
-    <td>slave</td>
-    <td>duck</td>
-    <td>instant</td>
-    <td>market</td>
-    <td>degree</td>
-    <td>populate</td>
-    <td>chick</td>
-  </tr>
-  <tr>
-    <td>dear</td>
-    <td>enemy</td>
-    <td>reply</td>
-    <td>drink</td>
-    <td>occur</td>
-    <td>support</td>
-    <td>speech</td>
-    <td>nature</td>
-    <td>range</td>
-    <td>steam</td>
-    <td>motion</td>
-    <td>path</td>
-    <td>liquid</td>
-    <td>log</td>
-    <td>meant</td>
-    <td>quotient</td>
-  </tr>
-  <tr>
-    <td>teeth</td>
-    <td>shell</td>
-    <td>neck</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-</table>
-</body>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>EngWheel</title>
+
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #121a33;
+        --muted: #93a4c8;
+        --text: #e6e9f4;
+        --brand: #ff5470;
+        --brand-2: #7aa2ff;
+        --ok: #20c997;
+        --warn: #ffd166;
+        --border: rgba(255, 255, 255, 0.1);
+        --chip-bg: rgba(255, 255, 255, 0.06);
+        --input-bg: #0f1630;
+        --shadow: rgba(0, 0, 0, 0.45);
+        --focus-glow: rgba(122, 162, 255, 0.25);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, Helvetica, Arial, sans-serif;
+        background: radial-gradient(
+            1200px 800px at 70% -10%,
+            rgba(122, 162, 255, 0.12),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 600px at 0% 100%,
+            rgba(255, 84, 112, 0.08),
+            transparent 60%
+          ),
+          var(--bg);
+        color: var(--text);
+        padding: 24px;
+        display: grid;
+        place-items: center;
+      }
+
+      main.card {
+        width: 100%;
+        max-width: 960px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 20px 60px var(--shadow);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        color: var(--brand);
+        text-align: center;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        margin: 0 0 24px;
+        text-align: center;
+      }
+
+      .grid-wrapper {
+        position: relative;
+      }
+
+      .divination-grid-container {
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
+        gap: 5px;
+        background: var(--input-bg);
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .divination-square {
+        aspect-ratio: 1 / 1;
+        border: 1px solid var(--border);
+        background: transparent;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.2s, transform 0.1s, border-color 0.2s,
+          box-shadow 0.2s;
+        font-size: 10px;
+        font-weight: 600;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        user-select: none;
+        position: relative;
+      }
+
+      .divination-square:hover {
+        transform: scale(1.08);
+        border-color: var(--text);
+      }
+
+      .divination-square:focus-visible {
+        outline: none;
+        border-color: var(--brand-2);
+        box-shadow: 0 0 0 3px var(--focus-glow);
+      }
+
+      .divination-square.selected {
+        color: white;
+        transform: scale(1.05);
+        background-color: var(--brand-2);
+        border-color: var(--brand-2);
+      }
+      
+      #selected-word {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 1.5em;
+        color: var(--brand);
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <main class="card">
+      <h1>EngWheel</h1>
+      <p class="subtitle">
+        Click on a word to select it.
+      </p>
+
+      <div class="grid-wrapper">
+        <div id="engwheel-grid" class="divination-grid-container"></div>
+      </div>
+      
+      <div id="selected-word"></div>
+
+    </main>
+
+    <script>
+      (() => {
+        "use strict";
+
+        const WORD_LIST = [
+    "the", "of", "to", "and", "a", "in", "is", "it", "you", "that", "he", "was", "for", "on", "are", "with", "as",
+    "I", "his", "they", "be", "at", "one", "have", "this", "from", "or", "had", "by", "not", "word", "but", "what",
+    "some", "we", "can", "out", "other", "were", "all", "there", "when", "up", "use", "your", "how", "said", "an",
+    "each", "she", "which", "do", "their", "time", "if", "will", "way", "about", "many", "then", "them", "write",
+    "would", "like", "so", "these", "her", "long", "make", "thing", "see", "him", "two", "has", "look", "more",
+    "day", "could", "go", "come", "did", "number", "sound", "no", "most", "people", "my", "over", "know", "water",
+    "than", "call", "first", "who", "may", "down", "side", "been", "now", "find", "any", "new", "work", "part",
+    "take", "get", "place", "made", "live", "where", "after", "back", "little", "only", "round", "man", "year",
+    "came", "show", "every", "good", "me", "give", "our", "under", "name", "very", "through", "just", "form",
+    "sentence", "great", "think", "say", "help", "low", "line", "differ", "turn", "cause", "much", "mean",
+    "before", "move", "right", "boy", "old", "too", "same", "tell", "does", "set", "three", "want", "air", "well",
+    "also", "play", "small", "end", "put", "home", "read", "hand", "port", "large", "spell", "add", "even",
+    "land", "here", "must", "big", "high", "such", "follow", "act", "why", "ask", "men", "change", "went",
+    "light", "kind", "off", "need", "house", "picture", "try", "us", "again", "animal", "point", "mother",
+    "world", "near", "build", "self", "earth", "father", "head", "stand", "own", "page", "should", "country",
+    "found", "answer", "school", "grow", "study", "still", "learn", "plant", "cover", "food", "sun", "four",
+    "between", "state", "keep", "eye", "never", "last", "let", "thought", "city", "tree", "cross", "farm",
+    "hard", "start", "might", "story", "saw", "far", "sea", "draw", "left", "late", "run", "don't", "while",
+    "press", "close", "night", "real", "life", "few", "north", "open", "seem", "together", "next", "white",
+    "children", "begin", "got", "walk", "example", "ease", "paper", "group", "always", "music", "those",
+    "both", "mark", "often", "letter", "until", "mile", "river", "car", "feet", "care", "second", "book",
+    "carry", "took", "science", "eat", "room", "friend", "began", "idea", "fish", "mountain", "stop", "once",
+    "base", "hear", "horse", "cut", "sure", "watch", "color", "face", "wood", "main", "enough", "plain",
+    "girl", "usual", "young", "ready", "above", "ever", "red", "list", "though", "feel", "talk", "bird",
+    "soon", "body", "dog", "family", "direct", "pose", "leave", "song", "measure", "door", "product", "black",
+    "short", "numeral", "class", "wind", "question", "happen", "complete", "ship", "area", "half", "rock",
+    "order", "fire", "south", "problem", "piece", "told", "knew", "pass", "since", "top", "whole", "king",
+    "space", "heard", "best", "hour", "better", "true", "during", "hundred", "five", "remember", "step",
+    "early", "hold", "west", "ground", "interest", "reach", "fast", "verb", "sing", "listen", "six", "table",
+    "travel", "less", "morning", "ten", "simple", "several", "vowel", "toward", "war", "lay", "against",
+    "pattern", "slow", "center", "love", "person", "money", "serve", "appear", "road", "map", "rain", "rule",
+    "govern", "pull", "cold", "notice", "voice", "unit", "power", "town", "fine", "certain", "fly", "fall",
+    "lead", "cry", "dark", "machine", "note", "wait", "plan", "figure", "star", "box", "noun", "field",
+    "rest", "correct", "able", "pound", "done", "beauty", "drive", "stood", "contain", "front", "teach",
+    "week", "final", "gave", "green", "oh", "quick", "develop", "ocean", "warm", "free", "minute", "strong",
+    "mind", "behind", "clear", "tail", "produce", "fact", "street", "inch", "multiply", "nothing", "course",
+    "stay", "wheel", "full", "force", "blue", "object", "decide", "surface", "deep", "moon", "island", "foot",
+    "system", "busy", "test", "record", "boat", "common", "gold", "possible", "plane", "stead", "dry",
+    "wonder", "laugh", "thousand", "ago", "ran", "check", "game", "shape", "equate", "hot", "miss", "brought",
+    "heat", "snow", "tire", "bring", "yes", "distant", "fill", "east", "paint", "language", "among", "grand",
+    "ball", "yet", "wave", "drop", "heart", "am", "present", "heavy", "dance", "engine", "position", "arm",
+    "wide", "sail", "material", "size", "vary", "settle", "speak", "weight", "general", "ice", "matter",
+    "circle", "pair", "include", "divide", "syllable", "felt", "perhaps", "pick", "sudden", "count", "square",
+    "reason", "length", "represent", "art", "subject", "region", "energy", "hunt", "probable", "bed",
+    "brother", "egg", "ride", "cell", "believe", "fraction", "forest", "sit", "race", "window", "summer",
+    "train", "sleep", "prove", "lone", "leg", "exercise", "wall", "catch", "mount", "wish", "sky", "board",
+    "joy", "winter", "sat", "written", "wild", "instrument", "kept", "glass", "grass", "cow", "job", "edge",
+    "sign", "visit", "past", "soft", "fun", "bright", "gas", "weather", "month", "million", "bear", "finish",
+    "happy", "hope", "flower", "clothe", "strange", "gun", "jump", "baby", "eight", "village", "meet", "root",
+    "buy", "raise", "solve", "metal", "whether", "push", "seven", "paragraph", "third", "shall", "held",
+    "hair", "describe", "cook", "floor", "either", "result", "burn", "hill", "safe", "cat", "century",
+    "consider", "type", "law", "bit", "coast", "copy", "phrase", "silent", "tall", "sand", "soil", "roll",
+    "temperature", "finger", "industry", "value", "fight", "lie", "beat", "excite", "natural", "view",
+    "sense", "ear", "else", "quite", "broke", "case", "middle", "kill", "son", "lake", "moment", "scale",
+    "loud", "spring", "observe", "child", "straight", "consonant", "nation", "dictionary", "milk", "speed",
+    "method", "organ", "pay", "age", "section", "dress", "cloud", "surprise", "quiet", "stone", "tiny",
+    "climb", "cool", "design", "poor", "lot", "experiment", "bottom", "key", "iron", "single", "stick",
+    "flat", "twenty", "skin", "smile", "crease", "hole", "trade", "melody", "trip", "office", "receive",
+    "row", "mouth", "exact", "symbol", "die", "least", "trouble", "shout", "except", "wrote", "seed", "tone",
+    "join", "suggest", "clean", "lady", "yard", "rise", "bad", "blow", "oil", "blood", "touch", "grew",
+    "cent", "mix", "team", "wire", "cost", "lost", "brown", "wear", "garden", "equal", "sent", "choose",
+    "fell", "fit", "flow", "fair", "bank", "collect", "control", "decimal", "gentle", "woman", "captain",
+    "practice", "separate", "difficult", "doctor", "please", "protect", "noon", "whose", "locate", "ring",
+    "character", "insect", "caught", "period", "indicate", "radio", "spoke", "atom", "human", "history",
+    "effect", "electric", "expect", "crop", "modern", "element", "hit", "student", "corner", "party",
+    "supply", "bone", "rail", "imagine", "provide", "agree", "thus", "capital", "won't", "chair", "danger",
+    "fruit", "rich", "thick", "soldier", "process", "operate", "guess", "necessary", "sharp", "wing",
+    "create", "neighbor", "wash", "bat", "rather", "crowd", "corn", "compare", "poem", "string", "bell",
+    "depend", "meat", "rub", "tube", "famous", "dollar", "stream", "fear", "sight", "thin", "triangle",
+    "planet", "hurry", "chief", "colony", "clock", "mine", "tie", "enter", "major", "fresh", "search",
+    "send", "yellow", "gun", "allow", "print", "dead", "spot", "desert", "suit", "current", "lift", "rose",
+    "continue", "block", "chart", "hat", "sell", "success", "company", "subtract", "event", "particular",
+    "deal", "swim", "term", "opposite", "wife", "shoe", "shoulder", "spread", "arrange", "camp", "invent",
+    "cotton", "born", "determine", "quart", "nine", "truck", "noise", "level", "chance", "gather", "shop",
+    "stretch", "throw", "shine", "property", "column", "molecule", "select", "wrong", "gray", "repeat",
+    "require", "broad", "salt", "nose", "plural", "anger", "claim", "continent", "oxygen", "sugar", "death",
+    "pretty", "skill", "women", "season", "solution", "magnet", "silver", "thank", "branch", "match",
+    "suffix", "especially", "fig", "afraid", "huge", "sister", "steel", "discuss", "forward", "similar",
+    "guide", "experience", "score", "apple", "bought", "led", "pitch", "coat", "mass", "card", "band",
+    "rope", "slip", "win", "dream", "evening", "condition", "feed", "tool", "total", "basic", "smell",
+    "valley", "nor", "double", "seat", "arrive", "master", "track", "parent", "shore", "division", "sheet",
+    "substance", "favor", "connect", "post", "spend", "chord", "fat", "glad", "original", "share",
+    "station", "dad", "bread", "charge", "proper", "bar", "offer", "segment", "slave", "duck", "instant",
+    "market", "degree", "populate", "chick", "dear", "enemy", "reply", "drink", "occur", "support",
+    "speech", "nature", "range", "steam", "motion", "path", "liquid", "log", "meant", "quotient", "teeth",
+    "shell", "neck"
+];
+
+        const elements = {
+          grid: document.getElementById("engwheel-grid"),
+          selectedWord: document.getElementById("selected-word"),
+        };
+
+        function populateGrid() {
+          const fragment = document.createDocumentFragment();
+          for (const word of WORD_LIST) {
+            const square = document.createElement("button");
+            square.type = "button";
+            square.className = "divination-square";
+            square.textContent = word;
+            fragment.appendChild(square);
+          }
+          elements.grid.appendChild(fragment);
+        }
+
+        function handleGridInteraction(event) {
+          const button = event.target.closest(".divination-square");
+          if (!button) return;
+
+          event.preventDefault();
+          
+          // Clear previous selection
+          const currentlySelected = elements.grid.querySelector(".selected");
+          if (currentlySelected) {
+            currentlySelected.classList.remove("selected");
+          }
+          
+          // Select new word
+          button.classList.add("selected");
+          elements.selectedWord.textContent = button.textContent;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            populateGrid();
+            elements.grid.addEventListener("click", handleGridInteraction);
+        });
+
+      })();
+    </script>
+  </body>
 </html>
