@@ -34,7 +34,7 @@
 
       html,
       body {
-        height: 100%;
+        overflow-x: hidden;
       }
 
       body {
@@ -88,7 +88,7 @@
 
       .divination-grid-container {
         display: grid;
-        grid-template-columns: repeat(20, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
         font-size: 10px;
         gap: 5px;
         background: var(--input-bg);
