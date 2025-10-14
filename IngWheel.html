@@ -89,7 +89,7 @@
 
       .divination-grid-container {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
         font-size: 10px;
         gap: 5px;
         background: var(--input-bg);
@@ -177,7 +177,7 @@
         }
 
         .divination-grid-container {
-          grid-template-columns: repeat(30, 1fr);
+          grid-template-columns: repeat(25, 1fr);
         }
       }
 
@@ -311,7 +311,7 @@
     "station", "dad", "bread", "charge", "proper", "bar", "offer", "segment", "slave", "duck", "instant",
     "market", "degree", "populate", "chick", "dear", "enemy", "reply", "drink", "occur", "support",
     "speech", "nature", "range", "steam", "motion", "path", "liquid", "log", "meant", "quotient", "teeth",
-    "shell", "neck", "anthro", "cub", "fox", "wolf", "raccoon", "lion", "empty", "beyond", "Disney"
+    "shell", "neck", "anthro", "cub", "fox", "wolf", "raccoon", "lion", "empty", "beyond", "Disney", "waste"
 ];
 
         const HASH_ROUNDS_SESSION = 8888;
@@ -328,7 +328,7 @@
 
         function populateGrid() {
           const fragment = document.createDocumentFragment();
-          for (let i = 0; i < 1004; i++) {
+          for (let i = 0; i < 1005; i++) {
             const square = document.createElement("button");
             square.type = "button";
             square.className = "divination-square";
