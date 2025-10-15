@@ -89,7 +89,7 @@
 
       .divination-grid-container {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+        
         font-size: 10px;
         gap: 5px;
         background: var(--input-bg);
@@ -176,9 +176,7 @@
           max-width: 1200px;
         }
 
-        .divination-grid-container {
-          grid-template-columns: repeat(25, 1fr);
-        }
+
       }
 
       @media (max-width: 859px) {
@@ -191,7 +189,6 @@
         }
 
         .divination-grid-container {
-          grid-template-columns: repeat(10, 1fr);
           max-height: 300px;
         }
 
@@ -296,7 +293,7 @@
     "create", "neighbor", "wash", "bat", "rather", "crowd", "corn", "compare", "poem", "string", "bell",
     "depend", "meat", "rub", "tube", "famous", "dollar", "stream", "fear", "sight", "thin", "triangle",
     "planet", "hurry", "chief", "colony", "clock", "mine", "tie", "enter", "major", "fresh", "search",
-    "send", "yellow", "gun", "allow", "print", "dead", "spot", "desert", "suit", "current", "lift", "rose",
+    "send", "yellow", "allow", "print", "dead", "spot", "desert", "suit", "current", "lift", "rose",
     "continue", "block", "chart", "hat", "sell", "success", "company", "subtract", "event", "particular",
     "deal", "swim", "term", "opposite", "wife", "shoe", "shoulder", "spread", "arrange", "camp", "invent",
     "cotton", "born", "determine", "quart", "nine", "truck", "noise", "level", "chance", "gather", "shop",
@@ -328,7 +325,7 @@
 
         function populateGrid() {
           const fragment = document.createDocumentFragment();
-          for (let i = 0; i < 1005; i++) {
+          for (let i = 0; i < 1004; i++) {
             const square = document.createElement("button");
             square.type = "button";
             square.className = "divination-square";
@@ -462,11 +459,24 @@
           }
         }
 
+        function sizeForViewport() {
+          const grid = elements.grid;
+          if (!grid) return;
+          const containerWidth = grid.offsetWidth;
+          // Adjust this value to control the size and number of columns
+          const columnSize = 40;
+          const numColumns = Math.floor(containerWidth / columnSize);
+          grid.style.gridTemplateColumns = `repeat(${numColumns}, 1fr)`;
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             populateGrid();
+            sizeForViewport();
             elements.prepareSessionButton.addEventListener("click", handlePrepareSession);
             elements.grid.addEventListener("click", handleGridInteraction);
         });
+
+        window.addEventListener('resize', sizeForViewport);
 
       })();
     </script>
