@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>EngWheel — Veiled Suits</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <meta property="og:title" content="EngWheel Suited" />
+  <meta property="og:description" content="A divination tool for finding words arranged randomly." />
+  <meta property="og:image" content="https://engwheelsuited.indigogeminiwolf.com/engwheel_facebook.jpg" />
+  <meta property="og:url" content="https://engwheelsuited.indigogeminiwolf.com" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EngWheel Suited" />
+  <meta name="twitter:description" content="A divination tool for finding words arranged randomly." />
+  <meta name="twitter:image" content="https://engwheelsuited.indigogeminiwolf.com/engwheel_twitter.jpg" />
+
+  <style>
+    :root{
+      /* cell size will be updated dynamically by JS; this is just a sane default */
+      --cell: 52px;
+
+      --bg:#0b1020;--panel:#121a33;--muted:#93a4c8;--text:#e6e9f4;
+      --brand:#ff5470;--brand-2:#7aa2ff;--border:rgba(255,255,255,.1);
+      --chip-bg:rgba(255,255,255,.06);--input-bg:#0f1630;--shadow:rgba(0,0,0,.45);
+      --focus-glow:rgba(122,162,255,.25);
+    }
+
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%;overflow-x:hidden}
+    body{
+      margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 800px at 70% -10%,rgba(122,162,255,.12),transparent 60%),
+        radial-gradient(1000px 600px at 0% 100%,rgba(255,84,112,.08),transparent 60%),
+        var(--bg);
+      color:var(--text);padding:16px;display:grid;place-items:start
+    }
+    main.card{
+      width:100%;max-width:min(1200px,100%);margin-inline:auto;
+      background:var(--panel);border:1px solid var(--border);border-radius:16px;
+      padding:22px;box-shadow:0 20px 60px var(--shadow)
+    }
+    h1{margin:0 0 6px;font-weight:800;letter-spacing:.2px;color:var(--brand);text-align:center}
+    .subtitle{color:var(--muted);margin:0 0 16px;text-align:center}
+    .steps{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;color:var(--muted);font-size:12px;margin-bottom:10px}
+    .step{background:var(--chip-bg);border:1px solid var(--border);border-radius:999px;padding:4px 8px}
+
+    /* Layout */
+    .cols{display:grid;gap:16px;grid-template-columns:1fr}
+    @media (min-width: 900px){
+      .cols{grid-template-columns:minmax(280px,1fr) minmax(0,2fr);align-items:start}
+    }
+
+    textarea{
+      width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text);
+      padding:12px 14px;border-radius:10px;font-size:15px;line-height:1.5
+    }
+
+    .chips{
+      display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;
+      /* mobile: allow sideways scroll instead of wrapping to 10 lines */
+      overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:4px
+    }
+    .chip{
+      user-select:none;cursor:not-allowed;border:1px solid var(--border);background:var(--chip-bg);
+      padding:8px 10px;border-radius:999px;color:var(--muted);font-weight:700;font-size:12px;
+      display:inline-flex;align-items:center;gap:8px;opacity:.6;white-space:nowrap
+    }
+    .chip.enabled{cursor:pointer;opacity:1}
+    .chip input{display:none}
+    .chip.active{color:#fff;background:var(--brand-2);border-color:var(--brand-2)}
+
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    button{
+      appearance:none;border:none;background:var(--brand);color:#fff;padding:12px 16px;border-radius:10px;
+      font-weight:800;cursor:pointer;letter-spacing:.4px
+    }
+    .secondary{background:var(--input-bg);border:1px solid var(--border);color:var(--text)}
+
+    .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;color:var(--muted);font-size:12px}
+    .stat-badge{background:var(--chip-bg);border:1px solid var(--border);border-radius:999px;padding:4px 8px}
+
+    .grid-wrap{display:flex;flex-direction:column;gap:10px;min-width:0}
+
+    /* The grid auto-fits columns with square cells sized by --cell.
+       Height is set dynamically so we leave headroom for ~3 more rows before scrolling. */
+    .divination-grid-container{
+      width:100%;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(var(--cell),1fr));
+      gap:6px;background:var(--input-bg);padding:10px;border-radius:8px;border:1px solid var(--border);
+      overflow:auto; /* only appears if we truly can’t fit even after resizing cells */
+      /* height will be set by JS to available svh minus surrounding UI */
+    }
+
+    .divination-square {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .divination-square:hover{transform:scale(1.05);border-color:var(--text)}
+    .divination-square:focus-visible{outline:none;border-color:var(--brand-2);box-shadow:0 0 0 3px var(--focus-glow)}
+    .divination-square.selected{color:#fff;transform:scale(1.02);background:var(--brand-2);border-color:var(--brand-2)}
+
+    #sentence{margin-top:6px;text-align:left;font-size:1rem;line-height:1.4;min-height:1.5em}
+    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+    .note{color:var(--muted);font-size:12px;margin-top:6px}
+
+    /* Mobile polish */
+    @media (max-width: 600px){
+      :root{ --cell: 48px } /* starting point before JS auto-resize */
+      .divination-square{ font-size:13px }
+      .actions{ grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>EngWheel — Suited</h1>
+    <p class="subtitle">A veiled reading tool.</p>
+    <div class="steps">
+      <span class="step">Step 1: Prepare Session</span>
+      <span class="step">Step 2: Choose a Category</span>
+      <span class="step">Step 3: Tap squares to speak</span>
+    </div>
+
+    <div class="cols">
+      <!-- LEFT: controls -->
+      <section>
+        <label class="sr-only" for="question">Question</label>
+        <textarea id="question" rows="3" placeholder="e.g., What should I focus on this season?"></textarea>
+
+        <!-- cryptic, randomized per session; disabled until prepared -->
+        <div class="chips" id="chipbar"></div>
+
+        <div class="actions">
+          <button id="prepare-session-button">Prepare Session</button>
+          <button class="secondary" id="clear-output">Clear Output</button>
+        </div>
+
+        <div class="stats">
+          <span class="stat-badge" id="stat-selected">Category: —</span>
+          <span class="stat-badge" id="stat-total">Pool: 0</span>
+        </div>
+        <div class="note" id="note">Prepare the session first to reveal categories.</div>
+      </section>
+
+      <!-- RIGHT: grid -->
+      <section class="grid-wrap">
+        <div id="engwheel-grid" class="divination-grid-container" aria-live="polite"></div>
+        <div id="sentence"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (()=>{"use strict";
+
+    /* ----------------- Hidden suits (do not show names in UI) ----------------- */
+    const SUITS = {
+      MAJOR: ["fool","magician","priestess","empress","emperor","hierophant","lovers","chariot","strength","hermit","wheel","justice","hanged","death","temperance","devil","tower","star","moon","sun","judgment","world","crown","mirror","mask","gate","key","veil","path","spiral","serpent","thread","oracle","vision","silence","shadow","vow","voice","spirit","destiny","ritual","dream","fate","omen","echo","prophecy","chalice","wand","sword","coin","throne","temple","relic","flame","portal","labyrinth","storm","angel","demon","muse","grace","ascent","fall","realm","guardian","exile","return","awakening","passage","dawn","dusk","tide","pulse","memory","trance","secret","offering","truth","heart","vessel","wound","blessing","curse","root","light","dark","myth","covenant","revelation","pilgrimage","sanctuary","whisper","bond","crossing","aura","sign","soul","halo","devotion","trial","torch","symbol","essence","promise","aeon","parable","concord","witness","hymn","revenant","glyph","sigil","nexus","testament","sanctum","origin","matrix","veilborn","echochild","icon","visage","martyr","relicsong","oraclepath","veilstone","crownfire","remembrance"],
+
+      EARTH: ["earth","stone","soil","root","seed","mountain","cave","forest","meadow","harvest","vine","bark","leaf","moss","clay","field","grain","fruit","tree","oak","ash","pine","willow","herb","thorn","bloom","hive","antler","feather","bone","salt","river","hill","valley","plain","cliff","mineral","gem","crystal","bronze","silver","gold","marble","sand","dust","shell","vessel","hearth","bread","honey","milk","spice","wall","roof","plow","anvil","forge","spindle","loom","thread","needle","pot","jar","bowl","ladder","gate","mill","wheel","bridge","door","home","burden","weight","coin","store","labor","craft","trade","wares","market","hand","sweat","cottage","garden","orchard","barn","beast","burrow","den","tiller","tool","ground","stonepath","cobblestone","seedling","fern","lichen","hedgerow","barkskin","pasture","farmstead","cart","yoke","flint","ore","quartz","granite","pebble","hay","sap","resin","husk","fieldpath","rootbed","burrowpath","barnlight","forgefire"],
+
+      AIR: ["air","wind","breath","cloud","whisper","storm","song","note","echo","tone","word","voice","name","prayer","vow","letter","scroll","page","story","wisdom","dream","vision","prophecy","feather","wing","flight","horizon","dawn","scent","rumor","secret","truth","question","riddle","answer","clarity","reason","insight","memory","thought","idea","muse","lyric","poem","speech","chant","psalm","spell","incantation","breeze","sigh","cry","laughter","silence","stillness","mind","focus","perception","message","code","pattern","symbol","dialogue","verse","script","narrative","mythos","reflection","awareness","language","wit","parable","omen","tale","ink","parchment","scholar","phrase","argument","logic","counsel","mantra","melody","syntax","theorem","abstraction","correspondence","articulation","recitation","resonance","sermon","broadcast","channel","frequency","semaphore","discourse","cognition","proverb","translation","signal","airpath","dreamtext","patternfield"],
+
+      FIRE: ["fire","flame","spark","ember","torch","candle","blaze","pyre","smoke","ash","forge","furnace","light","heat","radiance","glow","burn","ignite","rise","renew","power","courage","passion","wrath","will","drive","energy","sun","star","halo","banner","lion","heartfire","pride","command","zeal","devotion","blood","pulse","battle","victory","conquest","creation","destruction","weapon","blade","spear","arrow","hammer","strike","roar","fury","frenzy","glory","trial","oath","challenge","hero","guardian","hunt","sacrifice","discipline","mastery","purification","temper","motion","dance","beacon","ambition","destiny","furnaceborn","warrior","knight","smith","fighter","champion","quest","uprising","torchbearer","phoenix","rebellion","eruption","conflagration","furnacecore","forgeheart","flare","kindling","combustion","crucible","revolution","zealpath","crownflame","devotionfire","sparkline","solaris","heatborn","willcraft","radiancepath"],
+
+      WATER: ["water","sea","tide","wave","rain","mist","fog","river","stream","lake","spring","pool","well","dew","droplet","ocean","depth","mirror","reflection","moon","pearl","coral","shell","salt","tear","flow","ripple","wash","cleanse","dissolve","merge","dream","longing","sorrow","joy","love","compassion","grace","surrender","baptism","womb","cradle","memory","nostalgia","intuition","empathy","peace","quiet","lullaby","melody","harmony","heart","chalice","potion","elixir","healing","sleep","trance","rhythm","heartbeat","kindness","tenderness","patience","mercy","offering","trust","union","renewal","yielding","tidepool","forgiveness","serenity","bond","purity","hearttide","devotion","solace","drift","current","undertow","ebb","deluge","lagoon","estuary","confluence","vapor","dewlight","mistveil","moonwell","tideglass","reflectionpool","soulwater","floodgate","rainveil","ebbtide","dreamflow","waterpath","compassionfield","pond"],
+
+      WOOD: ["wood","branch","root","stem","bark","leaf","bud","flower","blossom","bloom","seed","sap","vine","ivy","oak","willow","birch","pine","cedar","maple","elm","cypress","fern","reed","bamboo","grove","forest","thicket","canopy","tree","trunk","limb","twig","woodgrain","moss","mulch","pollen","thorn","fruit","nut","acorn","cone","sprout","shoot","sapling","growth","verdant","meadow","glade","petal","tendril","reedbed","orchard","hedgerow","timber","plank","beam","lattice","trellis","carving","joinery","woodshop","sawdust","resin","amber","burl","ring","growthring","leaflight","bloompath","rootpath","treeline","grovepath","ivychain","sapflow","lifewood","greenhand","barkskin","blossomroot","sproutborn","seedbed","woodscent","forestsong","leafveil","timberpath","woodworking","sapdream","treepath","bloomcraft"],
+
+      ETHER: ["aether","ether","spirit","soul","essence","void","cosmos","star","planet","moon","constellation","galaxy","universe","portal","ether","astral","halo","aura","energy","resonance","harmony","unity","divinity","infinity","eternity","origin","return","source","mystery","shadow","silence","stillness","dreamtime","realm","temple","altar","ritual","sacrifice","prayer","incense","blessing","destiny","karma","dharma","cycle","rebirth","awakening","ascension","transformation","transcendence","prophecy","omen","guardian","angel","demon","messenger","sacred","profane","balance","duality","threshold","key","secret","truth","myth","reverence","beyond","watcher","timeless","starlit","cosmic","astralpath","vision","divination","luminous","chorus","firmament","spiritcurrent","sacredspace","beyondlight","celestial","mysticpath"],
+
+      METAL: ["metal","iron","steel","copper","bronze","brass","gold","silver","tin","mercury","alloy","chrome","gear","chain","link","bolt","rivet","nail","ring","clasp","hinge","mechanism","gearwork","piston","engine","wheel","cog","tool","blade","sword","anvil","forge","hammer","bell","chime","gong","shield","armor","plate","buckle","rod","pipe","wire","cable","circuit","magnet","ore","mine","smelt","foundry","furnace","crucible","lathe","vise","tongs","quench","temper","harden","polish","weld","braze","solder","clockwork","spring","ratchet","pulley","winch","rivetborn","chainlink","geartrain","sparksteel","rust","patina","ingot","billet","filigree","gilded","steelpath","ironhand","copperlight","hammerfall","forgeheart","metalcraft","structurepath"],
+
+      GLASS: ["glass","window","mirror","lens","prism","crystal","quartz","diamond","opal","pearl","transparency","clarity","pane","shard","splinter","reflection","glare","gleam","glow","sheen","radiance","translucence","brilliance","refraction","spectrum","halo","glimmer","glint","shimmer","glaze","vitreous","hollow","optic","gaze","vista","mirage","illusion","lucent","luminance","starlens","dreamglass","paneveil","shardpath","mirrorpath","shine","dewglass","prismborn","windowpath","lookingglass","see","focus","lucidity","glazework","glassblown","spectrallight","gemveil","windowdream","shardborn","claritypath","reflectionborn","lightwell","facet","cut","polish","bevel","kiln","anneal","fuse","mosaic","stained","leadline"],
+
+      PLASTIC: ["plastic","polymer","resin","latex","vinyl","acrylic","nylon","silicone","rubber","elastic","synthetic","mold","melt","form","shape","flex","stretch","bend","cast","copy","replica","print","wrap","film","sheet","cellophane","membrane","casing","tube","container","vessel","bottle","bag","shell","cap","plug","module","node","enclosure","interface","frame","conduit","moldable","extrusion","thermoform","3dprint","injection","molding","casting","composite","laminate","coating","gloss","pigment","sheen","dye","neon","vivid","translucent","iridescent","syntheticlight","mimic","adaptation","mutation","transformation","imitation","simulation","reshape","remold","polymerpath","fabricated","hybrid","compositefiber","elastomer","microbead","bioplastic","recycle","upcycle","repurpose","wrapline","surface","bubble","membraneveil","adaptationpath","morphic"],
+
+      MODERN: ["modern","pattern","system","logic","structure","balance","order","chaos","algorithm","code","network","signal","channel","pulse","rhythm","feedback","loop","node","link","circuit","process","clarity","focus","insight","context","reason","framework","design","craft","art","technique","form","function","proportion","symmetry","map","grid","axis","vector","field","force","element","particle","energy","wave","matter","motion","velocity","time","space","gravity","momentum","data","memory","archive","connection","community","architecture","build","refine","harmony","synthesis","perception","awareness","innovation","growth","learning","evolution","reflection","method","interface","engineering","iteration","analysis","adaptation","construct","mechanism","praxis","matrix","protocol","virtual","simulation","recursion","subroutine","sequence","computation","feedbackloop","emergent","algorithmic","networkfield","constructpath","mirrorverse","waste"],
+
+      ANIMALS: ["animal","animals","human","wolf","fox","bear","beaver","lion","tiger","cat","dog","stag","doe","horse","bull","ox","ram","goat","sheep","deer","crow","raven","hawk","eagle","owl","dove","swan","serpent","snake","fish","whale","dolphin","hyena","turtle","crab","frog","lizard","spider","bee","ant","moth","butterfly","beetle","bat","mouse","rat","rabbit","hare","boar","pig","cow","elk","bison","buffalo","panther","leopard","cheetah","jackal","ape","monkey","otter","seal","walrus","penguin","goose","falcon","vulture","heron","egret","sparrow","robin","kestrel","jackdaw","jellyfish","squid","shark","cobra","jaguar","lioness","cub","pup","kit","fawn","chick","hatchling","fledgling","pack","herd","flock","swarm","den","nest","burrow","warren","hive","anthro","kin","beast","creature","familiar","totem","guardian","shapeshifter","wildling","predator","prey","hunter","tracker","companion","protector","feral","howl","roar","purr","talon","fang","claw","scale","feather","hide","fur","paw","wing","tail","mane","eyeshine","nocturne","direwolf","moonstag","dragon","gryphon","kitsune","naga","phoenix","chimera","wyvern","leviathan"],
+
+      DREAM: ["dream","sleep","trance","vision","reverie","imagination","phantasm","illusion","mirage","night","dusk","twilight","dawn","slumber","nightmare","lucid","hypnos","morphic","symbol","archetype","psyche","unconscious","subconscious","threshold","liminal","veilwalker","shadowmind","reflection","memory","nostalgia","longing","fantasy","myth","muse","poetry","sleepwalk","nocturne","lull","whisper","moonlight","nebula","astral","dreamgate","veilpath","memoryfield","drift","float","wander","trancepath","dreamroot","heartdream","surreal","realm","passage","transition","shadowdream","forgotten","nightshade","portal","aura","innerlight","wonder","deepmind","dreamseed","mirrorworld","astralpath","visionpath","veilborn","imaginationpath"],
+
+      VOID: ["void","shadow","darkness","night","eclipse","abyss","silence","emptiness","absence","hollow","nothing","forgotten","ruin","stillness","dusk","veil","lostlight","entropy","echo","unseen","gloom","ghost","revenant","phantom","specter","shroud","duskveil","oblivion","mirrorblack","nightfall","voidpath","ruinpath","wither","decay","dissolution","nihil","abyssal","null","vanish","blind","midnight","shadowpath","hollowlight","fade","extinction","remnant","erasure","negation","despair","unbeing","fadeout","veilstorm","absencefield","darknessborn","blackmirror","echochamber","ruinborn","ghostveil","lostsoul","shadowveil","shadowform","hidden","fadepath"],
+
+      BEYOND: ["beyond","outside","elsewhere","unwritten","unmade","unborn","unbound","unseen","unknown","unspoken","unthought","unreal","impossible","irrational","paradox","contradiction","liminal","edge","threshold","borderless","formless","nameless","faceless","definitionless","structureless","lawless","wordless","endless","rootless","centerless","pointless","weightless","boundless","limitless","chaotic","wild","untamed","unconventional","unorthodox","transgressive","posthuman","postdivine","postform","posttruth","postmeaning","anomaly","glitch","error","voidfield","anti","null","nothing","everything","meta","beyondself","beyondtime","beyondspace","beyondform","beyonddogma","beyondbelief","beyondlaw","beyondreason","beyondorder","beyondpattern","beyondritual","beyondheaven","beyondhell","beyondlife","beyonddeath","beyondgod","beyondself","beyondsystem","beyondcontrol","beyondlimit","outlaw","outsider","renegade","rebel","heretic","wanderer","stray","drifter","unmapped","unmeasured","unsanctioned","unseenhand","freak","anomalia","singularity","breakpoint","horizon","transcendence","metamorph","mutation","transformation","dissolution","deconstruction","collapse","entropy","evolution","mutationpath","wildfield","nondual","nonbeing","voidsong","emptiness","absurd","mystery","paradoxborn","beyondveil","outsiderpath","metaform","outofbounds"],
+
+      AFTERLIFE: ["afterlife","heaven","hell","purgatory","limbo","nirvana","moksha","samsara","elysium","valhalla","summerland","avalon","shambhala","zion","eden","paradise","inferno","tartarus","sheol","hades","duat","yomi","xibalba","annwn","tirnanog","asphodel","gehenna","abaddon","elysian","fields","otherworld","spiritrealm","shadowlands","bardo","realmoflight","realmofshadows","ancestral","beyondveil","finalgate","judgment","weighing","crossing","ferryman","riverstyx","lethe","rebirth","transmigration","ascension","salvation","damnation","atonement","absolution","resurrection","awakening","eternalrest","eternalsleep","souljourney","spiritpath","grave","tomb","crypt","catacomb","burial","pyre","offering","remembrance","ancestor","ghost","shade","specter","apparition","guardian","angelic","demonic","cherubim","seraph","archangel","fallen","redeemed","penitent","blessed","condemned","wraith","spiritwalker","deathrealm","veilpath","fieldsbeyond","dreamrealm","soulplane","hearthome","pureland","celestialcity","crystalheaven","shadowabyss","lightrealm","greatbeyond","spiritreturn","peacefield","everworld","silentkingdom","divinegate","afterpath","finalrest","eternalcycle","soulbridge"]
+    };
+    const SUIT_KEYS = Object.keys(SUITS); // internal only
+
+    /* ------------- crypto-style seed + rng (deterministic per session) ------------- */
+    const HASH_ROUNDS_SESSION=8888;
+    const encoder=new TextEncoder();
+    function concatUint8Arrays(...arrs){const len=arrs.reduce((s,a)=>s+a.length,0);const out=new Uint8Array(len);let off=0;arrs.forEach(a=>{out.set(a,off);off+=a.length;});return out;}
+    function multiHash(value,rounds){
+      let buf=value instanceof Uint8Array
+        ? value.buffer.slice(value.byteOffset,value.byteOffset+value.byteLength)
+        : value instanceof ArrayBuffer ? value.slice(0)
+        : encoder.encode(String(value)).buffer;
+      let p=Promise.resolve(buf);
+      for(let i=0;i<rounds;i++) p=p.then(b=>crypto.subtle.digest("SHA-256",b));
+      return p.then(b=>new Uint8Array(b));
+    }
+    async function createSeedHash(question){
+      const qBytes=encoder.encode(question.normalize("NFC"));
+      const entropy=new Uint8Array(32); crypto.getRandomValues(entropy);
+      const timing=new ArrayBuffer(16);
+      const v=new DataView(timing); v.setFloat64(0,Date.now(),true); v.setFloat64(8,performance.now(),true);
+      const payload=concatUint8Arrays(entropy,qBytes,new Uint8Array(timing));
+      return multiHash(payload,HASH_ROUNDS_SESSION);
+    }
+    function deriveSeed32(bytes){
+      const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+      const first=view.getUint32(0,false);
+      const last=view.getUint32(bytes.byteLength-4,false);
+      const seed=(first^last)>>>0;
+      return seed || 0x9e3779b9;
+    }
+    const seededRNG=(seed)=>()=>{let t=(seed+=0x6d2b79f5);t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296};
+
+    class Mapper{
+      constructor(seedBytes,pool){
+        const rng=seededRNG(deriveSeed32(seedBytes));
+        const arr=[...pool];
+        for(let i=arr.length-1;i>0;i--){
+          const j=Math.floor(rng()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];
+        }
+        this.map=arr;
+      }
+      get(i){ return this.map[i]; }
+    }
+
+    /* ------------------------------ Responsive grid sizing ------------------------------ */
+    const els={
+      chipbar:document.getElementById("chipbar"),
+      grid:document.getElementById("engwheel-grid"),
+      sentence:document.getElementById("sentence"),
+      question:document.getElementById("question"),
+      prepare:document.getElementById("prepare-session-button"),
+      clear:document.getElementById("clear-output"),
+      statSel:document.getElementById("stat-selected"),
+      statTotal:document.getElementById("stat-total"),
+      note:document.getElementById("note")
+    };
+
+    let sessionSeedBytes=null;
+    let currentSuitKey=null;
+    let mapper=null;
+    let chipMeta=[];
+
+    // Compute the available height for the grid and auto-size cells so we keep ~3 extra rows of headroom.
+    function sizeGridToViewport(){
+      const root = document.documentElement;
+      const grid = els.grid;
+      const gridWrap = grid.parentElement; // section.grid-wrap
+
+      // Visual viewport height is best on mobile with dynamic toolbars
+      const vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+
+      // Space already taken by everything above the grid within the card
+      const card = grid.closest('main');
+      const cardRect = card.getBoundingClientRect();
+      const gridRectTop = grid.getBoundingClientRect().top;
+
+      // Available height inside the viewport from the top of the grid to the bottom of the card (or viewport)
+      // Add a small bottom buffer so it never kisses the edge.
+      const bottomPadding = 16;
+      const available = Math.max(160, vh - (gridRectTop - 0) - bottomPadding);
+
+      // Get current cell size and grid width to estimate columns/rows
+      const computedCell = parseFloat(getComputedStyle(root).getPropertyValue('--cell')) || 52;
+      const gridWidth = grid.clientWidth || gridWrap.clientWidth || cardRect.width;
+      const columns = Math.max(1, Math.floor(gridWidth / (computedCell + 6))); // include gap
+      const total = grid.childElementCount;
+      const rowsNeeded = Math.ceil(total / columns) || 1;
+
+      // We want room for 3 extra rows before scroll kicks in:
+      const EXTRA_ROWS = 3;
+
+      // Ideal cell size so that rowsNeeded + EXTRA_ROWS fits into 'available'
+      const ideal = Math.floor((available - (rowsNeeded + EXTRA_ROWS - 1) * 6 - 20) / (rowsNeeded + EXTRA_ROWS)); // subtract gaps & padding
+
+      // Clamp to touch-friendly range
+      const MIN_CELL = 40; // phones
+      const MAX_CELL = 64; // big screens
+      const newCell = Math.max(MIN_CELL, Math.min(MAX_CELL, ideal));
+
+      root.style.setProperty('--cell', newCell + 'px');
+      grid.style.maxHeight = available + 'px';
+    }
+
+    /* ------------------------------ UI & behavior ------------------------------ */
+    function renderGrid(words){
+      els.grid.innerHTML="";
+      const frag=document.createDocumentFragment();
+      for(let i=0;i<words.length;i++){
+        const btn=document.createElement("button");
+        btn.type="button"; btn.className="divination-square";
+        btn.dataset.index=String(i); btn.textContent=String(i+1);
+        frag.appendChild(btn);
+      }
+      els.grid.appendChild(frag);
+      sizeGridToViewport();
+    }
+
+    function poolForKey(key){ return Array.from(new Set(SUITS[key] || [])); }
+
+    // create cryptic labels (dynamic count; works for any number of suits)
+    function crypticLabels(seedBytes) {
+      const seed = deriveSeed32(seedBytes);
+      const rng = seededRNG(seed);
+      const glyphs = [
+        "◆","◇","■","▲","✦","✧","☽","☼",
+        "✪","✺","✵","❖","☯","☮","⚝","☀","✶","✹","✴","✸"
+      ];
+
+      const labels = [];
+      for (let i = 0; i < SUIT_KEYS.length; i++) {
+        const letter = String.fromCharCode(65 + (i % 26)); // A–Z, loops if >26
+        const glyph = glyphs[i % glyphs.length];
+        labels.push(`Category ${letter} ${glyph}`);
+      }
+
+      // shuffle label order deterministically
+      for (let i = labels.length - 1; i > 0; i--) {
+        const j = Math.floor(rng() * (i + 1));
+        [labels[i], labels[j]] = [labels[j], labels[i]];
+      }
+
+      return labels;
+    }
+
+    function buildChips(seedBytes){
+      els.chipbar.innerHTML="";
+      chipMeta=[];
+      const labels=crypticLabels(seedBytes);
+
+      // map each hidden suit key to a randomized cryptic label
+      const shuffledSuitKeys=[...SUIT_KEYS];
+      const rng=seededRNG(deriveSeed32(seedBytes)+0x9e3779b9);
+      for(let i=shuffledSuitKeys.length-1;i>0;i--){
+        const j=Math.floor(rng()*(i+1)); [shuffledSuitKeys[i],shuffledSuitKeys[j]]=[shuffledSuitKeys[j],shuffledSuitKeys[i]];
+      }
+
+      shuffledSuitKeys.forEach((key,idx)=>{
+        const label=document.createElement("label");
+        label.className="chip"; // disabled by default; enabled after prepare
+        const text=labels[idx];
+        label.innerHTML=`<input type="radio" name="cat" />${text}`;
+        label.addEventListener("click",()=>{
+          if(!label.classList.contains("enabled")) return; // still locked
+          const wasActive = label.classList.contains("active");
+          chipMeta.forEach(m=>m.el.classList.remove("active"));
+          label.classList.add("active");
+          if (!wasActive || key!==currentSuitKey){
+            currentSuitKey=key;
+            const p=poolForKey(currentSuitKey);
+            mapper=new Mapper(sessionSeedBytes,p);
+            renderGrid(p);
+            els.statSel.textContent=`Category: ${text}`;
+            els.statTotal.textContent=`Pool: ${p.length}`;
+          }
+        });
+        els.chipbar.appendChild(label);
+        chipMeta.push({key, el:label, label:text});
+      });
+
+      // After chips lay out, recalc in case wrapping changed heights
+      requestAnimationFrame(sizeGridToViewport);
+    }
+
+    // initial state: chips hidden/disabled until prepared
+    function lockChips(lock){
+      chipMeta.forEach(m=>{
+        m.el.classList.toggle("enabled",!lock);
+        m.el.style.pointerEvents = lock ? "none" : "auto";
+      });
+    }
+
+    // events
+    els.grid.addEventListener("click",(e)=>{
+      const b=e.target.closest(".divination-square"); if(!b) return;
+      if(!sessionSeedBytes){ alert("Prepare the session first."); return; }
+      if(!currentSuitKey){ alert("Pick a category."); return; }
+      const i=Number(b.dataset.index);
+      const word=mapper.get(i);
+      const prev=els.grid.querySelector(".selected"); if(prev) prev.classList.remove("selected");
+      b.classList.add("selected");
+      els.sentence.textContent += word + " ";
+    });
+
+    els.prepare.addEventListener("click", async ()=>{
+      const q=els.question.value.trim();
+      if(!q){ alert("Please enter a question."); return; }
+      els.prepare.disabled=true; els.prepare.textContent="Preparing…";
+      sessionSeedBytes=await createSeedHash(q);
+      buildChips(sessionSeedBytes);
+      lockChips(false);
+      els.note.textContent="Choose a category, then tap the grid.";
+      els.prepare.textContent="Session Prepared";
+      els.question.disabled=true;
+      if(chipMeta[0]) chipMeta[0].el.click();
+    });
+
+    els.clear.addEventListener("click",()=>{ els.sentence.textContent=""; });
+
+    // react to viewport changes (mobile toolbars, orientation, desktop resizes)
+    window.addEventListener('resize', sizeGridToViewport, { passive:true });
+    window.addEventListener('orientationchange', ()=>setTimeout(sizeGridToViewport, 150), { passive:true });
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', sizeGridToViewport, { passive:true });
+
+    // startup
+    renderGrid([]);
+  })();
+  </script>
+</body>
+</html>
