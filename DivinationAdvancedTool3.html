@@ -736,7 +736,7 @@
             <div class="row">
               <label for="dreamspell-solar-seal-grid">
                 Dreamspell Solar Seal
-                <span id="dreamspell-solar-seal-feedback" class="hint">(Optional, 0 selected)</span>
+                <span id="dreamspell-solar-seal-feedback" class="hint">(Select 1)</span>
               </label>
               <div class="grid-wrapper is-scrolled-to-bottom">
                 <div
@@ -750,7 +750,7 @@
             <div class="row">
               <label for="dreamspell-galactic-tone-grid">
                 Dreamspell Galactic Tone
-                <span id="dreamspell-galactic-tone-feedback" class="hint">(Optional, 0 selected)</span>
+                <span id="dreamspell-galactic-tone-feedback" class="hint">(Select 1)</span>
               </label>
               <div class="grid-wrapper is-scrolled-to-bottom">
                 <div
@@ -764,7 +764,7 @@
             <div class="row">
               <label for="astrology-zodiac-grid">
                 Astrology Zodiac
-                <span id="astrology-zodiac-feedback" class="hint">(Optional, 0 selected)</span>
+                <span id="astrology-zodiac-feedback" class="hint">(Select 1)</span>
               </label>
               <div class="grid-wrapper is-scrolled-to-bottom">
                 <div
@@ -776,7 +776,7 @@
 
               <label for="astrology-planet-grid">
                 Astrology Planets
-                <span id="astrology-planet-feedback" class="hint">(Optional, 0 selected)</span>
+                <span id="astrology-planet-feedback" class="hint">(Select 4)</span>
               </label>
               <div class="grid-wrapper is-scrolled-to-bottom">
                 <div
@@ -788,7 +788,7 @@
 
               <label for="astrology-house-grid">
                 Astrology House
-                <span id="astrology-house-feedback" class="hint">(Optional, 0 selected)</span>
+                <span id="astrology-house-feedback" class="hint">(Select 1)</span>
               </label>
               <div class="grid-wrapper is-scrolled-to-bottom">
                 <div
@@ -800,7 +800,7 @@
 
               <label for="astrology-aspect-grid">
                 Astrology Aspects
-                <span id="astrology-aspect-feedback" class="hint">(Optional, 0 selected)</span>
+                <span id="astrology-aspect-feedback" class="hint">(Select 2)</span>
               </label>
               <div class="grid-wrapper is-scrolled-to-bottom">
                 <div
@@ -1700,9 +1700,9 @@
             error: elements.dreamspellSolarSealErr,
             range: { min: 1, max: 20 },
             maxSelections: 1,
-            allowedCounts: [0, 1],
+            allowedCounts: [1],
             optional: true,
-            autoCounts: [0, 1],
+            autoCounts: [1],
             showOrder: false,
             label: "Dreamspell solar seal",
           },
@@ -1712,9 +1712,9 @@
             error: elements.dreamspellGalacticToneErr,
             range: { min: 1, max: 13 },
             maxSelections: 1,
-            allowedCounts: [0, 1],
+            allowedCounts: [1],
             optional: true,
-            autoCounts: [0, 1],
+            autoCounts: [1],
             showOrder: false,
             label: "Dreamspell galactic tone",
           },
@@ -1736,9 +1736,9 @@
             error: elements.astrologyZodiacErr,
             range: { min: 1, max: 12 },
             maxSelections: 1,
-            allowedCounts: [0, 1],
+            allowedCounts: [1],
             optional: true,
-            autoCounts: [0, 1],
+            autoCounts: [1],
             showOrder: false,
             label: "Astrology Zodiac Sign",
           },
@@ -1748,9 +1748,9 @@
             error: elements.astrologyPlanetErr,
             range: { min: 1, max: 10 },
             maxSelections: 4,
-            allowedCounts: [0, 4],
+            allowedCounts: [4],
             optional: true,
-            autoCounts: [0, 4],
+            autoCounts: [4],
             showOrder: true,
             label: "Astrology Planet",
           },
@@ -1760,9 +1760,9 @@
             error: elements.astrologyHouseErr,
             range: { min: 1, max: 12 },
             maxSelections: 1,
-            allowedCounts: [0, 1],
+            allowedCounts: [1],
             optional: true,
-            autoCounts: [0, 1],
+            autoCounts: [1],
             showOrder: false,
             label: "Astrology House",
           },
@@ -1772,9 +1772,9 @@
             error: elements.astrologyAspectErr,
             range: { min: 1, max: 17 },
             maxSelections: 2,
-            allowedCounts: [0, 2],
+            allowedCounts: [2],
             optional: true,
-            autoCounts: [0, 2],
+            autoCounts: [2],
             showOrder: true,
             label: "Astrology Aspect",
           },
@@ -2190,7 +2190,7 @@
 
             case "dreamspellSolarSeal":
               if (count === 0) {
-                message = "(Optional, 0 selected)";
+                message = "(Select 1 solar seal)";
               } else if (count === 1) {
                 message = "✔ Valid (1 selected)";
                 isValid = true;
@@ -2201,7 +2201,7 @@
 
             case "dreamspellGalacticTone":
               if (count === 0) {
-                message = "(Optional, 0 selected)";
+                message = "(Select 1 galactic tone)";
               } else if (count === 1) {
                 message = "✔ Valid (1 selected)";
                 isValid = true;
@@ -2232,7 +2232,7 @@
             case "meihuaLower":
             case "meihuaMovingLine":
               if (count === 0) {
-                message = "(Optional, 0 selected)";
+                message = "(Select 1)";
               } else if (count === 1) {
                 message = "✔ Valid (1 selected)";
                 isValid = true;
@@ -2243,7 +2243,7 @@
 
             case "astrologyPlanet":
               if (count === 0) {
-                message = "(Optional, 0 selected)";
+                message = "(Select 4)";
               } else if (count === 4) {
                 message = "✔ Valid (4 selected)";
                 isValid = true;
@@ -2256,7 +2256,7 @@
 
             case "astrologyAspect":
               if (count === 0) {
-                message = "(Optional, 0 selected)";
+                message = "(Select 2)";
               } else if (count === 2) {
                 message = "✔ Valid (2 selected)";
                 isValid = true;
@@ -2384,68 +2384,29 @@
             lines.push("");
           }
 
-          if (astrologyZodiac.length > 0 || astrologyPlanet.length > 0 || astrologyHouse.length > 0 || astrologyAspect.length > 0) {
+          if (astrologyZodiac.length && astrologyPlanet.length === 4 && astrologyHouse.length && astrologyAspect.length === 2) {
+            const zodiac = state.mapper.getAstrologyZodiac(astrologyZodiac[0]);
+            const house = state.mapper.getAstrologyHouse(astrologyHouse[0]);
+            const planets = state.mapper.getAstrologyPlanets(astrologyPlanet);
+            const aspects = state.mapper.getAstrologyAspects(astrologyAspect);
+
             lines.push("--- Astrology ---");
-
-            if (astrologyZodiac.length > 0) {
-              const zodiac = state.mapper.getAstrologyZodiac(astrologyZodiac[0]);
-              lines.push(`Zodiac Sign: ${zodiac}`);
-            } else {
-              lines.push("Zodiac Sign: Not selected");
-            }
-
-            if (astrologyHouse.length > 0) {
-              const house = state.mapper.getAstrologyHouse(astrologyHouse[0]);
-              lines.push(`House: ${house}`);
-            } else {
-              lines.push("House: Not selected");
-            }
-
-            if (astrologyPlanet.length === 4) {
-              const planets = state.mapper.getAstrologyPlanets(astrologyPlanet);
-              lines.push(`Planets: ${planets.join(", ")}`);
-            } else if (astrologyPlanet.length > 0) {
-              lines.push(`Planets: Incomplete selection (${astrologyPlanet.length} of 4 selected)`);
-            } else {
-              lines.push("Planets: Not selected");
-            }
-
-            if (astrologyAspect.length === 2) {
-              const aspects = state.mapper.getAstrologyAspects(astrologyAspect);
-              if (astrologyPlanet.length === 4) {
-                const planets = state.mapper.getAstrologyPlanets(astrologyPlanet);
-                lines.push(`Aspects: ${planets[0]} ${aspects[0]} ${planets[1]}, ${planets[2]} ${aspects[1]} ${planets[3]}`);
-              } else {
-                lines.push(`Aspects: ${aspects.join(", ")} (Planets incomplete for full aspect reading)`);
-              }
-            } else if (astrologyAspect.length > 0) {
-              lines.push(`Aspects: Incomplete selection (${astrologyAspect.length} of 2 selected)`);
-            } else {
-              lines.push("Aspects: Not selected");
-            }
+            lines.push(`Zodiac Sign: ${zodiac}`);
+            lines.push(`House: ${house}`);
+            lines.push(`Aspects: ${planets[0]} ${aspects[0]} ${planets[1]}, ${planets[2]} ${aspects[1]} ${planets[3]}`);
             lines.push("");
           }
 
-          if (dreamspellSolarSeal.length > 0 || dreamspellGalacticTone.length > 0) {
+          if (dreamspellSolarSeal.length && dreamspellGalacticTone.length) {
+            const solarSeal = state.mapper.getDreamspellSolarSeal(dreamspellSolarSeal[0]);
+            const galacticTone = state.mapper.getDreamspellGalacticTone(dreamspellGalacticTone[0]);
             lines.push("--- Dreamspell ---");
-            const solarSealText = dreamspellSolarSeal.length > 0
-              ? state.mapper.getDreamspellSolarSeal(dreamspellSolarSeal[0])
-              : "Not selected";
-            const galacticToneText = dreamspellGalacticTone.length > 0
-              ? state.mapper.getDreamspellGalacticTone(dreamspellGalacticTone[0])
-              : "Not selected";
+            lines.push(`Galactic Signature: ${solarSeal} (${galacticTone})`);
 
-            lines.push(`Solar Seal: ${solarSealText}`);
-            lines.push(`Galactic Tone: ${galacticToneText}`);
-
-            if (dreamspellSolarSeal.length > 0 && dreamspellGalacticTone.length > 0) {
-              const oracle = state.mapper.getDreamspellOracle(solarSealText, galacticToneText);
-              lines.push(`Analog: ${oracle.analog}`);
-              lines.push(`Antipode: ${oracle.antipode}`);
-              lines.push(`Occult: ${oracle.occult}`);
-            } else {
-              lines.push("Oracle: Incomplete selection for full oracle reading.");
-            }
+            const oracle = state.mapper.getDreamspellOracle(solarSeal, galacticTone);
+            lines.push(`Analog: ${oracle.analog}`);
+            lines.push(`Antipode: ${oracle.antipode}`);
+            lines.push(`Occult: ${oracle.occult}`);
             lines.push("");
           }
 
