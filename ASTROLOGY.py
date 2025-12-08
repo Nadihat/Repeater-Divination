@@ -18,8 +18,10 @@ THINK_DEPTH = 8888
 console = Console()
 
 # === ASTROLOGICAL DATA ===
-PLANETS = [
-    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto',
+MAJOR_PLANETS = [
+    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'
+]
+MINOR_BODIES = [
     'Ceres', 'Pallas', 'Juno', 'Vesta', 'Hygiea', 'Chiron', 'Pholus', 'Eris', 
     'Haumea', 'Makemake', 'Gonggong', 'Quaoar', 'Sedna', 'Orcus'
 ]
@@ -78,12 +80,14 @@ def hash_question(question: str, salt: str = "", times: int = THINK_DEPTH) -> in
     return int.from_bytes(h, 'big')
 
 # === CHART GENERATION ===
-def generate_chart(question: str, count: int) -> List[Dict[str, Any]]:
+def generate_chart(question: str, count: int, include_minor_bodies: bool = False) -> List[Dict[str, Any]]:
     chart = []
     used_planets = set()
     used_houses = set()
     timestamp = int(time.time())
-    planets_to_use = PLANETS[:count]
+    
+    available_planets = MAJOR_PLANETS + (MINOR_BODIES if include_minor_bodies else [])
+    planets_to_use = available_planets[:count]
 
     for i in range(len(planets_to_use)):
         planet = planets_to_use[i]
@@ -181,8 +185,6 @@ def interpret_chart(
 
     system_prompt = (
         "You are a wise and mystical astrologer. Provide a deep, insightful, and spiritual reading. "
-        "The reading includes traditional planets, asteroids (Ceres, Pallas, Juno, Vesta), and dwarf planets/centaurs. "
-        "Interpret these additional bodies as nuanced layers of the psyche and spiritual journey. "
         "Combine all provided data (natal placements, transits, parallels, aspects) into a holistic narrative."
     )
     user_prompt = f"The question is: '{question}'\n\nNatal Chart:\n{chart_text}"
@@ -227,6 +229,7 @@ def interpret_chart(
 def main():
     parser = argparse.ArgumentParser(description="Get a comprehensive astrological reading.")
     parser.add_argument("--model", type=str, default=DEFAULT_MODEL, help="Model to use from OpenRouter.")
+    parser.add_argument("--minor-bodies", action="store_true", help="Include minor bodies (asteroids, dwarf planets, centaurs) in the reading.")
     args = parser.parse_args()
 
     console.print("[bold magenta]Welcome to Anthro Astrology[/bold magenta] ✨ (Super Reading Edition)")
@@ -244,9 +247,10 @@ def main():
 
     if reading_type == 13:
         console.print("\n[bold blue]Generating a Super Comprehensive Reading...[/bold blue]")
-        num_bodies = len(PLANETS)
-        natal_chart = generate_chart(question, num_bodies)
-        transiting_chart = generate_chart(f"transits for {question}", num_bodies)
+        available_planets = MAJOR_PLANETS + (MINOR_BODIES if args.minor_bodies else [])
+        num_bodies = len(available_planets)
+        natal_chart = generate_chart(question, num_bodies, args.minor_bodies)
+        transiting_chart = generate_chart(f"transits for {question}", num_bodies, args.minor_bodies)
         parallels = find_parallels(natal_chart)
         all_aspects = calculate_aspects(natal_chart, transiting_chart)
 
@@ -283,7 +287,7 @@ def main():
 
     else:
         count = 1 if reading_type == 1 else 3
-        generated_chart = generate_chart(question, count)
+        generated_chart = generate_chart(question, count, args.minor_bodies)
         console.print(f"\n[bold cyan]Your Astrological Placements:[/bold cyan]")
         for p in generated_chart:
             console.print(f"- {p['planet']} at {p['degree']}° {p['sign']} in the {p['house']}")
