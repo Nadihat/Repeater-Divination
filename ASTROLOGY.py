@@ -22,6 +22,15 @@ MINOR_BODIES = [
     'Ceres', 'Pallas', 'Juno', 'Vesta', 'Hygiea', 'Chiron', 'Pholus', 'Eris', 
     'Haumea', 'Makemake', 'Gonggong', 'Quaoar', 'Sedna', 'Orcus'
 ]
+
+# === POWER SCORES ===
+PLANET_POWER = {
+    'Sun': 10, 'Moon': 9, 'Pluto': 8, 'Mars': 7, 'Jupiter': 7, 'Saturn': 7,
+    'Mercury': 6, 'Uranus': 6, 'Neptune': 6, 'Venus': 5,
+    'Ceres': 4, 'Chiron': 4, 'Pallas': 3, 'Juno': 3, 'Vesta': 3,
+    'Hygiea': 2, 'Pholus': 2, 'Eris': 2, 'Haumea': 1, 'Makemake': 1,
+    'Gonggong': 1, 'Quaoar': 1, 'Sedna': 1, 'Orcus': 1
+}
 SIGNS = [
     'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
 ]
@@ -32,39 +41,31 @@ HOUSES = [
 
 ASPECTS = {
     # Major Aspects
-    "Conjunction": {"type": "longitude", "angle": 0, "orb": 8.0},
-    "Sextile": {"type": "longitude", "angle": 60, "orb": 6.0},
-    "Square": {"type": "longitude", "angle": 90, "orb": 8.0},
-    "Trine": {"type": "longitude", "angle": 120, "orb": 8.0},
-    "Opposition": {"type": "longitude", "angle": 180, "orb": 8.0},
+    "Conjunction": {"type": "longitude", "angle": 0, "orb": 8.0, "power": 10},
+    "Opposition": {"type": "longitude", "angle": 180, "orb": 8.0, "power": 9},
+    "Square": {"type": "longitude", "angle": 90, "orb": 8.0, "power": 9},
+    "Trine": {"type": "longitude", "angle": 120, "orb": 8.0, "power": 8},
+    "Sextile": {"type": "longitude", "angle": 60, "orb": 6.0, "power": 6},
     
     # Minor Aspects
-    "Quincunx": {"type": "longitude", "angle": 150, "orb": 2.0},
-    "Semi-Sextile": {"type": "longitude", "angle": 30, "orb": 2.0},
-    "Semi-Square": {"type": "longitude", "angle": 45, "orb": 2.0},
-    "Sesquisquare": {"type": "longitude", "angle": 135, "orb": 2.0},
-    
-    # Quintile Series
-    "Quintile": {"type": "longitude", "angle": 72, "orb": 2.0},
-    "Biquintile": {"type": "longitude", "angle": 144, "orb": 2.0},
-    "Semi-Quintile": {"type": "longitude", "angle": 36, "orb": 1.5},
-
-    # Septile Series
-    "Septile": {"type": "longitude", "angle": 360/7, "orb": 1.5},
-    "Bi-Septile": {"type": "longitude", "angle": 2 * (360/7), "orb": 1.5},
-    "Tri-Septile": {"type": "longitude", "angle": 3 * (360/7), "orb": 1.5},
-
-    # Novile Series
-    "Novile": {"type": "longitude", "angle": 40, "orb": 1.5},
-    "Bi-Novile": {"type": "longitude", "angle": 80, "orb": 1.5},
-    "Quatro-Novile": {"type": "longitude", "angle": 160, "orb": 1.5},
-
-    # Other
-    "Quindecile": {"type": "longitude", "angle": 165, "orb": 2.0},
+    "Quincunx": {"type": "longitude", "angle": 150, "orb": 2.0, "power": 5},
+    "Semi-Square": {"type": "longitude", "angle": 45, "orb": 2.0, "power": 4},
+    "Sesquisquare": {"type": "longitude", "angle": 135, "orb": 2.0, "power": 4},
+    "Quintile": {"type": "longitude", "angle": 72, "orb": 2.0, "power": 4},
+    "Biquintile": {"type": "longitude", "angle": 144, "orb": 2.0, "power": 4},
+    "Septile": {"type": "longitude", "angle": 360/7, "orb": 1.5, "power": 3},
+    "Bi-Septile": {"type": "longitude", "angle": 2 * (360/7), "orb": 1.5, "power": 3},
+    "Tri-Septile": {"type": "longitude", "angle": 3 * (360/7), "orb": 1.5, "power": 3},
+    "Semi-Sextile": {"type": "longitude", "angle": 30, "orb": 2.0, "power": 2},
+    "Semi-Quintile": {"type": "longitude", "angle": 36, "orb": 1.5, "power": 2},
+    "Quindecile": {"type": "longitude", "angle": 165, "orb": 2.0, "power": 2},
+    "Novile": {"type": "longitude", "angle": 40, "orb": 1.5, "power": 1},
+    "Bi-Novile": {"type": "longitude", "angle": 80, "orb": 1.5, "power": 1},
+    "Quatro-Novile": {"type": "longitude", "angle": 160, "orb": 1.5, "power": 1},
 
     # Declination Aspects
-    "Parallel": {"type": "declination", "orb": 1.0},
-    "Contra-Parallel": {"type": "contra-declination", "orb": 1.0},
+    "Parallel": {"type": "declination", "orb": 1.0, "power": 7},
+    "Contra-Parallel": {"type": "contra-declination", "orb": 1.0, "power": 6},
 }
 
 # === HASH FUNCTION ===
@@ -123,46 +124,107 @@ def find_parallels(chart: List[Dict[str, Any]]) -> Dict[str, Dict[str, List[str]
 def get_declination(total_degree: int) -> float:
     return 23.45 * math.sin(math.radians(total_degree))
 
-def find_aspects_between_planets(p1: Dict, p2: Dict, is_transit: bool = False) -> List[str]:
+def calculate_orb_multiplier(orb_degrees: float) -> float:
+    """Calculate orb multiplier based on exactness of aspect"""
+    if orb_degrees <= 1.0:
+        return 3.0
+    elif orb_degrees <= 3.0:
+        return 2.0
+    elif orb_degrees <= 6.0:
+        return 1.0
+    else:
+        return 0.5
+
+def find_aspects_between_planets(p1: Dict, p2: Dict, is_transit: bool = False) -> List[Dict]:
     found = []
     p1_name = f"t.{p1['planet']}" if is_transit else p1['planet']
     p2_name = p2['planet']
+    
+    # Get planet power scores
+    p1_power = PLANET_POWER.get(p1['planet'], 1)
+    p2_power = PLANET_POWER.get(p2['planet'], 1)
     
     # Longitude aspects
     angle = abs(p1['total_degree'] - p2['total_degree'])
     if angle > 180:
         angle = 360 - angle
+    
     for name, data in ASPECTS.items():
         if data['type'] == 'longitude':
-            if abs(angle - data['angle']) <= data['orb']:
-                found.append(f"{p1_name} {name} {p2_name}")
+            orb_diff = abs(angle - data['angle'])
+            if orb_diff <= data['orb']:
+                orb_multiplier = calculate_orb_multiplier(orb_diff)
+                aspect_power = data['power']
+                total_score = (p1_power + p2_power) * aspect_power * orb_multiplier
+                
+                found.append({
+                    'description': f"{p1_name} {name} {p2_name}",
+                    'score': total_score,
+                    'orb': orb_diff,
+                    'type': 'natal' if not is_transit else 'transit'
+                })
 
     # Declination aspects
     declination1 = get_declination(p1['total_degree'])
     declination2 = get_declination(p2['total_degree'])
-    if abs(declination1 - declination2) <= ASPECTS["Parallel"]["orb"]:
-        found.append(f"{p1_name} Parallel {p2_name}")
-    if abs(declination1 + declination2) <= ASPECTS["Contra-Parallel"]["orb"]:
-        found.append(f"{p1_name} Contra-Parallel {p2_name}")
+    
+    # Parallel
+    parallel_orb = abs(declination1 - declination2)
+    if parallel_orb <= ASPECTS["Parallel"]["orb"]:
+        orb_multiplier = calculate_orb_multiplier(parallel_orb)
+        aspect_power = ASPECTS["Parallel"]["power"]
+        total_score = (p1_power + p2_power) * aspect_power * orb_multiplier
+        
+        found.append({
+            'description': f"{p1_name} Parallel {p2_name}",
+            'score': total_score,
+            'orb': parallel_orb,
+            'type': 'natal' if not is_transit else 'transit'
+        })
+    
+    # Contra-Parallel
+    contra_parallel_orb = abs(declination1 + declination2)
+    if contra_parallel_orb <= ASPECTS["Contra-Parallel"]["orb"]:
+        orb_multiplier = calculate_orb_multiplier(contra_parallel_orb)
+        aspect_power = ASPECTS["Contra-Parallel"]["power"]
+        total_score = (p1_power + p2_power) * aspect_power * orb_multiplier
+        
+        found.append({
+            'description': f"{p1_name} Contra-Parallel {p2_name}",
+            'score': total_score,
+            'orb': contra_parallel_orb,
+            'type': 'natal' if not is_transit else 'transit'
+        })
         
     return found
 
-def calculate_aspects(natal_chart: List[Dict], transiting_chart: List[Dict] = None) -> Dict[str, List[str]]:
-    aspects = {"natal": [], "transit": []}
+def calculate_aspects(natal_chart: List[Dict], transiting_chart: List[Dict] = None) -> Dict[str, List[Dict]]:
+    all_aspects = []
+    
+    # Calculate natal aspects
     for i in range(len(natal_chart)):
         for j in range(i + 1, len(natal_chart)):
             p1 = natal_chart[i]
             p2 = natal_chart[j]
             found = find_aspects_between_planets(p1, p2)
-            if found:
-                aspects["natal"].extend(found)
+            all_aspects.extend(found)
+    
+    # Calculate transit aspects
     if transiting_chart:
         for t_planet in transiting_chart:
             for n_planet in natal_chart:
                 found = find_aspects_between_planets(t_planet, n_planet, is_transit=True)
-                if found:
-                    aspects["transit"].extend(found)
-    return aspects
+                all_aspects.extend(found)
+    
+    # Sort by score (highest first) and take top 10
+    all_aspects.sort(key=lambda x: x['score'], reverse=True)
+    top_aspects = all_aspects[:10]
+    
+    # Separate into natal and transit for display
+    natal_aspects = [asp for asp in top_aspects if asp['type'] == 'natal']
+    transit_aspects = [asp for asp in top_aspects if asp['type'] == 'transit']
+    
+    return {"natal": natal_aspects, "transit": transit_aspects}
 
 
 # === MAIN LOGIC ===
@@ -207,12 +269,14 @@ def main():
             for house, planets in parallels["by_house"].items(): console.print(f"- In {house}: {', '.join(planets)}")
         
         if all_aspects["natal"]:
-            console.print(f"\n[bold cyan]Natal Aspects:[/bold cyan]")
-            console.print(", ".join(all_aspects["natal"]))
+            console.print(f"\n[bold cyan]Top Natal Aspects (by power):[/bold cyan]")
+            for aspect in all_aspects["natal"]:
+                console.print(f"- {aspect['description']} (Score: {aspect['score']:.1f}, Orb: {aspect['orb']:.1f}°)")
         
         if all_aspects["transit"]:
-            console.print(f"\n[bold cyan]Transiting Aspects:[/bold cyan]")
-            console.print(", ".join(all_aspects["transit"]))
+            console.print(f"\n[bold cyan]Top Transiting Aspects (by power):[/bold cyan]")
+            for aspect in all_aspects["transit"]:
+                console.print(f"- {aspect['description']} (Score: {aspect['score']:.1f}, Orb: {aspect['orb']:.1f}°)")
 
     else:
         count = 1 if reading_type == 1 else 3
