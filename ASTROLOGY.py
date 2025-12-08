@@ -247,7 +247,7 @@ def main():
         reading_type = 13
 
     if reading_type == 13:
-        console.print("\n[bold blue]Generating a Super Comprehensive Reading...[/bold blue]")
+        #console.print("\n[bold blue]Generating a Super Comprehensive Reading...[/bold blue]")
         available_planets = MAJOR_PLANETS + (MINOR_BODIES if args.minor_bodies else [])
         num_bodies = len(available_planets)
         natal_chart = generate_chart(question, num_bodies, args.minor_bodies)
@@ -255,7 +255,7 @@ def main():
         parallels = find_parallels(natal_chart)
         all_aspects = calculate_aspects(natal_chart, transiting_chart)
 
-        console.print(f"\n[bold cyan]Your Natal Chart:[/bold cyan]")
+        console.print(f"\n[bold cyan]Your Question Chart:[/bold cyan]")
         for p in natal_chart:
             console.print(f"- {p['planet']} at {p['degree']}° {p['sign']} in the {p['house']}")
 
