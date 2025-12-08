@@ -69,7 +69,9 @@ ASPECTS = {
 
 # === HASH FUNCTION ===
 def hash_question(question: str, salt: str = "", times: int = THINK_DEPTH) -> int:
-    h = (question + salt).encode()
+    # Add os.urandom for better entropy in the initial seed
+    random_bytes = os.urandom(32)  # 32 bytes of cryptographically secure random data
+    h = random_bytes + (question + salt).encode()
     for _ in range(times):
         h = hashlib.sha512(h).digest()
     return int.from_bytes(h, 'big')
