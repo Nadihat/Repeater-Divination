@@ -11,6 +11,7 @@ from hashlib import pbkdf2_hmac
 
 # === CONFIGURATION ===
 THINK_DEPTH = 8888
+DEFAULT_TOP_ASPECTS = 20
 
 console = Console()
 
@@ -47,21 +48,29 @@ ASPECTS = {
     "Trine": {"type": "longitude", "angle": 120, "orb": 8.0, "power": 8},
     "Sextile": {"type": "longitude", "angle": 60, "orb": 6.0, "power": 6},
     
-    # Minor Aspects
+    # Minor Aspects - Rebalanced
     "Quincunx": {"type": "longitude", "angle": 150, "orb": 2.0, "power": 5},
     "Semi-Square": {"type": "longitude", "angle": 45, "orb": 2.0, "power": 4},
     "Sesquisquare": {"type": "longitude", "angle": 135, "orb": 2.0, "power": 4},
-    "Quintile": {"type": "longitude", "angle": 72, "orb": 2.0, "power": 4},
-    "Biquintile": {"type": "longitude", "angle": 144, "orb": 2.0, "power": 4},
-    "Septile": {"type": "longitude", "angle": 360/7, "orb": 1.5, "power": 3},
-    "Bi-Septile": {"type": "longitude", "angle": 2 * (360/7), "orb": 1.5, "power": 3},
-    "Tri-Septile": {"type": "longitude", "angle": 3 * (360/7), "orb": 1.5, "power": 3},
+    
+    # Quintiles - Boosted power
+    "Quintile": {"type": "longitude", "angle": 72, "orb": 2.0, "power": 6},
+    "Biquintile": {"type": "longitude", "angle": 144, "orb": 2.0, "power": 6},
+    "Semi-Quintile": {"type": "longitude", "angle": 36, "orb": 1.5, "power": 4},
+    
+    # Septiles - Boosted power
+    "Septile": {"type": "longitude", "angle": 360/7, "orb": 1.5, "power": 5},
+    "Bi-Septile": {"type": "longitude", "angle": 2 * (360/7), "orb": 1.5, "power": 5},
+    "Tri-Septile": {"type": "longitude", "angle": 3 * (360/7), "orb": 1.5, "power": 5},
+    
+    # Noviles - Boosted power
+    "Novile": {"type": "longitude", "angle": 40, "orb": 1.5, "power": 4},
+    "Bi-Novile": {"type": "longitude", "angle": 80, "orb": 1.5, "power": 4},
+    "Quatro-Novile": {"type": "longitude", "angle": 160, "orb": 1.5, "power": 4},
+    
+    # Other minor aspects
     "Semi-Sextile": {"type": "longitude", "angle": 30, "orb": 2.0, "power": 2},
-    "Semi-Quintile": {"type": "longitude", "angle": 36, "orb": 1.5, "power": 2},
     "Quindecile": {"type": "longitude", "angle": 165, "orb": 2.0, "power": 2},
-    "Novile": {"type": "longitude", "angle": 40, "orb": 1.5, "power": 1},
-    "Bi-Novile": {"type": "longitude", "angle": 80, "orb": 1.5, "power": 1},
-    "Quatro-Novile": {"type": "longitude", "angle": 160, "orb": 1.5, "power": 1},
 
     # Declination Aspects
     "Parallel": {"type": "declination", "orb": 1.0, "power": 7},
@@ -124,16 +133,12 @@ def find_parallels(chart: List[Dict[str, Any]]) -> Dict[str, Dict[str, List[str]
 def get_declination(total_degree: int) -> float:
     return 23.45 * math.sin(math.radians(total_degree))
 
-def calculate_orb_multiplier(orb_degrees: float) -> float:
-    """Calculate orb multiplier based on exactness of aspect"""
-    if orb_degrees <= 1.0:
-        return 3.0
-    elif orb_degrees <= 3.0:
-        return 2.0
-    elif orb_degrees <= 6.0:
-        return 1.0
-    else:
-        return 0.5
+def calculate_orb_multiplier(orb_degrees: float, max_orb: float) -> float:
+    """Calculate smooth orb multiplier based on exactness of aspect"""
+    # Normalize orb to 0-1 range
+    normalized_orb = orb_degrees / max_orb
+    # Use exponential decay for smooth transition (exact = 3.0, max orb = 0.5)
+    return 0.5 + 2.5 * math.exp(-3.0 * normalized_orb)
 
 def find_aspects_between_planets(p1: Dict, p2: Dict, is_transit: bool = False) -> List[Dict]:
     found = []
@@ -144,6 +149,10 @@ def find_aspects_between_planets(p1: Dict, p2: Dict, is_transit: bool = False) -
     p1_power = PLANET_POWER.get(p1['planet'], 1)
     p2_power = PLANET_POWER.get(p2['planet'], 1)
     
+    # Check if Sun or Moon is involved for context-aware orbs
+    involves_luminary = p1['planet'] in ['Sun', 'Moon'] or p2['planet'] in ['Sun', 'Moon']
+    orb_bonus = 2.0 if involves_luminary else 0.0
+    
     # Longitude aspects
     angle = abs(p1['total_degree'] - p2['total_degree'])
     if angle > 180:
@@ -151,9 +160,10 @@ def find_aspects_between_planets(p1: Dict, p2: Dict, is_transit: bool = False) -
     
     for name, data in ASPECTS.items():
         if data['type'] == 'longitude':
+            effective_orb = data['orb'] + orb_bonus
             orb_diff = abs(angle - data['angle'])
-            if orb_diff <= data['orb']:
-                orb_multiplier = calculate_orb_multiplier(orb_diff)
+            if orb_diff <= effective_orb:
+                orb_multiplier = calculate_orb_multiplier(orb_diff, effective_orb)
                 aspect_power = data['power']
                 total_score = (p1_power + p2_power) * aspect_power * orb_multiplier
                 
@@ -169,9 +179,10 @@ def find_aspects_between_planets(p1: Dict, p2: Dict, is_transit: bool = False) -
     declination2 = get_declination(p2['total_degree'])
     
     # Parallel
+    parallel_effective_orb = ASPECTS["Parallel"]["orb"] + orb_bonus
     parallel_orb = abs(declination1 - declination2)
-    if parallel_orb <= ASPECTS["Parallel"]["orb"]:
-        orb_multiplier = calculate_orb_multiplier(parallel_orb)
+    if parallel_orb <= parallel_effective_orb:
+        orb_multiplier = calculate_orb_multiplier(parallel_orb, parallel_effective_orb)
         aspect_power = ASPECTS["Parallel"]["power"]
         total_score = (p1_power + p2_power) * aspect_power * orb_multiplier
         
@@ -183,9 +194,10 @@ def find_aspects_between_planets(p1: Dict, p2: Dict, is_transit: bool = False) -
         })
     
     # Contra-Parallel
+    contra_parallel_effective_orb = ASPECTS["Contra-Parallel"]["orb"] + orb_bonus
     contra_parallel_orb = abs(declination1 + declination2)
-    if contra_parallel_orb <= ASPECTS["Contra-Parallel"]["orb"]:
-        orb_multiplier = calculate_orb_multiplier(contra_parallel_orb)
+    if contra_parallel_orb <= contra_parallel_effective_orb:
+        orb_multiplier = calculate_orb_multiplier(contra_parallel_orb, contra_parallel_effective_orb)
         aspect_power = ASPECTS["Contra-Parallel"]["power"]
         total_score = (p1_power + p2_power) * aspect_power * orb_multiplier
         
@@ -198,7 +210,7 @@ def find_aspects_between_planets(p1: Dict, p2: Dict, is_transit: bool = False) -
         
     return found
 
-def calculate_aspects(natal_chart: List[Dict], transiting_chart: List[Dict] = None) -> Dict[str, List[Dict]]:
+def calculate_aspects(natal_chart: List[Dict], transiting_chart: List[Dict] = None, top_n: int = DEFAULT_TOP_ASPECTS) -> Dict[str, List[Dict]]:
     all_aspects = []
     
     # Calculate natal aspects
@@ -216,9 +228,9 @@ def calculate_aspects(natal_chart: List[Dict], transiting_chart: List[Dict] = No
                 found = find_aspects_between_planets(t_planet, n_planet, is_transit=True)
                 all_aspects.extend(found)
     
-    # Sort by score (highest first) and take top 10
+    # Sort by score (highest first) and take top N
     all_aspects.sort(key=lambda x: x['score'], reverse=True)
-    top_aspects = all_aspects[:10]
+    top_aspects = all_aspects[:top_n]
     
     # Separate into natal and transit for display
     natal_aspects = [asp for asp in top_aspects if asp['type'] == 'natal']
@@ -233,6 +245,7 @@ def main():
     parser.add_argument("-q", "--question", required=True, help="Your cosmic question")
     parser.add_argument("-t", "--type", type=int, choices=[1, 3, 13], default=13, help="Reading type: 1=Single, 3=Three-Part, 13=Comprehensive")
     parser.add_argument("-m", "--minor", action="store_true", help="Include minor bodies")
+    parser.add_argument("-n", "--top-aspects", type=int, default=DEFAULT_TOP_ASPECTS, help=f"Number of top aspects to show (default: {DEFAULT_TOP_ASPECTS})")
     args = parser.parse_args()
 
     question = args.question
@@ -244,7 +257,7 @@ def main():
         natal_chart = generate_chart(question, num_bodies, args.minor)
         transiting_chart = generate_chart(f"transits for {question}", num_bodies, args.minor)
         parallels = find_parallels(natal_chart)
-        all_aspects = calculate_aspects(natal_chart, transiting_chart)
+        all_aspects = calculate_aspects(natal_chart, transiting_chart, args.top_aspects)
 
         console.print(f"\n[bold cyan]Your Question Chart:[/bold cyan]")
         for p in natal_chart:
