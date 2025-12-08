@@ -8,6 +8,7 @@ from typing import List, Dict, Any
 from rich import print
 from rich.console import Console
 from collections import defaultdict
+from hashlib import pbkdf2_hmac
 
 # === CONFIGURATION ===
 DEFAULT_MODEL = "x-ai/grok-3-beta"
@@ -71,9 +72,9 @@ ASPECTS = {
 def hash_question(question: str, salt: str = "", times: int = THINK_DEPTH) -> int:
     # Add os.urandom for better entropy in the initial seed
     random_bytes = os.urandom(32)  # 32 bytes of cryptographically secure random data
-    h = random_bytes + (question + salt).encode()
-    for _ in range(times):
-        h = hashlib.sha512(h).digest()
+    password = random_bytes + (question + salt).encode()
+    # Use PBKDF2 with SHA-256 for cryptographically secure hashing
+    h = pbkdf2_hmac('sha256', password, b'astrology_salt', times)
     return int.from_bytes(h, 'big')
 
 # === CHART GENERATION ===
