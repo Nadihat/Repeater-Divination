@@ -168,7 +168,7 @@ def calculate_aspects(natal_chart: List[Dict], transiting_chart: List[Dict] = No
 # === MAIN LOGIC ===
 def main():
     parser = argparse.ArgumentParser(description="Get a comprehensive astrological reading.")
-    parser.add_argument("--minor-bodies", action="store_true", help="Include minor bodies (asteroids, dwarf planets, centaurs) in the reading.")
+    parser.add_argument("-m", "--minor-bodies", action="store_true", help="Include minor bodies (asteroids, dwarf planets, centaurs) in the reading.")
     args = parser.parse_args()
 
     console.print("[bold magenta]Welcome to Anthro Astrology[/bold magenta] ✨")
