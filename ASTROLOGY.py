@@ -230,28 +230,19 @@ def calculate_aspects(natal_chart: List[Dict], transiting_chart: List[Dict] = No
 # === MAIN LOGIC ===
 def main():
     parser = argparse.ArgumentParser(description="Get a comprehensive astrological reading.")
-    parser.add_argument("-m", "--minor-bodies", action="store_true", help="Include minor bodies (asteroids, dwarf planets, centaurs) in the reading.")
+    parser.add_argument("-q", "--question", required=True, help="Your cosmic question")
+    parser.add_argument("-t", "--type", type=int, choices=[1, 3, 13], default=13, help="Reading type: 1=Single, 3=Three-Part, 13=Comprehensive")
+    parser.add_argument("-m", "--minor", action="store_true", help="Include minor bodies")
     args = parser.parse_args()
 
-    console.print("[bold magenta]Welcome to Anthro Astrology[/bold magenta] ✨")
-    question = console.input("[bold yellow]Ask your cosmic question[/bold yellow]: ")
-
-    console.print("\nChoose your reading type:")
-    console.print("[green]1[/green]: Single Placement")
-    console.print("[green]3[/green]: Three-Part Reading")
-    console.print("[bold green]13[/bold green]: Super Comprehensive Reading")
-
-    try:
-        reading_type = int(console.input("Your choice (1/3/13): ").strip() or 13)
-    except ValueError:
-        reading_type = 13
+    question = args.question
+    reading_type = args.type
 
     if reading_type == 13:
-        #console.print("\n[bold blue]Generating a Super Comprehensive Reading...[/bold blue]")
-        available_planets = MAJOR_PLANETS + (MINOR_BODIES if args.minor_bodies else [])
+        available_planets = MAJOR_PLANETS + (MINOR_BODIES if args.minor else [])
         num_bodies = len(available_planets)
-        natal_chart = generate_chart(question, num_bodies, args.minor_bodies)
-        transiting_chart = generate_chart(f"transits for {question}", num_bodies, args.minor_bodies)
+        natal_chart = generate_chart(question, num_bodies, args.minor)
+        transiting_chart = generate_chart(f"transits for {question}", num_bodies, args.minor)
         parallels = find_parallels(natal_chart)
         all_aspects = calculate_aspects(natal_chart, transiting_chart)
 
@@ -280,7 +271,7 @@ def main():
 
     else:
         count = 1 if reading_type == 1 else 3
-        generated_chart = generate_chart(question, count, args.minor_bodies)
+        generated_chart = generate_chart(question, count, args.minor)
         console.print(f"\n[bold cyan]Your Question's Astrological Placements:[/bold cyan]")
         for p in generated_chart:
             console.print(f"- {p['planet']} at {p['degree']}° {p['sign']} in the {p['house']}")
