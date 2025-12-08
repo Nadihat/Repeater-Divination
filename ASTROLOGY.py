@@ -1,5 +1,4 @@
 import hashlib
-import requests
 import time
 import os
 import argparse
@@ -11,8 +10,6 @@ from collections import defaultdict
 from hashlib import pbkdf2_hmac
 
 # === CONFIGURATION ===
-DEFAULT_MODEL = "x-ai/grok-3-beta"
-OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 THINK_DEPTH = 8888
 
 console = Console()
@@ -167,72 +164,14 @@ def calculate_aspects(natal_chart: List[Dict], transiting_chart: List[Dict] = No
                     aspects["transit"].extend(found)
     return aspects
 
-# === INTERPRETATION REQUEST ===
-def interpret_chart(
-    question: str, 
-    chart: List[Dict[str, Any]], 
-    model: str, 
-    transiting_chart: List[Dict[str, Any]] = None, 
-    parallels: Dict = None,
-    natal_aspects: List[str] = None,
-    transit_aspects: List[str] = None
-) -> str:
-    api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
-        return "[red]❌ OPENROUTER_API_KEY not set.[/red]"
-
-    chart_text = "\n".join([f"- {p['planet']} at {p['degree']}° {p['sign']} in the {p['house']}" for p in chart])
-
-    system_prompt = (
-        "You are a wise and mystical astrologer. Provide a deep, insightful, and spiritual reading. "
-        "Combine all provided data (natal placements, transits, parallels, aspects) into a holistic narrative."
-    )
-    user_prompt = f"The question is: '{question}'\n\nNatal Chart:\n{chart_text}"
-
-    if parallels and (parallels["by_sign"] or parallels["by_house"]):
-        parallels_text = ""
-        if parallels["by_sign"]:
-            parallels_text += "\n\nStelliums (Parallels by Sign):\n"
-            for sign, planets in parallels["by_sign"].items():
-                parallels_text += f"- In {sign}: {', '.join(planets)}\n"
-        if parallels["by_house"]:
-            parallels_text += "\nStelliums (Parallels by House):\n"
-            for house, planets in parallels["by_house"].items():
-                parallels_text += f"- In {house}: {', '.join(planets)}\n"
-        user_prompt += parallels_text
-        system_prompt += "\nInterpret the stelliums as areas of concentrated energy."
-
-    if transiting_chart:
-        transiting_lines = [f"- {p['planet']} at {p['degree']}° {p['sign']}" for p in transiting_chart]
-        user_prompt += "\n\nTransiting Planets (Current Sky):\n" + "\n".join(transiting_lines)
-        system_prompt += "\nAnalyze the transiting planets in relation to the natal chart."
-
-    if natal_aspects:
-        user_prompt += "\n\nNatal Aspects (Core Dynamics):\n" + ", ".join(natal_aspects)
-        system_prompt += "\nInterpret the natal aspects. These reveal deep-seated psychological patterns and spiritual gifts."
-
-    if transit_aspects:
-        user_prompt += "\n\nTransiting Aspects (Current Influences):\n" + ", ".join(transit_aspects)
-        system_prompt += "\nInterpret the transiting aspects. These highlight current themes and opportunities."
-
-    payload = {"model": model, "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}]}
-    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-
-    try:
-        response = requests.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=300)
-        response.raise_for_status()
-        return response.json().get("choices", [{}])[0].get("message", {}).get("content", "No response.")
-    except Exception as e:
-        return f"[red]An error occurred: {e}[/red]"
 
 # === MAIN LOGIC ===
 def main():
     parser = argparse.ArgumentParser(description="Get a comprehensive astrological reading.")
-    parser.add_argument("--model", type=str, default=DEFAULT_MODEL, help="Model to use from OpenRouter.")
     parser.add_argument("--minor-bodies", action="store_true", help="Include minor bodies (asteroids, dwarf planets, centaurs) in the reading.")
     args = parser.parse_args()
 
-    console.print("[bold magenta]Welcome to Anthro Astrology[/bold magenta] ✨ (Super Reading Edition)")
+    console.print("[bold magenta]Welcome to Anthro Astrology[/bold magenta] ✨")
     question = console.input("[bold yellow]Ask your cosmic question[/bold yellow]: ")
 
     console.print("\nChoose your reading type:")
@@ -275,24 +214,12 @@ def main():
             console.print(f"\n[bold cyan]Transiting Aspects:[/bold cyan]")
             console.print(", ".join(all_aspects["transit"]))
 
-        console.print("\n[bold blue]Consulting the celestial spheres for your interpretation...[/bold blue]")
-        interpretation = interpret_chart(
-            question, natal_chart, args.model,
-            transiting_chart=transiting_chart,
-            parallels=parallels,
-            natal_aspects=all_aspects["natal"],
-            transit_aspects=all_aspects["transit"]
-        )
-        console.print(f"\n[italic green]{interpretation}[/italic green]\n")
-
     else:
         count = 1 if reading_type == 1 else 3
         generated_chart = generate_chart(question, count, args.minor_bodies)
         console.print(f"\n[bold cyan]Your Astrological Placements:[/bold cyan]")
         for p in generated_chart:
             console.print(f"- {p['planet']} at {p['degree']}° {p['sign']} in the {p['house']}")
-        interpretation = interpret_chart(question, generated_chart, args.model)
-        console.print(f"\n[italic green]{interpretation}[/italic green]\n")
 
 if __name__ == "__main__":
     try:
