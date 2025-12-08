@@ -269,7 +269,7 @@ def main():
             for house, planets in parallels["by_house"].items(): console.print(f"- In {house}: {', '.join(planets)}")
         
         if all_aspects["natal"]:
-            console.print(f"\n[bold cyan]Top Natal Aspects (by power):[/bold cyan]")
+            console.print(f"\n[bold cyan]Top Aspects (by power):[/bold cyan]")
             for aspect in all_aspects["natal"]:
                 console.print(f"- {aspect['description']} (Score: {aspect['score']:.1f}, Orb: {aspect['orb']:.1f}°)")
         
@@ -281,7 +281,7 @@ def main():
     else:
         count = 1 if reading_type == 1 else 3
         generated_chart = generate_chart(question, count, args.minor_bodies)
-        console.print(f"\n[bold cyan]Your Astrological Placements:[/bold cyan]")
+        console.print(f"\n[bold cyan]Your Question's Astrological Placements:[/bold cyan]")
         for p in generated_chart:
             console.print(f"- {p['planet']} at {p['degree']}° {p['sign']} in the {p['house']}")
 
