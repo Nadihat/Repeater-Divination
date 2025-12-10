@@ -1065,9 +1065,19 @@ def line_to_yin_yang(line: int) -> int:
 
 def bits_to_trigram(bits: List[int]) -> str:
     """Convert three bits to trigram symbol."""
-    trigram_map = ["☷", "☶", "☵", "☴", "☳", "☲", "☱", "☰"]
-    index = bits[0] + (bits[1] << 1) + (bits[2] << 2)
-    return trigram_map[index]
+    # Correct mapping: bottom line is bits[0], top line is bits[2]
+    # Each trigram maps to its binary representation (0=yin, 1=yang)
+    trigram_map = {
+        (0,0,0): "☷",  # Kun (Earth) - all yin
+        (1,0,0): "☳",  # Zhen (Thunder) - yang below
+        (0,1,0): "☵",  # Kan (Water) - yang middle
+        (1,1,0): "☱",  # Dui (Lake) - yang below and middle
+        (0,0,1): "☶",  # Gen (Mountain) - yang top
+        (1,0,1): "☲",  # Li (Fire) - yang below and top
+        (0,1,1): "☴",  # Xun (Wind) - yang middle and top
+        (1,1,1): "☰",  # Qian (Heaven) - all yang
+    }
+    return trigram_map[(bits[0], bits[1], bits[2])]
 
 def format_hexagram_lines(bits: List[int], moving: Optional[List[int]] = None) -> List[str]:
     """Format hexagram lines for display (top to bottom)."""
