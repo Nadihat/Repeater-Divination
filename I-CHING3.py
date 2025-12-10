@@ -1170,7 +1170,7 @@ class IChing:
         # Build primary hexagram
         lower_trigram = bits_to_trigram(bits[0:3])
         upper_trigram = bits_to_trigram(bits[3:6])
-        primary_info = get_hexagram_info(lower_trigram, upper_trigram)
+        primary_info = get_hexagram_info(upper_trigram, lower_trigram)
         
         # Extract moving line texts
         moving_line_texts = []
@@ -1189,7 +1189,7 @@ class IChing:
             
             rel_lower = bits_to_trigram(relating_bits[0:3])
             rel_upper = bits_to_trigram(relating_bits[3:6])
-            relating_info = get_hexagram_info(rel_lower, rel_upper)
+            relating_info = get_hexagram_info(rel_upper, rel_lower)
         
         # Build nuclear hexagram (lines 2-4 and 3-5)
         nuclear_bits = None
@@ -1198,7 +1198,7 @@ class IChing:
             nuclear_bits = [bits[1], bits[2], bits[3], bits[2], bits[3], bits[4]]
             nuc_lower = bits_to_trigram(nuclear_bits[0:3])
             nuc_upper = bits_to_trigram(nuclear_bits[3:6])
-            nuclear_info = get_hexagram_info(nuc_lower, nuc_upper)
+            nuclear_info = get_hexagram_info(nuc_upper, nuc_lower)
         
         return HexagramReading(
             query=query,
