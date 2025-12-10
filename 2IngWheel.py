@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>EngWheel</title>
+
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #121a33;
+        --muted: #93a4c8;
+        --text: #e6e9f4;
+        --brand: #ff5470;
+        --brand-2: #7aa2ff;
+        --ok: #20c997;
+        --warn: #ffd166;
+        --border: rgba(255, 255, 255, 0.1);
+        --chip-bg: rgba(255, 255, 255, 0.06);
+        --input-bg: #0f1630;
+        --shadow: rgba(0, 0, 0, 0.45);
+        --focus-glow: rgba(122, 162, 255, 0.25);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, Helvetica, Arial, sans-serif;
+        background: radial-gradient(
+            1200px 800px at 70% -10%,
+            rgba(122, 162, 255, 0.12),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 600px at 0% 100%,
+            rgba(255, 84, 112, 0.08),
+            transparent 60%
+          ),
+          var(--bg);
+        color: var(--text);
+        padding: 24px;
+        display: grid;
+        place-items: center;
+      }
+
+      main.card {
+        width: 100%;
+        max-width: 100%;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 20px 60px var(--shadow);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        color: var(--brand);
+        text-align: center;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        margin: 0 0 24px;
+        text-align: center;
+      }
+
+      .grid-wrapper {
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      .divination-grid-container {
+        display: grid;
+        
+        font-size: 10px;
+        gap: 5px;
+        background: var(--input-bg);
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .divination-square {
+        aspect-ratio: 1 / 1;
+        border: 1px solid var(--border);
+        background: transparent;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.2s, transform 0.1s, border-color 0.2s,
+          box-shadow 0.2s;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        user-select: none;
+        position: relative;
+        padding: 0;
+        margin: 0;
+      }
+
+      .divination-square:hover {
+        transform: scale(1.08);
+        border-color: var(--text);
+      }
+
+      .divination-square:focus-visible {
+        outline: none;
+        border-color: var(--brand-2);
+        box-shadow: 0 0 0 3px var(--focus-glow);
+      }
+
+      .divination-square.selected {
+        color: white;
+        transform: scale(1.05);
+        background-color: var(--brand-2);
+        border-color: var(--brand-2);
+      }
+      
+      #sentence {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 1.2em;
+        color: var(--text);
+        min-height: 1.5em;
+      }
+
+      textarea {
+        width: 100%;
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 15px;
+        line-height: 1.5;
+        transition: box-shadow 0.15s, border-color 0.15s;
+      }
+
+      button {
+        appearance: none;
+        border: none;
+        background: var(--brand);
+        color: white;
+        padding: 14px 18px;
+        border-radius: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        width: 100%;
+        transition: transform 0.1s ease, filter 0.2s ease;
+        letter-spacing: 0.4px;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      @media (min-width: 768px) {
+        main.card {
+          max-width: 1200px;
+        }
+
+
+      }
+
+      @media (max-width: 859px) {
+        body {
+          padding: 12px;
+        }
+
+        main.card {
+          padding: 20px;
+        }
+
+        .divination-grid-container {
+          max-height: 300px;
+        }
+
+        .divination-square {
+          font-size: 10px;
+        }
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <main class="card">
+      <h1>EngWheel</h1>
+      <p class="subtitle">
+        Enter a question to begin.
+      </p>
+
+      <textarea id="question" rows="3" placeholder="e.g., What should I focus on for the next month?"></textarea>
+      <button id="prepare-session-button">Prepare Session</button>
+
+      <div class="grid-wrapper" style="margin-top: 20px;">
+        <div id="engwheel-grid" class="divination-grid-container"></div>
+      </div>
+      
+      <div id="sentence"></div>
+
+    </main>
+
+    <script>
+      (() => {
+        "use strict";
+
+        const WORD_LIST = [
+    "the", "of", "to", "and", "a", "in", "is", "it", "you", "that", "he", "was", "for", "on", "are", "with", "as",
+    "I", "his", "they", "be", "at", "one", "have", "this", "from", "or", "had", "by", "not", "word", "but", "what",
+    "some", "we", "can", "out", "other", "were", "all", "there", "when", "up", "use", "your", "how", "said", "an",
+    "each", "she", "which", "do", "their", "time", "if", "will", "way", "about", "many", "then", "them", "write",
+    "would", "like", "so", "these", "her", "long", "make", "thing", "see", "him", "two", "has", "look", "more",
+    "day", "could", "go", "come", "did", "number", "sound", "no", "most", "people", "my", "over", "know", "water",
+    "than", "call", "first", "who", "may", "down", "side", "been", "now", "find", "any", "new", "work", "part",
+    "take", "get", "place", "made", "live", "where", "after", "back", "little", "only", "round", "man", "year",
+    "came", "show", "every", "good", "me", "give", "our", "under", "name", "very", "through", "just", "form",
+    "sentence", "great", "think", "say", "help", "low", "line", "differ", "turn", "cause", "much", "mean",
+    "before", "move", "right", "boy", "old", "too", "same", "tell", "does", "set", "three", "want", "air", "well",
+    "also", "play", "small", "end", "put", "home", "read", "hand", "port", "large", "spell", "add", "even",
+    "land", "here", "must", "big", "high", "such", "follow", "act", "why", "ask", "men", "change", "went",
+    "light", "kind", "off", "need", "house", "picture", "try", "us", "again", "animal", "point", "mother",
+    "world", "near", "build", "self", "earth", "father", "head", "stand", "own", "page", "should", "country",
+    "found", "answer", "school", "grow", "study", "still", "learn", "plant", "cover", "food", "sun", "four",
+    "between", "state", "keep", "eye", "never", "last", "let", "thought", "city", "tree", "cross", "farm",
+    "hard", "start", "might", "story", "saw", "far", "sea", "draw", "left", "late", "run", "don't", "while",
+    "press", "close", "night", "real", "life", "few", "north", "open", "seem", "together", "next", "white",
+    "children", "begin", "got", "walk", "example", "ease", "paper", "group", "always", "music", "those",
+    "both", "mark", "often", "letter", "until", "mile", "river", "car", "feet", "care", "second", "book",
+    "carry", "took", "science", "eat", "room", "friend", "began", "idea", "fish", "mountain", "stop", "once",
+    "base", "hear", "horse", "cut", "sure", "watch", "color", "face", "wood", "main", "enough", "plain",
+    "girl", "usual", "young", "ready", "above", "ever", "red", "list", "though", "feel", "talk", "bird",
+    "soon", "body", "dog", "family", "direct", "pose", "leave", "song", "measure", "door", "product", "black",
+    "short", "numeral", "class", "wind", "question", "happen", "complete", "ship", "area", "half", "rock",
+    "order", "fire", "south", "problem", "piece", "told", "knew", "pass", "since", "top", "whole", "king",
+    "space", "heard", "best", "hour", "better", "true", "during", "hundred", "five", "remember", "step",
+    "early", "hold", "west", "ground", "interest", "reach", "fast", "verb", "sing", "listen", "six", "table",
+    "travel", "less", "morning", "ten", "simple", "several", "vowel", "toward", "war", "lay", "against",
+    "pattern", "slow", "center", "love", "person", "money", "serve", "appear", "road", "map", "rain", "rule",
+    "govern", "pull", "cold", "notice", "voice", "unit", "power", "town", "fine", "certain", "fly", "fall",
+    "lead", "cry", "dark", "machine", "note", "wait", "plan", "figure", "star", "box", "noun", "field",
+    "rest", "correct", "able", "pound", "done", "beauty", "drive", "stood", "contain", "front", "teach",
+    "week", "final", "gave", "green", "oh", "quick", "develop", "ocean", "warm", "free", "minute", "strong",
+    "mind", "behind", "clear", "tail", "produce", "fact", "street", "inch", "multiply", "nothing", "course",
+    "stay", "wheel", "full", "force", "blue", "object", "decide", "surface", "deep", "moon", "island", "foot",
+    "system", "busy", "test", "record", "boat", "common", "gold", "possible", "plane", "stead", "dry",
+    "wonder", "laugh", "thousand", "ago", "ran", "check", "game", "shape", "equate", "hot", "miss", "brought",
+    "heat", "snow", "tire", "bring", "yes", "distant", "fill", "east", "paint", "language", "among", "grand",
+    "ball", "yet", "wave", "drop", "heart", "am", "present", "heavy", "dance", "engine", "position", "arm",
+    "wide", "sail", "material", "size", "vary", "settle", "speak", "weight", "general", "ice", "matter",
+    "circle", "pair", "include", "divide", "syllable", "felt", "perhaps", "pick", "sudden", "count", "square",
+    "reason", "length", "represent", "art", "subject", "region", "energy", "hunt", "probable", "bed",
+    "brother", "egg", "ride", "cell", "believe", "fraction", "forest", "sit", "race", "window", "summer",
+    "train", "sleep", "prove", "lone", "leg", "exercise", "wall", "catch", "mount", "wish", "sky", "board",
+    "joy", "winter", "sat", "written", "wild", "instrument", "kept", "glass", "grass", "cow", "job", "edge",
+    "sign", "visit", "past", "soft", "fun", "bright", "gas", "weather", "month", "million", "bear", "finish",
+    "happy", "hope", "flower", "clothe", "strange", "gun", "jump", "baby", "eight", "village", "meet", "root",
+    "buy", "raise", "solve", "metal", "whether", "push", "seven", "paragraph", "third", "shall", "held",
+    "hair", "describe", "cook", "floor", "either", "result", "burn", "hill", "safe", "cat", "century",
+    "consider", "type", "law", "bit", "coast", "copy", "phrase", "silent", "tall", "sand", "soil", "roll",
+    "temperature", "finger", "industry", "value", "fight", "lie", "beat", "excite", "natural", "view",
+    "sense", "ear", "else", "quite", "broke", "case", "middle", "kill", "son", "lake", "moment", "scale",
+    "loud", "spring", "observe", "child", "straight", "consonant", "nation", "dictionary", "milk", "speed",
+    "method", "organ", "pay", "age", "section", "dress", "cloud", "surprise", "quiet", "stone", "tiny",
+    "climb", "cool", "design", "poor", "lot", "experiment", "bottom", "key", "iron", "single", "stick",
+    "flat", "twenty", "skin", "smile", "crease", "hole", "trade", "melody", "trip", "office", "receive",
+    "row", "mouth", "exact", "symbol", "die", "least", "trouble", "shout", "except", "wrote", "seed", "tone",
+    "join", "suggest", "clean", "lady", "yard", "rise", "bad", "blow", "oil", "blood", "touch", "grew",
+    "cent", "mix", "team", "wire", "cost", "lost", "brown", "wear", "garden", "equal", "sent", "choose",
+    "fell", "fit", "flow", "fair", "bank", "collect", "control", "decimal", "gentle", "woman", "captain",
+    "practice", "separate", "difficult", "doctor", "please", "protect", "noon", "whose", "locate", "ring",
+    "character", "insect", "caught", "period", "indicate", "radio", "spoke", "atom", "human", "history",
+    "effect", "electric", "expect", "crop", "modern", "element", "hit", "student", "corner", "party",
+    "supply", "bone", "rail", "imagine", "provide", "agree", "thus", "capital", "won't", "chair", "danger",
+    "fruit", "rich", "thick", "soldier", "process", "operate", "guess", "necessary", "sharp", "wing",
+    "create", "neighbor", "wash", "bat", "rather", "crowd", "corn", "compare", "poem", "string", "bell",
+    "depend", "meat", "rub", "tube", "famous", "dollar", "stream", "fear", "sight", "thin", "triangle",
+    "planet", "hurry", "chief", "colony", "clock", "mine", "tie", "enter", "major", "fresh", "search",
+    "send", "yellow", "allow", "print", "dead", "spot", "desert", "suit", "current", "lift", "rose",
+    "continue", "block", "chart", "hat", "sell", "success", "company", "subtract", "event", "particular",
+    "deal", "swim", "term", "opposite", "wife", "shoe", "shoulder", "spread", "arrange", "camp", "invent",
+    "cotton", "born", "determine", "quart", "nine", "truck", "noise", "level", "chance", "gather", "shop",
+    "stretch", "throw", "shine", "property", "column", "molecule", "select", "wrong", "gray", "repeat",
+    "require", "broad", "salt", "nose", "plural", "anger", "claim", "continent", "oxygen", "sugar", "death",
+    "pretty", "skill", "women", "season", "solution", "magnet", "silver", "thank", "branch", "match",
+    "suffix", "especially", "fig", "afraid", "huge", "sister", "steel", "discuss", "forward", "similar",
+    "guide", "experience", "score", "apple", "bought", "led", "pitch", "coat", "mass", "card", "band",
+    "rope", "slip", "win", "dream", "evening", "condition", "feed", "tool", "total", "basic", "smell",
+    "valley", "nor", "double", "seat", "arrive", "master", "track", "parent", "shore", "division", "sheet",
+    "substance", "favor", "connect", "post", "spend", "chord", "fat", "glad", "original", "share",
+    "station", "dad", "bread", "charge", "proper", "bar", "offer", "segment", "slave", "duck", "instant",
+    "market", "degree", "populate", "chick", "dear", "enemy", "reply", "drink", "occur", "support",
+    "speech", "nature", "range", "steam", "motion", "path", "liquid", "log", "meant", "quotient", "teeth",
+    "shell", "neck", "anthro", "cub", "fox", "wolf", "raccoon", "lion", "empty", "beyond", "Disney", "waste"
+];
+
+        const HASH_ROUNDS_SESSION = 8888;
+        const encoder = new TextEncoder();
+
+        const elements = {
+          grid: document.getElementById("engwheel-grid"),
+          sentence: document.getElementById("sentence"),
+          question: document.getElementById("question"),
+          prepareSessionButton: document.getElementById("prepare-session-button"),
+        };
+
+        let mapper = null;
+
+        function populateGrid() {
+          const fragment = document.createDocumentFragment();
+          for (let i = 0; i < 1004; i++) {
+            const square = document.createElement("button");
+            square.type = "button";
+            square.className = "divination-square";
+            square.textContent = i + 1;
+            square.dataset.number = i + 1;
+            fragment.appendChild(square);
+          }
+          elements.grid.appendChild(fragment);
+        }
+
+        async function handlePrepareSession() {
+          const question = elements.question.value.trim();
+          if (!question) {
+            alert("Please enter a question to begin.");
+            return;
+          }
+
+          elements.prepareSessionButton.disabled = true;
+          elements.prepareSessionButton.textContent = "Preparing...";
+
+          const seed = await createSeedHash(question);
+          mapper = new DivinationMapper(seed);
+
+          elements.prepareSessionButton.textContent = "Session Prepared";
+          elements.question.disabled = true;
+        }
+
+        function handleGridInteraction(event) {
+          if (!mapper) {
+            alert("Please prepare the session first.");
+            return;
+          }
+
+          const button = event.target.closest(".divination-square");
+          if (!button) return;
+
+          event.preventDefault();
+          
+          const currentlySelected = elements.grid.querySelector(".selected");
+          if (currentlySelected) {
+            currentlySelected.classList.remove("selected");
+          }
+          
+          button.classList.add("selected");
+          const word = mapper.getWord(parseInt(button.dataset.number));
+          elements.sentence.textContent += word + " ";
+        }
+
+        function multiHash(value, rounds) {
+          let buffer;
+          if (value instanceof Uint8Array) {
+            buffer = value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
+          } else if (value instanceof ArrayBuffer) {
+            buffer = value.slice(0);
+          } else {
+            buffer = encoder.encode(String(value)).buffer;
+          }
+
+          let promise = Promise.resolve(buffer);
+          for (let i = 0; i < rounds; i++) {
+            promise = promise.then((buf) => crypto.subtle.digest("SHA-256", buf));
+          }
+          return promise.then((buf) => new Uint8Array(buf));
+        }
+
+        function concatUint8Arrays(...arrays) {
+          const totalLength = arrays.reduce((sum, arr) => sum + arr.length, 0);
+          const result = new Uint8Array(totalLength);
+          let offset = 0;
+          arrays.forEach((arr) => {
+            result.set(arr, offset);
+            offset += arr.length;
+          });
+          return result;
+        }
+
+        async function createSeedHash(question) {
+          const normalized = question.normalize("NFC");
+          const questionBytes = encoder.encode(normalized);
+          const entropy = new Uint8Array(32);
+          crypto.getRandomValues(entropy);
+
+          const timingBuffer = new ArrayBuffer(16);
+          const timingView = new DataView(timingBuffer);
+          timingView.setFloat64(0, Date.now(), true);
+          timingView.setFloat64(8, performance.now(), true);
+
+          const payload = concatUint8Arrays(
+            entropy,
+            questionBytes,
+            new Uint8Array(timingBuffer)
+          );
+          const digest = await multiHash(payload, HASH_ROUNDS_SESSION);
+          return digest;
+        }
+        
+        function deriveSeed32(bytes) {
+          const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+          const first = view.getUint32(0, false);
+          const last = view.getUint32(bytes.byteLength - 4, false);
+          const seed = (first ^ last) >>> 0;
+          return seed || 0x9e3779b9;
+        }
+
+        const seededRNG = (seed) => () => {
+          let t = (seed += 0x6d2b79f5);
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+
+        class DivinationMapper {
+          constructor(seedBytes) {
+            const seed = deriveSeed32(seedBytes);
+            const rng = seededRNG(seed);
+
+            const shuffle = (source) => {
+              const arr = [...source];
+              for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(rng() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+              }
+              return arr;
+            };
+
+            this.wordMap = shuffle(WORD_LIST);
+          }
+
+          getWord(number) {
+            return this.wordMap[number - 1];
+          }
+        }
+
+        function sizeForViewport() {
+          const grid = elements.grid;
+          if (!grid) return;
+          const containerWidth = grid.offsetWidth;
+          // Adjust this value to control the size and number of columns
+          const columnSize = 40;
+          const numColumns = Math.floor(containerWidth / columnSize);
+          grid.style.gridTemplateColumns = `repeat(${numColumns}, 1fr)`;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            populateGrid();
+            sizeForViewport();
+            elements.prepareSessionButton.addEventListener("click", handlePrepareSession);
+            elements.grid.addEventListener("click", handleGridInteraction);
+        });
+
+        window.addEventListener('resize', sizeForViewport);
+
+      })();
+    </script>
+  </body>
+</html>
