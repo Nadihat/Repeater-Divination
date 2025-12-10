@@ -1,228 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <title>EngWheel</title>
+#!/usr/bin/env python3
 
-    <style>
-      :root {
-        --bg: #0b1020;
-        --panel: #121a33;
-        --muted: #93a4c8;
-        --text: #e6e9f4;
-        --brand: #ff5470;
-        --brand-2: #7aa2ff;
-        --ok: #20c997;
-        --warn: #ffd166;
-        --border: rgba(255, 255, 255, 0.1);
-        --chip-bg: rgba(255, 255, 255, 0.06);
-        --input-bg: #0f1630;
-        --shadow: rgba(0, 0, 0, 0.45);
-        --focus-glow: rgba(122, 162, 255, 0.25);
-      }
+import hashlib
+import os
+import random
+import shutil
+import struct
+import time
+from typing import List
 
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
+try:
+    from rich.console import Console
+    from rich.text import Text
+    from rich.panel import Panel
+    from rich.prompt import Prompt
+    from rich.table import Table
+    from rich.align import Align
+    from rich.layout import Layout
+    from rich.live import Live
+    RICH_AVAILABLE = True
+except ImportError:
+    RICH_AVAILABLE = False
 
-      html,
-      body {
-        overflow-x: hidden;
-      }
-
-      body {
-        margin: 0;
-        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-          Roboto, Helvetica, Arial, sans-serif;
-        background: radial-gradient(
-            1200px 800px at 70% -10%,
-            rgba(122, 162, 255, 0.12),
-            transparent 60%
-          ),
-          radial-gradient(
-            1000px 600px at 0% 100%,
-            rgba(255, 84, 112, 0.08),
-            transparent 60%
-          ),
-          var(--bg);
-        color: var(--text);
-        padding: 24px;
-        display: grid;
-        place-items: center;
-      }
-
-      main.card {
-        width: 100%;
-        max-width: 100%;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 32px;
-        box-shadow: 0 20px 60px var(--shadow);
-      }
-
-      h1 {
-        margin: 0 0 8px;
-        font-weight: 800;
-        letter-spacing: 0.2px;
-        color: var(--brand);
-        text-align: center;
-      }
-
-      .subtitle {
-        color: var(--muted);
-        margin: 0 0 24px;
-        text-align: center;
-      }
-
-      .grid-wrapper {
-        position: relative;
-        overflow-x: hidden;
-      }
-
-      .divination-grid-container {
-        display: grid;
-        
-        font-size: 10px;
-        gap: 5px;
-        background: var(--input-bg);
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        max-height: 400px;
-        overflow-y: auto;
-      }
-
-      .divination-square {
-        aspect-ratio: 1 / 1;
-        border: 1px solid var(--border);
-        background: transparent;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background-color 0.2s, transform 0.1s, border-color 0.2s,
-          box-shadow 0.2s;
-        display: grid;
-        place-items: center;
-        color: var(--muted);
-        user-select: none;
-        position: relative;
-        padding: 0;
-        margin: 0;
-      }
-
-      .divination-square:hover {
-        transform: scale(1.08);
-        border-color: var(--text);
-      }
-
-      .divination-square:focus-visible {
-        outline: none;
-        border-color: var(--brand-2);
-        box-shadow: 0 0 0 3px var(--focus-glow);
-      }
-
-      .divination-square.selected {
-        color: white;
-        transform: scale(1.05);
-        background-color: var(--brand-2);
-        border-color: var(--brand-2);
-      }
-      
-      #sentence {
-        margin-top: 20px;
-        text-align: center;
-        font-size: 1.2em;
-        color: var(--text);
-        min-height: 1.5em;
-      }
-
-      textarea {
-        width: 100%;
-        background: var(--input-bg);
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 12px 14px;
-        border-radius: 10px;
-        font-size: 15px;
-        line-height: 1.5;
-        transition: box-shadow 0.15s, border-color 0.15s;
-      }
-
-      button {
-        appearance: none;
-        border: none;
-        background: var(--brand);
-        color: white;
-        padding: 14px 18px;
-        border-radius: 12px;
-        font-weight: 800;
-        cursor: pointer;
-        width: 100%;
-        transition: transform 0.1s ease, filter 0.2s ease;
-        letter-spacing: 0.4px;
-        text-align: center;
-        margin-top: 10px;
-      }
-
-      @media (min-width: 768px) {
-        main.card {
-          max-width: 1200px;
-        }
-
-
-      }
-
-      @media (max-width: 859px) {
-        body {
-          padding: 12px;
-        }
-
-        main.card {
-          padding: 20px;
-        }
-
-        .divination-grid-container {
-          max-height: 300px;
-        }
-
-        .divination-square {
-          font-size: 10px;
-        }
-      }
-
-    </style>
-  </head>
-
-  <body>
-    <main class="card">
-      <h1>EngWheel</h1>
-      <p class="subtitle">
-        Enter a question to begin.
-      </p>
-
-      <textarea id="question" rows="3" placeholder="e.g., What should I focus on for the next month?"></textarea>
-      <button id="prepare-session-button">Prepare Session</button>
-
-      <div class="grid-wrapper" style="margin-top: 20px;">
-        <div id="engwheel-grid" class="divination-grid-container"></div>
-      </div>
-      
-      <div id="sentence"></div>
-
-    </main>
-
-    <script>
-      (() => {
-        "use strict";
-
-        const WORD_LIST = [
+WORD_LIST = [
     "the", "of", "to", "and", "a", "in", "is", "it", "you", "that", "he", "was", "for", "on", "are", "with", "as",
     "I", "his", "they", "be", "at", "one", "have", "this", "from", "or", "had", "by", "not", "word", "but", "what",
     "some", "we", "can", "out", "other", "were", "all", "there", "when", "up", "use", "your", "how", "said", "an",
@@ -309,176 +108,248 @@
     "market", "degree", "populate", "chick", "dear", "enemy", "reply", "drink", "occur", "support",
     "speech", "nature", "range", "steam", "motion", "path", "liquid", "log", "meant", "quotient", "teeth",
     "shell", "neck", "anthro", "cub", "fox", "wolf", "raccoon", "lion", "empty", "beyond", "Disney", "waste"
-];
+]
 
-        const HASH_ROUNDS_SESSION = 8888;
-        const encoder = new TextEncoder();
+HASH_ROUNDS_SESSION = 8888
 
-        const elements = {
-          grid: document.getElementById("engwheel-grid"),
-          sentence: document.getElementById("sentence"),
-          question: document.getElementById("question"),
-          prepareSessionButton: document.getElementById("prepare-session-button"),
-        };
-
-        let mapper = null;
-
-        function populateGrid() {
-          const fragment = document.createDocumentFragment();
-          for (let i = 0; i < 1004; i++) {
-            const square = document.createElement("button");
-            square.type = "button";
-            square.className = "divination-square";
-            square.textContent = i + 1;
-            square.dataset.number = i + 1;
-            fragment.appendChild(square);
-          }
-          elements.grid.appendChild(fragment);
-        }
-
-        async function handlePrepareSession() {
-          const question = elements.question.value.trim();
-          if (!question) {
-            alert("Please enter a question to begin.");
-            return;
-          }
-
-          elements.prepareSessionButton.disabled = true;
-          elements.prepareSessionButton.textContent = "Preparing...";
-
-          const seed = await createSeedHash(question);
-          mapper = new DivinationMapper(seed);
-
-          elements.prepareSessionButton.textContent = "Session Prepared";
-          elements.question.disabled = true;
-        }
-
-        function handleGridInteraction(event) {
-          if (!mapper) {
-            alert("Please prepare the session first.");
-            return;
-          }
-
-          const button = event.target.closest(".divination-square");
-          if (!button) return;
-
-          event.preventDefault();
-          
-          const currentlySelected = elements.grid.querySelector(".selected");
-          if (currentlySelected) {
-            currentlySelected.classList.remove("selected");
-          }
-          
-          button.classList.add("selected");
-          const word = mapper.getWord(parseInt(button.dataset.number));
-          elements.sentence.textContent += word + " ";
-        }
-
-        function multiHash(value, rounds) {
-          let buffer;
-          if (value instanceof Uint8Array) {
-            buffer = value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
-          } else if (value instanceof ArrayBuffer) {
-            buffer = value.slice(0);
-          } else {
-            buffer = encoder.encode(String(value)).buffer;
-          }
-
-          let promise = Promise.resolve(buffer);
-          for (let i = 0; i < rounds; i++) {
-            promise = promise.then((buf) => crypto.subtle.digest("SHA-256", buf));
-          }
-          return promise.then((buf) => new Uint8Array(buf));
-        }
-
-        function concatUint8Arrays(...arrays) {
-          const totalLength = arrays.reduce((sum, arr) => sum + arr.length, 0);
-          const result = new Uint8Array(totalLength);
-          let offset = 0;
-          arrays.forEach((arr) => {
-            result.set(arr, offset);
-            offset += arr.length;
-          });
-          return result;
-        }
-
-        async function createSeedHash(question) {
-          const normalized = question.normalize("NFC");
-          const questionBytes = encoder.encode(normalized);
-          const entropy = new Uint8Array(32);
-          crypto.getRandomValues(entropy);
-
-          const timingBuffer = new ArrayBuffer(16);
-          const timingView = new DataView(timingBuffer);
-          timingView.setFloat64(0, Date.now(), true);
-          timingView.setFloat64(8, performance.now(), true);
-
-          const payload = concatUint8Arrays(
-            entropy,
-            questionBytes,
-            new Uint8Array(timingBuffer)
-          );
-          const digest = await multiHash(payload, HASH_ROUNDS_SESSION);
-          return digest;
-        }
+class ProtectiveHasher:
+    @staticmethod
+    def create_seed(query: str) -> bytes:
+        """Create a cryptographically secure seed from the query"""
+        normalized = query.encode('utf-8')
+        entropy = os.urandom(32)
+        timing_data = struct.pack('dd', time.time(), time.perf_counter())
         
-        function deriveSeed32(bytes) {
-          const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-          const first = view.getUint32(0, false);
-          const last = view.getUint32(bytes.byteLength - 4, false);
-          const seed = (first ^ last) >>> 0;
-          return seed || 0x9e3779b9;
-        }
+        payload = entropy + normalized + timing_data
+        
+        # Multi-round hashing for protection
+        current_hash = payload
+        for _ in range(HASH_ROUNDS_SESSION):
+            current_hash = hashlib.sha256(current_hash).digest()
+        
+        return current_hash
 
-        const seededRNG = (seed) => () => {
-          let t = (seed += 0x6d2b79f5);
-          t = Math.imul(t ^ (t >>> 15), t | 1);
-          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-        };
+class DivinationMapper:
+    def __init__(self, seed_bytes: bytes):
+        # Derive a 32-bit seed from the hash
+        first = struct.unpack('>I', seed_bytes[:4])[0]
+        last = struct.unpack('>I', seed_bytes[-4:])[0]
+        seed = (first ^ last) or 0x9e3779b9
+        
+        # Create seeded RNG and shuffle word list
+        rng = random.Random(seed)
+        self.word_map = WORD_LIST.copy()
+        rng.shuffle(self.word_map)
+    
+    def get_word(self, number: int) -> str:
+        """Get word for a given number (1-1004)"""
+        if 1 <= number <= len(self.word_map):
+            return self.word_map[number - 1]
+        return "unknown"
 
-        class DivinationMapper {
-          constructor(seedBytes) {
-            const seed = deriveSeed32(seedBytes);
-            const rng = seededRNG(seed);
+class EngWheelApp:
+    def __init__(self):
+        if RICH_AVAILABLE:
+            self.console = Console()
+        self.mapper = None
+        self.sentence = []
+        self.question = ""
+        
+    def print_colored(self, text: str, color: str = "white", style: str = ""):
+        """Print colored text, fallback to plain if rich not available"""
+        if RICH_AVAILABLE:
+            self.console.print(text, style=f"{style} {color}")
+        else:
+            print(text)
+    
+    def display_header(self):
+        """Display the application header"""
+        if RICH_AVAILABLE:
+            title = Text("EngWheel", style="bold magenta")
+            subtitle = Text("Enter a question to begin word divination", style="dim cyan")
+            panel = Panel(
+                Align.center(title + "\n" + subtitle),
+                border_style="bright_blue",
+                padding=(1, 2)
+            )
+            self.console.print(panel)
+        else:
+            print("=" * 50)
+            print("                 EngWheel")
+            print("      Enter a question to begin word divination")
+            print("=" * 50)
+    
+    def get_question(self) -> str:
+        """Get question from user"""
+        if RICH_AVAILABLE:
+            return Prompt.ask("\n[bold cyan]Enter your question[/bold cyan]", default="")
+        else:
+            return input("\nEnter your question: ").strip()
+    
+    def prepare_session(self, question: str):
+        """Prepare the divination session"""
+        if not question:
+            self.print_colored("Please enter a question to begin.", "red")
+            return False
+        
+        self.question = question
+        self.print_colored("Preparing session...", "yellow")
+        
+        seed = ProtectiveHasher.create_seed(question)
+        self.mapper = DivinationMapper(seed)
+        
+        self.print_colored("Session prepared! You can now select numbers.", "green")
+        return True
+    
+    def display_grid_info(self):
+        """Display information about the number grid"""
+        if RICH_AVAILABLE:
+            info_text = Text()
+            info_text.append("Grid: ", style="bold")
+            info_text.append("Numbers 1-1004 available", style="cyan")
+            info_text.append(" | Enter numbers to build your sentence", style="dim")
+            self.console.print(info_text)
+        else:
+            print("\nGrid: Numbers 1-1004 available | Enter numbers to build your sentence")
+    
+    def display_current_sentence(self):
+        """Display the current sentence being built"""
+        if not self.sentence:
+            return
+        
+        sentence_text = " ".join(self.sentence)
+        if RICH_AVAILABLE:
+            panel = Panel(
+                Text(sentence_text, style="bold white"),
+                title="[bold green]Current Sentence[/bold green]",
+                border_style="green"
+            )
+            self.console.print(panel)
+        else:
+            print(f"\nCurrent Sentence: {sentence_text}")
+    
+    def display_number_grid_sample(self):
+        """Display a sample of available numbers"""
+        if RICH_AVAILABLE:
+            table = Table(title="Sample Numbers (1-1004 available)", show_header=False)
+            
+            # Show first 20 numbers as examples
+            for i in range(0, 20, 5):
+                row = []
+                for j in range(5):
+                    num = i + j + 1
+                    if num <= 20:
+                        word = self.mapper.get_word(num) if self.mapper else "?"
+                        row.append(f"[cyan]{num}[/cyan]: [white]{word}[/white]")
+                table.add_row(*row)
+            
+            self.console.print(table)
+        else:
+            print("\nSample Numbers:")
+            for i in range(1, 21):
+                word = self.mapper.get_word(i) if self.mapper else "?"
+                print(f"{i:3d}: {word}", end="  ")
+                if i % 5 == 0:
+                    print()
+    
+    def handle_number_input(self, number_str: str):
+        """Handle user number input"""
+        try:
+            number = int(number_str)
+            if not (1 <= number <= 1004):
+                self.print_colored("Please enter a number between 1 and 1004.", "red")
+                return
+            
+            if not self.mapper:
+                self.print_colored("Please prepare a session first.", "red")
+                return
+            
+            word = self.mapper.get_word(number)
+            self.sentence.append(word)
+            
+            if RICH_AVAILABLE:
+                self.console.print(f"[bold blue]{number}[/bold blue] → [bold green]{word}[/bold green]")
+            else:
+                print(f"{number} → {word}")
+            
+            self.display_current_sentence()
+            
+        except ValueError:
+            self.print_colored("Please enter a valid number.", "red")
+    
+    def show_help(self):
+        """Show help information"""
+        help_text = """
+Commands:
+  <number>     - Add word for that number (1-1004)
+  clear        - Clear current sentence
+  restart      - Start over with new question
+  help         - Show this help
+  quit/exit    - Exit the program
+        """
+        
+        if RICH_AVAILABLE:
+            panel = Panel(help_text.strip(), title="[bold yellow]Help[/bold yellow]", border_style="yellow")
+            self.console.print(panel)
+        else:
+            print(help_text)
+    
+    def run(self):
+        """Main application loop"""
+        self.display_header()
+        
+        # Get initial question
+        question = self.get_question()
+        if not self.prepare_session(question):
+            return
+        
+        self.display_grid_info()
+        if self.mapper:
+            self.display_number_grid_sample()
+        
+        self.print_colored("\nEnter numbers to build your sentence, or 'help' for commands:", "cyan")
+        
+        while True:
+            try:
+                if RICH_AVAILABLE:
+                    user_input = Prompt.ask("[bold]>").strip().lower()
+                else:
+                    user_input = input("> ").strip().lower()
+                
+                if user_input in ['quit', 'exit', 'q']:
+                    self.print_colored("Goodbye!", "magenta")
+                    break
+                elif user_input == 'help':
+                    self.show_help()
+                elif user_input == 'clear':
+                    self.sentence = []
+                    self.print_colored("Sentence cleared.", "yellow")
+                elif user_input == 'restart':
+                    self.sentence = []
+                    self.mapper = None
+                    question = self.get_question()
+                    if self.prepare_session(question):
+                        self.display_grid_info()
+                        self.display_number_grid_sample()
+                elif user_input.isdigit():
+                    self.handle_number_input(user_input)
+                elif user_input:
+                    self.print_colored("Unknown command. Type 'help' for available commands.", "red")
+                    
+            except KeyboardInterrupt:
+                self.print_colored("\nGoodbye!", "magenta")
+                break
+            except EOFError:
+                break
 
-            const shuffle = (source) => {
-              const arr = [...source];
-              for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(rng() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-              }
-              return arr;
-            };
+def main():
+    if not RICH_AVAILABLE:
+        print("Note: Install 'rich' package for enhanced colors and formatting:")
+        print("pip install rich")
+        print()
+    
+    app = EngWheelApp()
+    app.run()
 
-            this.wordMap = shuffle(WORD_LIST);
-          }
-
-          getWord(number) {
-            return this.wordMap[number - 1];
-          }
-        }
-
-        function sizeForViewport() {
-          const grid = elements.grid;
-          if (!grid) return;
-          const containerWidth = grid.offsetWidth;
-          // Adjust this value to control the size and number of columns
-          const columnSize = 40;
-          const numColumns = Math.floor(containerWidth / columnSize);
-          grid.style.gridTemplateColumns = `repeat(${numColumns}, 1fr)`;
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            populateGrid();
-            sizeForViewport();
-            elements.prepareSessionButton.addEventListener("click", handlePrepareSession);
-            elements.grid.addEventListener("click", handleGridInteraction);
-        });
-
-        window.addEventListener('resize', sizeForViewport);
-
-      })();
-    </script>
-  </body>
-</html>
+if __name__ == "__main__":
+    main()
