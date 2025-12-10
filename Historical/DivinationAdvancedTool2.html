@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Randomized Divination Query Builder</title>
+
+    <!-- ========================================================================= -->
+    <!-- ===== SOCIAL MEDIA & SEO PREVIEW TAGS ===== -->
+    <!-- ========================================================================= -->
+    <meta
+      name="description"
+      content="A tool to generate a randomized, unbiased divination spread based on your intent."
+    />
+    <meta property="og:title" content="Randomized Divination Query Builder" />
+    <meta
+      property="og:description"
+      content="A tool to generate a randomized, unbiased divination spread based on your intent."
+    />
+    <meta
+      property="og:image"
+      content="https://www.indigogeminiwolf.com/preview-image.jpg"
+    />
+    <meta
+      property="og:url"
+      content="https://www.indigogeminiwolf.com/DivinationToolNew.html"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Randomized Divination Query Builder" />
+    <meta
+      name="twitter:description"
+      content="A tool to generate a randomized, unbiased divination spread based on your intent."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.indigogeminiwolf.com/preview-image.jpg"
+    />
+    <meta name="twitter:site" content="@TeacherAnthro" />
+    <meta name="twitter:creator" content="@TeacherAnthro" />
+    <!-- ========================================================================= -->
+
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #121a33;
+        --muted: #93a4c8;
+        --text: #e6e9f4;
+        --brand: #ff5470;
+        --brand-2: #7aa2ff;
+        --ok: #20c997;
+        --warn: #ffd166;
+        --border: rgba(255, 255, 255, 0.1);
+        --chip-bg: rgba(255, 255, 255, 0.06);
+        --input-bg: #0f1630;
+        --shadow: rgba(0, 0, 0, 0.45);
+        --focus-glow: rgba(122, 162, 255, 0.25);
+
+        --tarot-color: #9b59b6;
+        --runes-color: #3498db;
+        --iching-color: #1abc9c;
+        --taixuanjing-color: #e67e22;
+        --lingqijing-color: #95a5a6;
+        --kabbalah-color: #f1c40f;
+        --dreamspell-color: #00bfff;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, Helvetica, Arial, sans-serif;
+        background: radial-gradient(
+            1200px 800px at 70% -10%,
+            rgba(122, 162, 255, 0.12),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 600px at 0% 100%,
+            rgba(255, 84, 112, 0.08),
+            transparent 60%
+          ),
+          var(--bg);
+        color: var(--text);
+        padding: 24px;
+        display: grid;
+        place-items: center;
+      }
+
+      main.card {
+        width: 100%;
+        max-width: 960px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 20px 60px var(--shadow);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        color: var(--brand);
+      }
+
+      .subtitle {
+        color: var(--muted);
+        margin: 0 0 24px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 20px;
+      }
+
+      @media (min-width: 860px) {
+        .grid.cols-2 {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .row {
+        display: grid;
+        gap: 8px;
+      }
+
+      label {
+        font-weight: 700;
+        color: var(--brand-2);
+        display: block;
+      }
+
+      button,
+      textarea {
+        font-family: inherit;
+      }
+
+      textarea {
+        width: 100%;
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 15px;
+        line-height: 1.5;
+        transition: box-shadow 0.15s, border-color 0.15s;
+      }
+
+      textarea::placeholder {
+        color: #6a7ca5;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: var(--brand-2);
+        box-shadow: 0 0 0 3px var(--focus-glow);
+      }
+
+      textarea:read-only {
+        background: var(--input-bg);
+      }
+
+      .results {
+        width: 100%;
+        min-height: 300px;
+        white-space: pre-wrap;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        background: var(--bg);
+      }
+
+      .results:focus {
+        box-shadow: none;
+        border-color: var(--border);
+      }
+
+      .hint {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 400;
+        transition: color 0.2s;
+      }
+
+      .error {
+        color: var(--warn);
+        font-size: 13px;
+        min-height: 18px;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .chip {
+        background: var(--chip-bg);
+        border: 1px solid var(--border);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .btn {
+        appearance: none;
+        border: none;
+        background: var(--brand);
+        color: white;
+        padding: 14px 18px;
+        border-radius: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        width: 100%;
+        transition: transform 0.1s ease, filter 0.2s ease;
+        letter-spacing: 0.4px;
+        text-align: center;
+      }
+
+      .btn-lg {
+        font-size: 1.05em;
+      }
+
+      .btn-wide {
+        min-width: 260px;
+        width: auto;
+      }
+
+      .btn:hover:not(:disabled) {
+        filter: brightness(1.1);
+      }
+
+      .btn:active:not(:disabled) {
+        transform: translateY(1px);
+      }
+
+      .btn:disabled {
+        cursor: not-allowed;
+        filter: brightness(0.7);
+      }
+
+      .btn.secondary {
+        background: var(--brand-2);
+      }
+
+      .btn.ghost {
+        background: var(--chip-bg);
+        color: var(--text);
+        font-weight: 700;
+        border: 1px solid var(--border);
+      }
+
+      .btn.ok {
+        background: var(--ok);
+      }
+
+      .nav-arrow {
+        font-size: 2.2em;
+        font-weight: bold;
+        border-radius: 12px;
+        min-width: 52px;
+        width: 60px;
+        height: 52px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+      }
+
+      fieldset {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+      }
+
+      legend {
+        padding: 0 8px;
+        color: var(--brand);
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .toolbar.toolbar-centered {
+        justify-content: center;
+        align-items: center;
+      }
+
+      .callout {
+        color: var(--brand);
+        font-weight: 700;
+        margin: 16px 0;
+      }
+
+      .callout span {
+        color: var(--brand-2);
+        font-weight: 700;
+        display: block;
+        margin-top: 4px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .fade-in {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+
+      .grid-wrapper {
+        position: relative;
+      }
+
+      .grid-wrapper::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 30px;
+        background: linear-gradient(to top, var(--input-bg) 20%, transparent);
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+
+      .grid-wrapper.is-scrolled-to-bottom::after {
+        opacity: 0;
+      }
+
+      .divination-grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
+        gap: 5px;
+        background: var(--input-bg);
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        max-height: 220px;
+        overflow-y: auto;
+      }
+
+      .divination-square {
+        aspect-ratio: 1 / 1;
+        border: 1px solid var(--border);
+        background: transparent;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.2s, transform 0.1s, border-color 0.2s,
+          box-shadow 0.2s;
+        font-size: 14px;
+        font-weight: 600;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        user-select: none;
+        position: relative;
+      }
+
+      .divination-square:hover {
+        transform: scale(1.08);
+        border-color: var(--text);
+      }
+
+      .divination-square:focus-visible {
+        outline: none;
+        border-color: var(--brand-2);
+        box-shadow: 0 0 0 3px var(--focus-glow);
+      }
+
+      .divination-square.selected {
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .divination-square .order-stamp {
+        position: absolute;
+        top: 2px;
+        right: 4px;
+        font-size: 9px;
+        font-weight: bold;
+        color: white;
+        pointer-events: none;
+      }
+
+      .tarot-grid .divination-square.selected {
+        background-color: var(--tarot-color);
+        border-color: var(--tarot-color);
+      }
+
+      .runes-grid .divination-square.selected {
+        background-color: var(--runes-color);
+        border-color: var(--runes-color);
+      }
+
+      .iching-grid .divination-square.selected {
+        background-color: var(--iching-color);
+        border-color: var(--iching-color);
+      }
+
+      .taixuanjing-grid .divination-square.selected {
+        background-color: var(--taixuanjing-color);
+        border-color: var(--taixuanjing-color);
+      }
+
+      .lingqijing-grid .divination-square.selected {
+        background-color: var(--lingqijing-color);
+        border-color: var(--lingqijing-color);
+      }
+
+      .kabbalah-grid .divination-square.selected {
+        background-color: var(--kabbalah-color);
+        border-color: var(--kabbalah-color);
+      }
+
+      .dreamspell-grid .divination-square.selected {
+        background-color: var(--dreamspell-color);
+        border-color: var(--dreamspell-color);
+      }
+
+      @media (max-width: 859px) {
+        body {
+          padding: 12px;
+        }
+
+        main.card {
+          padding: 20px;
+        }
+
+        .grid.cols-2 {
+          grid-template-columns: 1fr;
+        }
+
+        .divination-grid-container {
+          grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+          max-height: 180px;
+        }
+
+        .divination-square {
+          font-size: 12px;
+        }
+
+        .btn-wide {
+          min-width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="card">
+      <h1>Divination Query Builder</h1>
+      <p class="subtitle">
+        A tool to generate a randomized, unbiased divination spread based on
+        your intent.
+      </p>
+
+      <!-- STEP 1: QUESTION -->
+      <section id="question-section" class="grid fade-in">
+        <div class="row">
+          <label for="question">Step 1 — Your Question</label>
+          <textarea
+            id="question"
+            rows="3"
+            placeholder="e.g., What should I focus on for the next month?"
+          ></textarea>
+          <div id="question-error" class="error" aria-live="polite"></div>
+          <button
+            id="submit-question-button"
+            class="btn btn-lg"
+          >
+            Prepare the Session
+          </button>
+          <div class="chips">
+            <span class="chip">Intent-Based Shuffle</span>
+            <span class="chip">Multi-Hashed Randomization</span>
+            <span class="chip">Completely Confidential</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2: NUMBERS -->
+      <section id="number-entry-section" class="grid hidden">
+        <fieldset>
+          <legend>Step 2 — Choose Your Numbers</legend>
+          <div class="grid cols-2">
+            <div class="row">
+              <label for="tarot-grid">
+                Tarot
+                <span id="tarot-feedback" class="hint">(Select 1, 3, or 10)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="tarot-grid"
+                  class="divination-grid-container tarot-grid"
+                ></div>
+              </div>
+              <div id="tarot-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="runes-grid">
+                Runes
+                <span id="runes-feedback" class="hint">(Select 1 or 3)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="runes-grid"
+                  class="divination-grid-container runes-grid"
+                ></div>
+              </div>
+              <div id="runes-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="iching-grid">
+                I-Ching
+                <span id="iching-feedback" class="hint">(Select 1 hexagram)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="iching-grid"
+                  class="divination-grid-container iching-grid"
+                ></div>
+              </div>
+              <div id="iching-error" class="error" aria-live="polite"></div>
+
+              <label for="iching-lines-grid">
+                Moving Lines
+                <span id="iching-lines-feedback" class="hint">(Optional, 0 selected)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="iching-lines-grid"
+                  class="divination-grid-container iching-grid"
+                ></div>
+              </div>
+              <div id="iching-lines-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="taixuanjing-grid">
+                Taixuanjing
+                <span id="taixuanjing-feedback" class="hint">(Select 1 tetragram)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="taixuanjing-grid"
+                  class="divination-grid-container taixuanjing-grid"
+                ></div>
+              </div>
+              <div id="taixuanjing-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="lingqijing-up-grid">
+                Lingqijing (Up)
+                <span id="lingqijing-up-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="lingqijing-up-grid"
+                  class="divination-grid-container lingqijing-grid"
+                ></div>
+              </div>
+              <div id="lingqijing-up-error" class="error" aria-live="polite"></div>
+
+              <label for="lingqijing-middle-grid">
+                Lingqijing (Middle)
+                <span id="lingqijing-middle-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="lingqijing-middle-grid"
+                  class="divination-grid-container lingqijing-grid"
+                ></div>
+              </div>
+              <div id="lingqijing-middle-error" class="error" aria-live="polite"></div>
+
+              <label for="lingqijing-down-grid">
+                Lingqijing (Down)
+                <span id="lingqijing-down-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="lingqijing-down-grid"
+                  class="divination-grid-container lingqijing-grid"
+                ></div>
+              </div>
+              <div id="lingqijing-down-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="kabbalah-grid">
+                Kabbalah
+                <span id="kabbalah-feedback" class="hint">(Optional, 0 selected)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="kabbalah-grid"
+                  class="divination-grid-container kabbalah-grid"
+                ></div>
+              </div>
+              <div id="kabbalah-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="dreamspell-solar-seal-grid">
+                Dreamspell Solar Seal
+                <span id="dreamspell-solar-seal-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="dreamspell-solar-seal-grid"
+                  class="divination-grid-container dreamspell-grid"
+                ></div>
+              </div>
+              <div id="dreamspell-solar-seal-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="row">
+              <label for="dreamspell-galactic-tone-grid">
+                Dreamspell Galactic Tone
+                <span id="dreamspell-galactic-tone-feedback" class="hint">(Select 1)</span>
+              </label>
+              <div class="grid-wrapper is-scrolled-to-bottom">
+                <div
+                  id="dreamspell-galactic-tone-grid"
+                  class="divination-grid-container dreamspell-grid"
+                ></div>
+              </div>
+              <div id="dreamspell-galactic-tone-error" class="error" aria-live="polite"></div>
+            </div>
+          </div>
+
+          <p class="callout">
+            Step 2. Pick your own numbers for a personal reading—automation is optional and may reflect your intent.
+            <span>
+              You can add numbers manually or press the automation button as
+              many times as you wish until it feels right. Click “Generate
+              Summary” when ready.
+            </span>
+          </p>
+
+          <div class="toolbar toolbar-centered">
+            <button
+              id="nav-prev-button"
+              class="btn ghost nav-arrow"
+              type="button"
+              disabled
+              title="Previous Selection"
+            >
+              &larr;
+            </button>
+            <button
+              id="auto-select-button"
+              class="btn ok btn-lg btn-wide"
+              type="button"
+            >
+              Auto-Select with Amplified Intent
+            </button>
+            <button
+              id="nav-next-button"
+              class="btn ghost nav-arrow"
+              type="button"
+              disabled
+              title="Next Selection"
+            >
+              &rarr;
+            </button>
+            <button
+              id="generate-results-button"
+              class="btn secondary btn-lg"
+              type="button"
+            >
+              Generate Summary
+            </button>
+            <button
+              id="clear-button"
+              class="btn ghost btn-lg"
+              type="button"
+            >
+              Reset Inputs
+            </button>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- STEP 3: RESULTS -->
+      <section id="results-section" class="grid hidden" style="margin-top: 20px">
+        <div class="row">
+          <label for="results-summary">Summary</label>
+          <textarea
+            id="results-summary"
+            class="results"
+            readonly
+          ></textarea>
+          <div class="toolbar">
+            <p class="callout">
+              Step 3. Copy the summary below and paste it into your favorite AI tool for interpretation.
+            </p>
+            <button id="copy-button" class="btn btn-lg" type="button">
+              Copy to Clipboard
+            </button>
+            <button id="start-over-button" class="btn ghost btn-lg" type="button">
+              Start New Session
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (() => {
+        "use strict";
+
+        const HASH_ROUNDS_SESSION = 8888;
+        const HASH_ROUNDS_INTENT = 8888;
+        const encoder = new TextEncoder();
+
+        const TAROT_CARDS = Object.freeze([
+          "0: The Fool",
+          "1: The Magician",
+          "2: The High Priestess",
+          "3: The Empress",
+          "4: The Emperor",
+          "5: The Hierophant",
+          "6: The Lovers",
+          "7: The Chariot",
+          "8: Strength",
+          "9: The Hermit",
+          "10: Wheel of Fortune",
+          "11: Justice",
+          "12: The Hanged Man",
+          "13: Death",
+          "14: Temperance",
+          "15: The Devil",
+          "16: The Tower",
+          "17: The Star",
+          "18: The Moon",
+          "19: The Sun",
+          "20: Judgement",
+          "21: The World",
+          "22: Ace of Wands",
+          "23: Two of Wands",
+          "24: Three of Wands",
+          "25: Four of Wands",
+          "26: Five of Wands",
+          "27: Six of Wands",
+          "28: Seven of Wands",
+          "29: Eight of Wands",
+          "30: Nine of Wands",
+          "31: Ten of Wands",
+          "32: Page of Wands",
+          "33: Knight of Wands",
+          "34: Queen of Wands",
+          "35: King of Wands",
+          "36: Ace of Cups",
+          "37: Two of Cups",
+          "38: Three of Cups",
+          "39: Four of Cups",
+          "40: Five of Cups",
+          "41: Six of Cups",
+          "42: Seven of Cups",
+          "43: Eight of Cups",
+          "44: Nine of Cups",
+          "45: Ten of Cups",
+          "46: Page of Cups",
+          "47: Knight of Cups",
+          "48: Queen of Cups",
+          "49: King of Cups",
+          "50: Ace of Swords",
+          "51: Two of Swords",
+          "52: Three of Swords",
+          "53: Four of Swords",
+          "54: Five of Swords",
+          "55: Six of Swords",
+          "56: Seven of Swords",
+          "57: Eight of Swords",
+          "58: Nine of Swords",
+          "59: Ten of Swords",
+          "60: Page of Swords",
+          "61: Knight of Swords",
+          "62: Queen of Swords",
+          "63: King of Swords",
+          "64: Ace of Pentacles",
+          "65: Two of Pentacles",
+          "66: Three of Pentacles",
+          "67: Four of Pentacles",
+          "68: Five of Pentacles",
+          "69: Six of Pentacles",
+          "70: Seven of Pentacles",
+          "71: Eight of Pentacles",
+          "72: Nine of Pentacles",
+          "73: Ten of Pentacles",
+          "74: Page of Pentacles",
+          "75: Knight of Pentacles",
+          "76: Queen of Pentacles",
+          "77: King of Pentacles",
+        ]);
+
+        const CELTIC_CROSS_POSITIONS = Object.freeze([
+          "The Heart of the Matter",
+          "The Crossing Card (Challenge)",
+          "The Foundation (Basis)",
+          "The Recent Past",
+          "The Crown (Potential Outcome)",
+          "The Near Future",
+          "Yourself / Your Attitude",
+          "Your Environment / External Influences",
+          "Hopes and Fears",
+          "The Final Outcome",
+        ]);
+
+        const ICHING_HEXAGRAMS = Object.freeze([
+          "0: The Tao (Beyond the System)",
+          "1: Ch'ien / The Creative",
+          "2: K'un / The Receptive",
+          "3: Chun / Difficulty at the Beginning",
+          "4: Meng / Youthful Folly",
+          "5: Hsü / Waiting",
+          "6: Sung / Conflict",
+          "7: Shih / The Army",
+          "8: Pi / Holding Together",
+          "9: Hsiao Ch'u / The Taming Power of the Small",
+          "10: Lü / Treading",
+          "11: T'ai / Peace",
+          "12: P'i / Standstill",
+          "13: T'ung Jen / Fellowship with Men",
+          "14: Ta Yu / Possession in Great Measure",
+          "15: Ch'ien / Modesty",
+          "16: Yü / Enthusiasm",
+          "17: Sui / Following",
+          "18: Ku / Work on What Has Been Spoiled",
+          "19: Lin / Approach",
+          "20: Kuan / Contemplation",
+          "21: Shih Ho / Biting Through",
+          "22: Pi / Grace",
+          "23: Po / Splitting Apart",
+          "24: Fu / Return",
+          "25: Wu Wang / Innocence",
+          "26: Ta Ch'u / The Taming Power of the Great",
+          "27: I / Corners of the Mouth",
+          "28: Ta Kuo / Preponderance of the Great",
+          "29: K'an / The Abysmal",
+          "30: Li / The Clinging (Fire)",
+          "31: Hsien / Influence (Wooing)",
+          "32: Heng / Duration",
+          "33: Tun / Retreat",
+          "34: Ta Chuang / The Power of the Great",
+          "35: Chin / Progress",
+          "36: Ming I / Darkening of the Light",
+          "37: Chia Jen / The Family",
+          "38: K'uei / Opposition",
+          "39: Chien / Obstruction",
+          "40: Hsieh / Deliverance",
+          "41: Sun / Decrease",
+          "42: I / Increase",
+          "43: Kuai / Break-through",
+          "44: Kou / Coming to Meet",
+          "45: Ts'ui / Gathering Together",
+          "46: Sheng / Pushing Upward",
+          "47: Kùn / Oppression (Exhaustion)",
+          "48: Ching / The Well",
+          "49: Ko / Revolution",
+          "50: Ting / The Cauldron",
+          "51: Chen / The Arousing",
+          "52: Ken / Keeping Still",
+          "53: Chien / Gradual Progress (Development)",
+          "54: Kuei Mei / The Marrying Maiden",
+          "55: Feng / Abundance",
+          "56: Lü / The Wanderer",
+          "57: Sun / The Gentle",
+          "58: Tui / The Joyous",
+          "59: Huan / Dispersion",
+          "60: Chieh / Limitation",
+          "61: Chung Fu / Inner Truth",
+          "62: Hsiao Kuo / Preponderance of the Small",
+          "63: Chi Chi / After Completion",
+          "64: Wei Chi / Before Completion",
+        ]);
+
+        const TAIXUANJING_TETRAGRAMS = Object.freeze([
+          "1: 𝌆 Centre",
+          "2: 𝌇 Full Circle",
+          "3: 𝌈 Mired",
+          "4: 𝌉 Barrier",
+          "5: 𝌊 Keeping Small",
+          "6: 𝌋 Contrariety",
+          "7: 𝌌 Ascent",
+          "8: 𝌍 Opposition",
+          "9: 𝌎 Branching Out",
+          "10: 𝌏 Defectiveness or Distortion",
+          "11: 𝌐 Divergence",
+          "12: 𝌑 Youthfulness",
+          "13: 𝌒 Increase",
+          "14: 𝌓 Penetration",
+          "15: 𝌔 Reach",
+          "16: 𝌕 Contact",
+          "17: 𝌖 Holding Back",
+          "18: 𝌗 Waiting",
+          "19: 𝌘 Following",
+          "20: 𝌙 Advance",
+          "21: 𝌚 Release",
+          "22: 𝌛 Resistance",
+          "23: 𝌜 Ease",
+          "24: 𝌝 Joy",
+          "25: 𝌞 Contention",
+          "26: 𝌟 Endeavor",
+          "27: 𝌠 Duty",
+          "28: 𝌡 Change",
+          "29: 𝌢 Decisiveness",
+          "30: 𝌣 Bold Resolution",
+          "31: 𝌤 Packing",
+          "32: 𝌥 Legion",
+          "33: 𝌦 Closeness",
+          "34: 𝌧 Kinship",
+          "35: 𝌨 Gathering",
+          "36: 𝌩 Strength",
+          "37: 𝌪 Purity",
+          "38: 𝌫 Fullness",
+          "39: 𝌬 Residence",
+          "40: 𝌭 Law or Model",
+          "41: 𝌮 Response",
+          "42: 𝌯 Going to Meet",
+          "43: 𝌰 Encounters",
+          "44: 𝌱 Stove",
+          "45: 𝌲 Greatness",
+          "46: 𝌳 Enlargement",
+          "47: 𝌴 Pattern",
+          "48: 𝌵 Ritual",
+          "49: 𝌶 Flight",
+          "50: 𝌷 Vastness or Wasting",
+          "51: 𝌸 Constancy",
+          "52: 𝌹 Measure",
+          "53: 𝌺 Eternity",
+          "54: 𝌻 Unity",
+          "55: 𝌼 Diminishment",
+          "56: 𝌽 Closed Mouth",
+          "57: 𝌾 Guardedness",
+          "58: 𝌿 Gathering In",
+          "59: 𝍀 Massing",
+          "60: 𝍁 Accumulation",
+          "61: 𝍂 Embellishment",
+          "62: 𝍃 Doubt",
+          "63: 𝍄 Watch",
+          "64: 𝍅 Sinking",
+          "65: 𝍆 Inner",
+          "66: 𝍇 Departure",
+          "67: 𝍈 Darkening",
+          "68: 𝍉 Dimming",
+          "69: 𝍊 Exhaustion",
+          "70: 𝍋 Severance",
+          "71: 𝍌 Stoppage",
+          "72: 𝍍 Hardness",
+          "73: 𝍎 Completion",
+          "74: 𝍏 Closure",
+          "75: 𝍐 Failure",
+          "76: 𝍑 Aggravation",
+          "77: 𝍒 Compliance",
+          "78: 𝍓 On the Verge",
+          "79: 𝍔 Difficulties",
+          "80: 𝍕 Laboring",
+          "81: 𝍖 Fostering",
+        ]);
+
+        const LINGQIJING_ORACLES = Object.freeze({
+          "111": "1: 大通 (Great Flowing)",
+          "112": "2: 漸泰 (Gradual Advance)",
+          "113": "3: 吉慶 (Auspicious Celebration)",
+          "114": "4: 富盛 (Abundant Prosperity)",
+          "121": "5: 樂道 (Joyful Path)",
+          "122": "6: 驚怖 (Fear and Trepidation)",
+          "123": "7: 年豐 (Bountiful Year)",
+          "124": "8: 小戒 (Minor Warning)",
+          "131": "9: 得志 (Attaining the Will)",
+          "132": "10: 事遂 (Affairs Accomplished)",
+          "133": "11: 才達 (Talent Arriving)",
+          "134": "12: 恣遊 (Carefree Wandering)",
+          "141": "13: 憂患 (Sorrow and Trouble)",
+          "142": "14: 慎德 (Careful Virtue)",
+          "143": "15: 行令 (Issuing Orders)",
+          "144": "16: 將損 (About to Suffer Loss)",
+          "211": "17: 神護 (Spiritual Protection)",
+          "212": "18: 將敗 (About to be Defeated)",
+          "213": "19: 理亂 (Managing Disorder)",
+          "214": "20: 未還 (Not Yet Returned)",
+          "221": "21: 戒貪 (Warning Against Greed)",
+          "222": "22: 安泰 (Peace and Prosperity)",
+          "223": "23: 昌吉 (Flourishing and Auspicious)",
+          "224": "24: 亨通 (Smooth Progress)",
+          "231": "25: 憂喜 (Sorrow and Joy)",
+          "232": "26: 中孚 (Inner Trust)",
+          "233": "27: 福履 (Blessed Steps)",
+          "234": "28: 和順 (Harmony and Accord)",
+          "241": "29: 受報 (Receiving Recompense)",
+          "242": "30: 小過 (Small Excesses)",
+          "243": "31: 得祿 (Attaining Fortune)",
+          "244": "32: 受責 (Receiving Blame)",
+          "311": "33: 送貨 (Delivering Goods)",
+          "312": "34: 無功 (No Achievement)",
+          "313": "35: 遵君 (Following the Ruler)",
+          "314": "36: 宜靜 (Properly Quiet)",
+          "321": "37: 豐利 (Abundant Profit)",
+          "322": "38: 空虛 (Emptiness)",
+          "323": "39: 得失 (Gain and Loss)",
+          "324": "40: 無難 (No Hardship)",
+          "331": "41: 凝滯 (Stagnation)",
+          "332": "42: 閉塞 (Blockage)",
+          "333": "43: 大有 (Great Possession)",
+          "334": "44: 大獲 (Great Harvest)",
+          "341": "45: 猶豫 (Hesitation)",
+          "342": "46: 口舌 (Gossip)",
+          "343": "47: 奏捷 (Reporting Victory)",
+          "344": "48: 大敗 (Great Defeat)",
+          "411": "49: 扶危 (Aiding the Endangered)",
+          "412": "50: 衰敗 (Decline and Decay)",
+          "413": "51: 救助 (Rescue and Aid)",
+          "414": "52: 待刑 (Awaiting Punishment)",
+          "421": "53: 獲安 (Attaining Peace)",
+          "422": "54: 可保 (Can be Preserved)",
+          "423": "55: 福佑 (Blessed Protection)",
+          "424": "56: 否極 (Extreme Negation)",
+          "431": "57: 亨貞 (Prosperous and True)",
+          "432": "58: 寬裕 (Magnanimous and Abundant)",
+          "433": "59: 通暢 (Flowing Freely)",
+          "434": "60: 富饒 (Rich and Plentiful)",
+          "441": "61: 凶訟 (Ominous Litigation)",
+          "442": "62: 戰懼 (War and Fear)",
+          "443": "63: 受制 (Being Controlled)",
+          "444": "64: 大武 (Great Martial Power)",
+          "110": "65: 苦節 (Bitter Integrity)",
+          "120": "66: 懽悅 (Joy and Delight)",
+          "130": "67: 方遂 (Just Accomplished)",
+          "140": "68: 上正 (Upright and Proper)",
+          "210": "69: 神助 (Spiritual Aid)",
+          "220": "70: 解祀 (Ending the Sacrifice)",
+          "230": "71: 得助 (Attaining Aid)",
+          "240": "72: 遠襲 (Distant Raid)",
+          "310": "73: 避災 (Avoiding Disaster)",
+          "320": "74: 無憂 (Without Sorrow)",
+          "330": "75: 天衢 (Celestial Path)",
+          "340": "76: 失律 (Losing the Rule)",
+          "410": "77: 安靜 (Peace and Quiet)",
+          "420": "78: 辟惡 (Warding off Evil)",
+          "430": "79: 既濟 (Already Fulfilled)",
+          "440": "80: 大過 (Great Excess)",
+          "101": "81: 微損 (Slight Loss)",
+          "102": "82: 粗諧 (Rough Harmony)",
+          "103": "83: 不耕 (Not Plowing)",
+          "104": "84: 鬼災 (Ghostly Disaster)",
+          "201": "85: 自新 (Self-Renewal)",
+          "202": "86: 安吉 (Peaceful and Auspicious)",
+          "203": "87: 無事 (Nothing Happening)",
+          "204": "88: 保安 (Preserving Peace)",
+          "301": "89: 辟易 (Retreating)",
+          "302": "90: 恭順 (Respectful and Obedient)",
+          "303": "91: 亨通 (Smooth Progress)",
+          "304": "92: 安常 (Peaceful and Constant)",
+          "401": "93: 悔吝 (Regret and Shame)",
+          "402": "94: 好轉 (Turning for the Better)",
+          "403": "95: 得財 (Attaining Wealth)",
+          "404": "96: 獲利 (Obtaining Profit)",
+          "100": "97: 未明 (Not Yet Bright)",
+          "200": "98: 小成 (Small Accomplishment)",
+          "300": "99: 天祿 (Celestial Fortune)",
+          "400": "100: 安定 (Peace and Stability)",
+          "011": "101: 敬慎 (Reverent and Careful)",
+          "012": "102: 帝道 (Imperial Path)",
+          "013": "103: 不定 (Unsettled)",
+          "014": "104: 邪佞 (Wicked and Flattering)",
+          "021": "105: 慎悔 (Careful of Regret)",
+          "022": "106: 宜初 (Good at the Beginning)",
+          "023": "107: 福會 (Meeting with Fortune)",
+          "024": "108: 陰賊 (Hidden Injury)",
+          "031": "109: 福利 (Fortunate Profit)",
+          "032": "110: 福祥 (Auspicious Fortune)",
+          "033": "111: 攸敘 (Orderly Place)",
+          "034": "112: 否傾 (Negation and Overthrow)",
+          "041": "113: 未形 (Not Yet Formed)",
+          "042": "114: 蕩覆 (Swept Away and Overturned)",
+          "043": "115: 避世 (Fleeing the World)",
+          "044": "116: 鬼動 (Ghostly Movement)",
+          "010": "117: 發陽 (Emitting Yang)",
+          "020": "118: 歲登 (Year of Abundance)",
+          "030": "119: 人事 (Human Affairs)",
+          "040": "120: 保身 (Protecting the Self)",
+          "001": "121: 化育 (Transformation and Nurturing)",
+          "002": "122: 地利 (Earthly Advantage)",
+          "003": "123: 建侯 (Establishing a Marquis)",
+          "004": "124: 送終 (Seeing to the End)",
+          "000": "125: 純陰 (Pure Yin)",
+        });
+
+        const KABBALAH_SEFIROT = Object.freeze([
+          "1: Kether (Crown)",
+          "2: Chokmah (Wisdom)",
+          "3: Binah (Understanding)",
+          "4: Chesed (Mercy)",
+          "5: Geburah (Strength)",
+          "6: Tiphareth (Beauty)",
+          "7: Netzach (Victory)",
+          "8: Hod (Splendor)",
+          "9: Yesod (Foundation)",
+          "10: Malkuth (Kingdom)",
+          "11: Path of Aleph (Fool)",
+          "12: Path of Beth (Magician)",
+          "13: Path of Gimel (High Priestess)",
+          "14: Path of Daleth (Empress)",
+          "15: Path of Heh (Emperor)",
+          "16: Path of Vav (Hierophant)",
+          "17: Path of Zayin (Lovers)",
+          "18: Path of Cheth (Chariot)",
+          "19: Path of Teth (Strength)",
+          "20: Path of Yod (Hermit)",
+          "21: Path of Kaph (Wheel)",
+          "22: Path of Lamed (Justice)",
+          "23: Path of Mem (Hanged Man)",
+          "24: Path of Nun (Death)",
+          "25: Path of Samekh (Temperance)",
+          "26: Path of Ayin (Devil)",
+          "27: Path of Peh (Tower)",
+          "28: Path of Tzaddi (Star)",
+          "29: Path of Qoph (Moon)",
+          "30: Path of Resh (Sun)",
+          "31: Path of Shin (Judgement)",
+          "32: Path of Tau (World)",
+        ]);
+
+        const ELDER_FUTHARK_RUNES = Object.freeze([
+          "1: Fehu (Wealth)",
+          "2: Uruz (Strength)",
+          "3: Thurisaz (Conflict/Thorn)",
+          "4: Ansuz (Insight/Communication)",
+          "5: Raidho (Journey)",
+          "6: Kenaz (Torch/Creativity)",
+          "7: Gebo (Gift/Exchange)",
+          "8: Wunjo (Joy)",
+          "9: Hagalaz (Disruption)",
+          "10: Nauthiz (Need)",
+          "11: Isa (Stillness)",
+          "12: Jera (Harvest)",
+          "13: Eihwaz (Endurance)",
+          "14: Perthro (Mystery/Lot Cup)",
+          "15: Algiz (Protection)",
+          "16: Sowilo (Vitality)",
+          "17: Tiwaz (Justice)",
+          "18: Berkano (Growth)",
+          "19: Ehwaz (Movement)",
+          "20: Mannaz (Self/Humanity)",
+          "21: Laguz (Flow)",
+          "22: Ingwaz (Seed)",
+          "23: Dagaz (Breakthrough)",
+          "24: Othala (Ancestral Home)",
+          "25: Blank/Odin Rune (Beyond the System)",
+        ]);
+
+        const DREAMSPELL_SOLAR_SEALS = Object.freeze([
+          "Red Dragon",
+          "White Wind",
+          "Blue Night",
+          "Yellow Seed",
+          "Red Serpent",
+          "White World-Bridger",
+          "Blue Hand",
+          "Yellow Star",
+          "Red Moon",
+          "White Dog",
+          "Blue Monkey",
+          "Yellow Human",
+          "Red Skywalker",
+          "White Wizard",
+          "Blue Eagle",
+          "Yellow Warrior",
+          "Red Earth",
+          "White Mirror",
+          "Blue Storm",
+          "Yellow Sun",
+        ]);
+
+        const DREAMSPELL_GALACTIC_TONES = Object.freeze([
+          "Magnetic",
+          "Lunar",
+          "Electric",
+          "Self-Existing",
+          "Overtone",
+          "Rhythmic",
+          "Resonant",
+          "Galactic",
+          "Solar",
+          "Planetary",
+          "Spectral",
+          "Crystal",
+          "Cosmic",
+        ]);
+
+        const state = {
+          question: "",
+          sessionHash: "",
+          mapper: null,
+          selections: {
+            tarot: [],
+            runes: [],
+            iching: [],
+            ichingLines: [],
+            taixuanjing: [],
+            lingqijingUp: [],
+            lingqijingMiddle: [],
+            lingqijingDown: [],
+            kabbalah: [],
+            dreamspellSolarSeal: [],
+            dreamspellGalacticTone: [],
+          },
+          history: [],
+          historyIndex: -1,
+        };
+
+        const elements = {
+          qSection: document.getElementById("question-section"),
+          q: document.getElementById("question"),
+          qErr: document.getElementById("question-error"),
+          prepBtn: document.getElementById("submit-question-button"),
+          numSection: document.getElementById("number-entry-section"),
+          tarotGrid: document.getElementById("tarot-grid"),
+          tarotErr: document.getElementById("tarot-error"),
+          tarotFeedback: document.getElementById("tarot-feedback"),
+          runesGrid: document.getElementById("runes-grid"),
+          runesErr: document.getElementById("runes-error"),
+          runesFeedback: document.getElementById("runes-feedback"),
+          ichingGrid: document.getElementById("iching-grid"),
+          ichingErr: document.getElementById("iching-error"),
+          ichingFeedback: document.getElementById("iching-feedback"),
+          ichingLinesGrid: document.getElementById("iching-lines-grid"),
+          ichingLinesErr: document.getElementById("iching-lines-error"),
+          ichingLinesFeedback: document.getElementById("iching-lines-feedback"),
+          taixuanjingGrid: document.getElementById("taixuanjing-grid"),
+          taixuanjingErr: document.getElementById("taixuanjing-error"),
+          taixuanjingFeedback: document.getElementById("taixuanjing-feedback"),
+          lingqijingUpGrid: document.getElementById("lingqijing-up-grid"),
+          lingqijingUpErr: document.getElementById("lingqijing-up-error"),
+          lingqijingUpFeedback: document.getElementById("lingqijing-up-feedback"),
+          lingqijingMiddleGrid: document.getElementById("lingqijing-middle-grid"),
+          lingqijingMiddleErr: document.getElementById("lingqijing-middle-error"),
+          lingqijingMiddleFeedback: document.getElementById("lingqijing-middle-feedback"),
+          lingqijingDownGrid: document.getElementById("lingqijing-down-grid"),
+          lingqijingDownErr: document.getElementById("lingqijing-down-error"),
+          lingqijingDownFeedback: document.getElementById("lingqijing-down-feedback"),
+          kabbalahGrid: document.getElementById("kabbalah-grid"),
+          kabbalahErr: document.getElementById("kabbalah-error"),
+          kabbalahFeedback: document.getElementById("kabbalah-feedback"),
+          dreamspellSolarSealGrid: document.getElementById("dreamspell-solar-seal-grid"),
+          dreamspellSolarSealErr: document.getElementById("dreamspell-solar-seal-error"),
+          dreamspellSolarSealFeedback: document.getElementById("dreamspell-solar-seal-feedback"),
+          dreamspellGalacticToneGrid: document.getElementById("dreamspell-galactic-tone-grid"),
+          dreamspellGalacticToneErr: document.getElementById("dreamspell-galactic-tone-error"),
+          dreamspellGalacticToneFeedback: document.getElementById("dreamspell-galactic-tone-feedback"),
+          autoSelectBtn: document.getElementById("auto-select-button"),
+          navPrevBtn: document.getElementById("nav-prev-button"),
+          navNextBtn: document.getElementById("nav-next-button"),
+          generateBtn: document.getElementById("generate-results-button"),
+          clearBtn: document.getElementById("clear-button"),
+          resultsSection: document.getElementById("results-section"),
+          out: document.getElementById("results-summary"),
+          copyBtn: document.getElementById("copy-button"),
+          startOverBtn: document.getElementById("start-over-button"),
+        };
+
+        const GRID_SETTINGS = {
+          tarot: {
+            element: elements.tarotGrid,
+            feedback: elements.tarotFeedback,
+            error: elements.tarotErr,
+            range: { min: 1, max: 156 },
+            maxSelections: 10,
+            allowedCounts: [1, 3, 10],
+            optional: true,
+            autoCounts: [1, 3, 3, 10],
+            showOrder: true,
+            label: "Tarot slot",
+          },
+          runes: {
+            element: elements.runesGrid,
+            feedback: elements.runesFeedback,
+            error: elements.runesErr,
+            range: { min: 1, max: 50 },
+            maxSelections: 3,
+            allowedCounts: [1, 3],
+            optional: true,
+            autoCounts: [1, 3, 3],
+            showOrder: true,
+            label: "Rune slot",
+          },
+          iching: {
+            element: elements.ichingGrid,
+            feedback: elements.ichingFeedback,
+            error: elements.ichingErr,
+            range: { min: 0, max: 64 },
+            maxSelections: 1,
+            allowedCounts: [1],
+            optional: true,
+            autoCounts: [1, 1, 1],
+            showOrder: false,
+            label: "I-Ching hexagram",
+          },
+          ichingLines: {
+            element: elements.ichingLinesGrid,
+            feedback: elements.ichingLinesFeedback,
+            error: elements.ichingLinesErr,
+            range: { min: 1, max: 6 },
+            maxSelections: 6,
+            allowedCounts: null,
+            optional: true,
+            autoCounts: [0, 0, 1, 1, 2, 3],
+            showOrder: false,
+            label: "Moving line",
+          },
+          taixuanjing: {
+            element: elements.taixuanjingGrid,
+            feedback: elements.taixuanjingFeedback,
+            error: elements.taixuanjingErr,
+            range: { min: 1, max: 81 },
+            maxSelections: 1,
+            allowedCounts: [1],
+            optional: true,
+            autoCounts: [1],
+            showOrder: false,
+            label: "Taixuanjing tetragram",
+          },
+          lingqijingUp: {
+            element: elements.lingqijingUpGrid,
+            feedback: elements.lingqijingUpFeedback,
+            error: elements.lingqijingUpErr,
+            range: { min: 0, max: 4 },
+            maxSelections: 1,
+            allowedCounts: [1],
+            optional: true,
+            autoCounts: [1],
+            showOrder: false,
+            label: "Lingqijing Up",
+          },
+          lingqijingMiddle: {
+            element: elements.lingqijingMiddleGrid,
+            feedback: elements.lingqijingMiddleFeedback,
+            error: elements.lingqijingMiddleErr,
+            range: { min: 0, max: 4 },
+            maxSelections: 1,
+            allowedCounts: [1],
+            optional: true,
+            autoCounts: [1],
+            showOrder: false,
+            label: "Lingqijing Middle",
+          },
+          lingqijingDown: {
+            element: elements.lingqijingDownGrid,
+            feedback: elements.lingqijingDownFeedback,
+            error: elements.lingqijingDownErr,
+            range: { min: 0, max: 4 },
+            maxSelections: 1,
+            allowedCounts: [1],
+            optional: true,
+            autoCounts: [1],
+            showOrder: false,
+            label: "Lingqijing Down",
+          },
+          kabbalah: {
+            element: elements.kabbalahGrid,
+            feedback: elements.kabbalahFeedback,
+            error: elements.kabbalahErr,
+            range: { min: 1, max: 96 },
+            maxSelections: 96,
+            allowedCounts: null,
+            optional: true,
+            autoCounts: [0, 1, 1, 2, 3],
+            showOrder: false,
+            label: "Kabbalah path slot",
+          },
+          dreamspellSolarSeal: {
+            element: elements.dreamspellSolarSealGrid,
+            feedback: elements.dreamspellSolarSealFeedback,
+            error: elements.dreamspellSolarSealErr,
+            range: { min: 1, max: 20 },
+            maxSelections: 1,
+            allowedCounts: [1],
+            optional: true,
+            autoCounts: [1],
+            showOrder: false,
+            label: "Dreamspell solar seal",
+          },
+          dreamspellGalacticTone: {
+            element: elements.dreamspellGalacticToneGrid,
+            feedback: elements.dreamspellGalacticToneFeedback,
+            error: elements.dreamspellGalacticToneErr,
+            range: { min: 1, max: 13 },
+            maxSelections: 1,
+            allowedCounts: [1],
+            optional: true,
+            autoCounts: [1],
+            showOrder: false,
+            label: "Dreamspell galactic tone",
+          },
+        };
+
+        document.addEventListener("DOMContentLoaded", init);
+
+        function init() {
+          populateGrids();
+          bindEvents();
+          clearSelections({ silent: true });
+          updateNavigationButtons();
+        }
+
+        function populateGrids() {
+          Object.entries(GRID_SETTINGS).forEach(([key, config]) => {
+            const grid = config.element;
+            if (!grid) return;
+            grid.innerHTML = "";
+            const fragment = document.createDocumentFragment();
+            for (let value = config.range.min; value <= config.range.max; value++) {
+              const square = document.createElement("button");
+              square.type = "button";
+              square.className = "divination-square";
+              square.dataset.number = value;
+              square.textContent = value;
+              square.setAttribute("aria-pressed", "false");
+              square.setAttribute("aria-label", `${config.label} ${value}`);
+              fragment.appendChild(square);
+            }
+            grid.appendChild(fragment);
+          });
+
+          document
+            .querySelectorAll(".divination-grid-container")
+            .forEach((grid) => {
+              grid.addEventListener("scroll", () => updateScrollShadow(grid));
+              updateScrollShadow(grid);
+            });
+        }
+
+        function bindEvents() {
+          elements.prepBtn.addEventListener("click", handlePrepareSession);
+          elements.autoSelectBtn.addEventListener("click", handleAutoSelect);
+          elements.generateBtn.addEventListener("click", handleGenerateSummary);
+          elements.clearBtn.addEventListener("click", () => clearSelections());
+          elements.copyBtn.addEventListener("click", handleCopy);
+          elements.startOverBtn.addEventListener("click", resetSession);
+          elements.navPrevBtn.addEventListener("click", () =>
+            loadHistory(state.historyIndex - 1)
+          );
+          elements.navNextBtn.addEventListener("click", () =>
+            loadHistory(state.historyIndex + 1)
+          );
+
+          Object.entries(GRID_SETTINGS).forEach(([key, config]) => {
+            config.element.addEventListener("click", (event) =>
+              handleGridInteraction(event, key)
+            );
+          });
+        }
+
+        async function handlePrepareSession() {
+          clearErrors();
+          const question = elements.q.value.trim();
+          if (!question) {
+            elements.qErr.textContent =
+              "Please enter a question to seed the session.";
+            elements.q.focus();
+            return;
+          }
+
+          elements.prepBtn.disabled = true;
+          elements.prepBtn.textContent = "Preparing…";
+          elements.q.readOnly = true;
+
+          try {
+            const { hex, bytes } = await createSeedHash(question);
+            state.question = question;
+            state.sessionHash = hex;
+            state.mapper = new DivinationMapper(bytes);
+            clearSelections({ silent: true });
+            clearHistory();
+            elements.resultsSection.classList.add("hidden");
+            elements.prepBtn.textContent = "Session Ready";
+            elements.prepBtn.classList.add("ok");
+            elements.numSection.classList.remove("hidden");
+            elements.numSection.classList.add("fade-in");
+            elements.numSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          } catch (error) {
+            console.error("Hashing failed:", error);
+            elements.qErr.textContent =
+              "Could not prepare the session. Please try again.";
+            elements.prepBtn.disabled = false;
+            elements.prepBtn.textContent = "Prepare the Session";
+            elements.q.readOnly = false;
+          }
+        }
+
+        async function handleAutoSelect() {
+          if (!state.mapper) {
+            elements.qErr.textContent = "Please prepare the session first.";
+            elements.q.focus();
+            return;
+          }
+
+          clearErrors();
+          const seed = await deriveIntentSeed();
+          const rng = seededRNG(seed);
+          const pattern = {};
+
+          Object.entries(GRID_SETTINGS).forEach(([key, config]) => {
+            const count = selectAutoCount(config, rng);
+            pattern[key] = drawUnique(
+              config.range.min,
+              config.range.max,
+              count,
+              rng
+            );
+          });
+
+          applyPattern(pattern);
+          addHistory(pattern);
+        }
+
+        function handleGridInteraction(event, key) {
+          const button = event.target.closest(".divination-square");
+          if (!button) return;
+
+          event.preventDefault();
+          const value = Number(button.dataset.number);
+          const current = state.selections[key];
+          const index = current.indexOf(value);
+
+          if (index !== -1) {
+            current.splice(index, 1);
+          } else {
+            const { maxSelections } = GRID_SETTINGS[key];
+            if (maxSelections && current.length >= maxSelections) return;
+            current.push(value);
+          }
+
+          clearError(key);
+          syncSelectionUI(key);
+        }
+
+        function handleGenerateSummary() {
+          if (!state.mapper) {
+            elements.qErr.textContent =
+              "Prepare the session first using the button in Step 1.";
+            elements.q.focus();
+            return;
+          }
+
+          clearErrors();
+          const payload = {};
+          let hasError = false;
+
+          Object.keys(state.selections).forEach((key) => {
+            const { value, error } = validateSelection(key);
+            if (error) {
+              setError(key, error);
+              hasError = true;
+            } else {
+              payload[key] = value;
+            }
+          });
+
+          if (hasError) return;
+
+          const summary = buildSummary(payload);
+          elements.out.value = summary;
+          elements.resultsSection.classList.remove("hidden");
+          elements.resultsSection.classList.add("fade-in");
+          elements.out.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        async function handleCopy() {
+          if (!elements.out.value) return;
+
+          const label = elements.copyBtn.textContent;
+          try {
+            if (navigator.clipboard?.writeText) {
+              await navigator.clipboard.writeText(elements.out.value);
+            } else {
+              const temp = document.createElement("textarea");
+              temp.value = elements.out.value;
+              temp.setAttribute("readonly", "readonly");
+              temp.style.position = "absolute";
+              temp.style.left = "-9999px";
+              document.body.appendChild(temp);
+              temp.select();
+              document.execCommand("copy");
+              document.body.removeChild(temp);
+            }
+            elements.copyBtn.textContent = "Copied!";
+            elements.copyBtn.disabled = true;
+            setTimeout(() => {
+              elements.copyBtn.textContent = label;
+              elements.copyBtn.disabled = false;
+            }, 1800);
+          } catch (error) {
+            console.error("Copy failed:", error);
+            elements.copyBtn.textContent = "Copy failed";
+            setTimeout(() => {
+              elements.copyBtn.textContent = label;
+            }, 1800);
+          }
+        }
+
+        function resetSession() {
+          state.question = "";
+          state.sessionHash = "";
+          state.mapper = null;
+          elements.q.value = "";
+          elements.q.readOnly = false;
+          elements.prepBtn.disabled = false;
+          elements.prepBtn.textContent = "Prepare the Session";
+          elements.prepBtn.classList.remove("ok");
+          elements.numSection.classList.add("hidden");
+          elements.resultsSection.classList.add("hidden");
+          elements.out.value = "";
+          clearSelections({ silent: true });
+          clearErrors();
+          clearHistory();
+          elements.qSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          elements.q.focus();
+        }
+
+        function clearSelections({ silent = false } = {}) {
+          Object.keys(state.selections).forEach((key) => {
+            state.selections[key] = [];
+          });
+          syncSelectionUI();
+          if (!silent) {
+            clearErrors();
+          }
+        }
+
+        function applyPattern(pattern) {
+          Object.keys(state.selections).forEach((key) => {
+            state.selections[key] = pattern[key] ? [...pattern[key]] : [];
+          });
+          syncSelectionUI();
+        }
+
+        function syncSelectionUI(targetKey) {
+          const entries = targetKey
+            ? [[targetKey, GRID_SETTINGS[targetKey]]]
+            : Object.entries(GRID_SETTINGS);
+
+          entries.forEach(([key, config]) => {
+            const selectionSet = new Set(state.selections[key]);
+            config.element.querySelectorAll(".divination-square").forEach((btn) => {
+              const number = Number(btn.dataset.number);
+              const isSelected = selectionSet.has(number);
+              btn.classList.toggle("selected", isSelected);
+              btn.setAttribute("aria-pressed", String(isSelected));
+            });
+            if (config.showOrder) {
+              updateOrderStamps(config.element, state.selections[key]);
+            }
+            updateSelectionFeedback(key);
+          });
+        }
+
+        function updateOrderStamps(grid, numbers) {
+          grid.querySelectorAll(".order-stamp").forEach((stamp) => stamp.remove());
+          numbers.forEach((value, index) => {
+            const cell = grid.querySelector(
+              `.divination-square[data-number="${value}"]`
+            );
+            if (!cell) return;
+            const stamp = document.createElement("span");
+            stamp.className = "order-stamp";
+            stamp.textContent = index + 1;
+            cell.appendChild(stamp);
+          });
+        }
+
+        function updateSelectionFeedback(key) {
+          const feedbackEl = GRID_SETTINGS[key].feedback;
+          if (!feedbackEl) return;
+          const count = state.selections[key].length;
+          let message = "";
+          let isValid = false;
+
+          switch (key) {
+            case "tarot":
+              if (count === 0) {
+                message = "(Select 1, 3, or 10)";
+              } else if ([1, 3, 10].includes(count)) {
+                if (count === 1) message = "✔ Valid (single card)";
+                if (count === 3)
+                  message = "✔ Valid (Past • Present • Future spread)";
+                if (count === 10) message = "✔ Valid (Celtic Cross)";
+                isValid = true;
+              } else if (count === 2) {
+                message = "(1 more for Past • Present • Future)";
+              } else if (count > 3 && count < 10) {
+                message = `(${10 - count} more for a Celtic Cross)`;
+              } else {
+                message = `(Invalid count: ${count})`;
+              }
+              break;
+
+            case "runes":
+              if (count === 0) {
+                message = "(Select 1 or 3)";
+              } else if ([1, 3].includes(count)) {
+                message =
+                  count === 1
+                    ? "✔ Valid (single rune)"
+                    : "✔ Valid (three rune spread)";
+                isValid = true;
+              } else if (count === 2) {
+                message = "(1 more for a three rune spread)";
+              } else {
+                message = `(Invalid count: ${count})`;
+              }
+              break;
+
+            case "iching":
+              if (count === 0) {
+                message = "(Select 1 hexagram)";
+              } else if (count === 1) {
+                message = "✔ Valid (1 selected)";
+                isValid = true;
+              } else {
+                message = `(Too many selected: ${count})`;
+              }
+              break;
+
+            case "ichingLines":
+              message = `(Optional, ${count} selected)`;
+              isValid = true;
+              break;
+
+            case "taixuanjing":
+              if (count === 0) {
+                message = "(Select 1 tetragram)";
+              } else if (count === 1) {
+                message = "✔ Valid (1 selected)";
+                isValid = true;
+              } else {
+                message = `(Too many selected: ${count})`;
+              }
+              break;
+
+            case "lingqijingUp":
+            case "lingqijingMiddle":
+            case "lingqijingDown":
+              if (count === 0) {
+                message = "(Select 1)";
+              } else if (count === 1) {
+                message = "✔ Valid (1 selected)";
+                isValid = true;
+              } else {
+                message = `(Too many selected: ${count})`;
+              }
+              break;
+
+            case "kabbalah":
+              message = `(Optional, ${count} selected)`;
+              isValid = true;
+              break;
+
+            case "dreamspellSolarSeal":
+              if (count === 0) {
+                message = "(Select 1 solar seal)";
+              } else if (count === 1) {
+                message = "✔ Valid (1 selected)";
+                isValid = true;
+              } else {
+                message = `(Too many selected: ${count})`;
+              }
+              break;
+
+            case "dreamspellGalacticTone":
+              if (count === 0) {
+                message = "(Select 1 galactic tone)";
+              } else if (count === 1) {
+                message = "✔ Valid (1 selected)";
+                isValid = true;
+              } else {
+                message = `(Too many selected: ${count})`;
+              }
+              break;
+          }
+
+          feedbackEl.textContent = message;
+          feedbackEl.style.color = isValid ? "var(--ok)" : "var(--muted)";
+        }
+
+        function validateSelection(key) {
+          const config = GRID_SETTINGS[key];
+          const values = state.selections[key];
+          const count = values.length;
+
+          if (count === 0) {
+            return config.optional ? { value: [] } : { error: "Please make a selection." };
+          }
+
+          if (
+            config.allowedCounts &&
+            !config.allowedCounts.includes(count)
+          ) {
+            return {
+              error: `Please select exactly ${formatAllowedCounts(
+                config.allowedCounts
+              )}.`,
+            };
+          }
+
+          return { value: [...values] };
+        }
+
+        function buildSummary(data) {
+          const lines = [];
+          lines.push(`My Question: "${state.question}"`);
+          lines.push(`Session Signature: ${state.sessionHash.slice(0, 24)}`);
+          lines.push(
+            "Please provide an interpretation based on the following results. The session uses multi-round SHA-256 hashing with OS entropy to reduce bias."
+          );
+          lines.push("");
+
+          const { tarot = [], runes = [], iching = [], ichingLines = [], taixuanjing = [], lingqijingUp = [], lingqijingMiddle = [], lingqijingDown = [], kabbalah = [], dreamspellSolarSeal = [], dreamspellGalacticTone = [] } =
+            data;
+            data;
+
+          if (tarot.length) {
+            const mapped = state.mapper.getTarot(tarot);
+            lines.push("--- Tarot ---");
+            if (tarot.length === 1) {
+              lines.push(`Single Card: ${mapped[0]}`);
+            } else if (tarot.length === 3) {
+              const labels = ["Past", "Present", "Future"];
+              lines.push("Spread: Past • Present • Future");
+              mapped.forEach((card, index) =>
+                lines.push(`${labels[index]}: ${card}`)
+              );
+            } else if (tarot.length === 10) {
+              lines.push("Spread: Celtic Cross");
+              CELTIC_CROSS_POSITIONS.forEach((slot, index) => {
+                const card = mapped[index];
+                if (card) lines.push(`${index + 1}. ${slot}: ${card}`);
+              });
+            } else {
+              lines.push(`Cards: ${mapped.join(", ")}`);
+            }
+            lines.push("");
+          }
+
+          if (runes.length) {
+            const mapped = state.mapper.getRunes(runes);
+            lines.push("--- Runes ---");
+            lines.push(`Runes: ${mapped.join(", ")}`);
+            lines.push("");
+          }
+
+          if (iching.length) {
+            const slot = iching[0];
+            const hexagram = state.mapper.getIChing(slot);
+            const moving = state.mapper.getIChingMovingLines(ichingLines);
+            lines.push("--- I-Ching ---");
+            lines.push(`Hexagram Slot ${slot}: ${hexagram}`);
+            lines.push(`Moving Lines: ${moving.length ? moving.join(", ") : "None"}`);
+            lines.push("");
+          }
+
+          if (taixuanjing.length) {
+            const tetragram = state.mapper.getTaixuanjing(taixuanjing[0]);
+            lines.push("--- Taixuanjing ---");
+            lines.push(`Tetragram: ${tetragram}`);
+            lines.push("");
+          }
+
+          if (lingqijingUp.length && lingqijingMiddle.length && lingqijingDown.length) {
+            const oracle = state.mapper.getLingqijing(lingqijingUp[0], lingqijingMiddle[0], lingqijingDown[0]);
+            lines.push("--- Lingqijing ---");
+            lines.push(`Oracle: ${oracle}`);
+            lines.push("");
+          }
+
+          if (kabbalah.length) {
+            const mapped = state.mapper.getKabbalah(kabbalah);
+            lines.push("--- Kabbalah ---");
+            lines.push(`Paths / States: ${mapped.join(", ")}`);
+            lines.push("");
+          }
+
+          if (dreamspellSolarSeal.length && dreamspellGalacticTone.length) {
+            const solarSeal = state.mapper.getDreamspellSolarSeal(dreamspellSolarSeal[0]);
+            const galacticTone = state.mapper.getDreamspellGalacticTone(dreamspellGalacticTone[0]);
+            lines.push("--- Dreamspell ---");
+            lines.push(`Galactic Signature: ${solarSeal} (${galacticTone})`);
+
+            const oracle = state.mapper.getDreamspellOracle(solarSeal, galacticTone);
+            lines.push(`Analog: ${oracle.analog}`);
+            lines.push(`Antipode: ${oracle.antipode}`);
+            lines.push(`Occult: ${oracle.occult}`);
+            lines.push("");
+          }
+
+          return lines.join("\n").trim();
+        }
+
+        async function createSeedHash(question) {
+          const normalized = question.normalize("NFC");
+          const questionBytes = encoder.encode(normalized);
+          const entropy = new Uint8Array(32);
+          crypto.getRandomValues(entropy);
+
+          const timingBuffer = new ArrayBuffer(16);
+          const timingView = new DataView(timingBuffer);
+          timingView.setFloat64(0, Date.now(), true);
+          timingView.setFloat64(8, performance.now(), true);
+
+          const payload = concatUint8Arrays(
+            entropy,
+            questionBytes,
+            new Uint8Array(timingBuffer)
+          );
+          const digest = await multiHash(payload, HASH_ROUNDS_SESSION);
+          return { hex: bufferToHex(digest), bytes: digest };
+        }
+
+        async function deriveIntentSeed() {
+          const entropy = new Uint8Array(32);
+          crypto.getRandomValues(entropy);
+          const questionBytes = encoder.encode(state.question.normalize("NFC"));
+          const sessionBytes = state.sessionHash
+            ? hexToBytes(state.sessionHash.slice(0, 16))
+            : new Uint8Array(8);
+
+          const momentBuffer = new ArrayBuffer(8);
+          new DataView(momentBuffer).setFloat64(0, performance.now(), true);
+
+          const payload = concatUint8Arrays(
+            entropy,
+            questionBytes,
+            sessionBytes,
+            new Uint8Array(momentBuffer)
+          );
+          const digest = await multiHash(payload, HASH_ROUNDS_INTENT);
+          return deriveSeed32(digest);
+        }
+
+        function multiHash(value, rounds) {
+          let buffer;
+          if (value instanceof Uint8Array) {
+            buffer = value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
+          } else if (value instanceof ArrayBuffer) {
+            buffer = value.slice(0);
+          } else {
+            buffer = encoder.encode(String(value)).buffer;
+          }
+
+          let promise = Promise.resolve(buffer);
+          for (let i = 0; i < rounds; i++) {
+            promise = promise.then((buf) => crypto.subtle.digest("SHA-256", buf));
+          }
+          return promise.then((buf) => new Uint8Array(buf));
+        }
+
+        function concatUint8Arrays(...arrays) {
+          const totalLength = arrays.reduce((sum, arr) => sum + arr.length, 0);
+          const result = new Uint8Array(totalLength);
+          let offset = 0;
+          arrays.forEach((arr) => {
+            result.set(arr, offset);
+            offset += arr.length;
+          });
+          return result;
+        }
+
+        function bufferToHex(buffer) {
+          return Array.from(buffer, (b) => b.toString(16).padStart(2, "0")).join("");
+        }
+
+        function hexToBytes(hex) {
+          const bytes = new Uint8Array(hex.length / 2);
+          for (let i = 0; i < bytes.length; i++) {
+            bytes[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+          }
+          return bytes;
+        }
+
+        function deriveSeed32(bytes) {
+          const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+          const first = view.getUint32(0, false);
+          const last = view.getUint32(bytes.byteLength - 4, false);
+          const seed = (first ^ last) >>> 0;
+          return seed || 0x9e3779b9;
+        }
+
+        const seededRNG = (seed) => () => {
+          let t = (seed += 0x6d2b79f5);
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+
+        class DivinationMapper {
+          constructor(seedBytes) {
+            const seed = deriveSeed32(seedBytes);
+            const rng = seededRNG(seed);
+
+            const shuffle = (source) => {
+              const arr = [...source];
+              for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(rng() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+              }
+              return arr;
+            };
+
+            const tarotDeck = [];
+            TAROT_CARDS.forEach((card) => {
+              tarotDeck.push(`${card} (Upright)`);
+              tarotDeck.push(`${card} (Reversed)`);
+            });
+            this.tarotMap = shuffle(tarotDeck);
+
+            const runeDeck = [];
+            ELDER_FUTHARK_RUNES.forEach((rune) => {
+              if (rune.includes("Blank/Odin")) {
+                runeDeck.push(rune, rune);
+              } else {
+                runeDeck.push(`${rune} (Upright)`, `${rune} (Reversed)`);
+              }
+            });
+            this.runesMap = shuffle(runeDeck);
+
+            this.ichingMap = shuffle(
+              Array.from({ length: 64 }, (_, index) => index + 1)
+            );
+            this.ichingLinesMap = shuffle([1, 2, 3, 4, 5, 6]);
+
+            this.taixuanjingMap = shuffle(TAIXUANJING_TETRAGRAMS);
+
+            const kabbalahVariants = [];
+            const polarities = ["Balanced", "Excessive", "Deficient"];
+            KABBALAH_SEFIROT.forEach((sefira) => {
+              polarities.forEach((state) =>
+                kabbalahVariants.push(`${sefira} (${state})`)
+              );
+            });
+            this.kabbalahMap = shuffle(kabbalahVariants);
+
+            this.dreamspellSolarSealMap = shuffle(DREAMSPELL_SOLAR_SEALS);
+            this.dreamspellGalacticToneMap = shuffle(DREAMSPELL_GALACTIC_TONES);
+          }
+
+          getTarot(numbers) {
+            return numbers.map((value) => this.tarotMap[value - 1]);
+          }
+
+          getRunes(numbers) {
+            return numbers.map((value) => this.runesMap[value - 1]);
+          }
+
+          getIChing(index) {
+            if (index === 0) {
+              return ICHING_HEXAGRAMS[0];
+            }
+            const lookup = this.ichingMap[index - 1];
+            return ICHING_HEXAGRAMS[lookup] || ICHING_HEXAGRAMS[index];
+          }
+
+          getIChingMovingLines(numbers) {
+            return numbers.map((value) => this.ichingLinesMap[value - 1]);
+          }
+
+          getTaixuanjing(number) {
+            return this.taixuanjingMap[number - 1];
+          }
+
+          getLingqijing(up, middle, down) {
+            const key = `${up}${middle}${down}`;
+            return LINGQIJING_ORACLES[key] || "Invalid combination";
+          }
+
+          getKabbalah(numbers) {
+            return numbers.map((value) => this.kabbalahMap[value - 1]);
+          }
+
+          getDreamspellSolarSeal(number) {
+            return this.dreamspellSolarSealMap[number - 1];
+          }
+
+          getDreamspellGalacticTone(number) {
+            return this.dreamspellGalacticToneMap[number - 1];
+          }
+
+          getDreamspellOracle(solarSeal, galacticTone) {
+            const solarSealNumber = DREAMSPELL_SOLAR_SEALS.indexOf(solarSeal) + 1;
+            const galacticToneNumber = DREAMSPELL_GALACTIC_TONES.indexOf(galacticTone) + 1;
+
+            const analogSealNumber = 19 - solarSealNumber;
+            const analogSeal = this.dreamspellSolarSealMap[analogSealNumber];
+
+            let antipodeSealNumber = solarSealNumber + 10;
+            if (antipodeSealNumber > 20) {
+              antipodeSealNumber -= 20;
+            }
+            const antipodeSeal = this.dreamspellSolarSealMap[antipodeSealNumber -1];
+
+            const occultSealNumber = 21 - solarSealNumber;
+            const occultSeal = this.dreamspellSolarSealMap[occultSealNumber - 1];
+
+            const occultToneNumber = 14 - galacticToneNumber;
+            const occultTone = this.dreamspellGalacticToneMap[occultToneNumber - 1];
+
+            return {
+              analog: `${analogSeal} (${galacticTone})`,
+              antipode: `${antipodeSeal} (${galacticTone})`,
+              occult: `${occultSeal} (${occultTone})`,
+            };
+          }
+        }
+
+        function selectAutoCount(config, rng) {
+          const options = config.autoCounts;
+          if (!options || !options.length) return 0;
+          const index = Math.floor(rng() * options.length);
+          const choice = options[index];
+          if (config.maxSelections) {
+            return Math.min(choice, config.maxSelections);
+          }
+          return choice;
+        }
+
+        function drawUnique(min, max, count, rng) {
+          if (count <= 0) return [];
+          const picks = new Set();
+          const span = max - min + 1;
+          while (picks.size < count) {
+            const value = min + Math.floor(rng() * span);
+            picks.add(value);
+          }
+          return Array.from(picks);
+        }
+
+        function addHistory(pattern) {
+          const snapshot = clonePattern(pattern);
+          if (state.historyIndex < state.history.length - 1) {
+            state.history = state.history.slice(0, state.historyIndex + 1);
+          }
+          state.history.push(snapshot);
+          state.historyIndex = state.history.length - 1;
+          updateNavigationButtons();
+        }
+
+        function clonePattern(pattern) {
+          return Object.fromEntries(
+            Object.entries(pattern).map(([key, values]) => [key, [...values]])
+          );
+        }
+
+        function loadHistory(index) {
+          if (index < 0 || index >= state.history.length) return;
+          state.historyIndex = index;
+          applyPattern(state.history[index]);
+          updateNavigationButtons();
+        }
+
+        function clearHistory() {
+          state.history = [];
+          state.historyIndex = -1;
+          updateNavigationButtons();
+        }
+
+        function updateNavigationButtons() {
+          const { history, historyIndex } = state;
+          const hasHistory = history.length > 1;
+          elements.navPrevBtn.disabled = !hasHistory || historyIndex <= 0;
+          elements.navNextBtn.disabled =
+            !hasHistory || historyIndex >= history.length - 1;
+        }
+
+        function clearErrors() {
+          elements.qErr.textContent = "";
+          Object.values(GRID_SETTINGS).forEach(({ error }) => {
+            if (error) error.textContent = "";
+          });
+        }
+
+        function clearError(key) {
+          const errorEl = GRID_SETTINGS[key].error;
+          if (errorEl) errorEl.textContent = "";
+        }
+
+        function setError(key, message) {
+          const errorEl = GRID_SETTINGS[key].error;
+          if (errorEl) errorEl.textContent = message;
+        }
+
+        function formatAllowedCounts(counts) {
+          if (counts.length === 1) return `${counts[0]}`;
+          const sorted = [...counts].sort((a, b) => a - b);
+          return `${sorted.slice(0, -1).join(", ")} or ${sorted.at(-1)}`;
+        }
+
+        function updateScrollShadow(grid) {
+          if (!grid) return;
+          const wrapper = grid.parentElement;
+          const isScrollable = grid.scrollHeight > grid.clientHeight;
+          const isAtBottom =
+            grid.scrollHeight - grid.scrollTop <= grid.clientHeight + 1;
+
+          if (!isScrollable || isAtBottom) {
+            wrapper.classList.add("is-scrolled-to-bottom");
+          } else {
+            wrapper.classList.remove("is-scrolled-to-bottom");
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
