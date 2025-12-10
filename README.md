@@ -7,6 +7,8 @@ Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recomm
 
 December 10: You can read commits and code for details. Aastrology.py was updated with os.urandom() and SHA256-PBKDF2-HMAC, the minor bodies have also been gated with a commandline switch/option. Only the top 20 Aspects/Transits are shown by default, but you can change that number. A couple tools have warned that ASTROLOGY.py is faulty and must not be used. 2IngWheel.py is IngWheel.html but adapted for commandline Python (better than early experiments). You select numbers by writing them. KABBALAH5.py is a transition version. KABBALAH6.py has been described as reliable. Excessive/Deficient Sephiroth ratio was dropped to 7.5%/7.5%.
 
+All old remaining versions have been moved to the Historical folder.
+
 An astrology reading can be so much data that one AI can answer "Yes", but a second AI can answer "No". Therefore I do not really like it anymore.
 
 September 24: divination.html was an 1 file Divination system that combines Tarot, I Ching, Kabbalah and Runes. DIVINATION.py is its older Python version.<br>
