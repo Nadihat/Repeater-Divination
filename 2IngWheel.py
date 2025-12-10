@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import hashlib
 import os
 import random
@@ -294,12 +295,17 @@ Commands:
         else:
             print(help_text)
     
-    def run(self):
+    def run(self, initial_question: str = None):
         """Main application loop"""
         self.display_header()
         
         # Get initial question
-        question = self.get_question()
+        if initial_question:
+            question = initial_question
+            self.print_colored(f"Using question: {question}", "cyan")
+        else:
+            question = self.get_question()
+        
         if not self.prepare_session(question):
             return
         
@@ -343,13 +349,22 @@ Commands:
                 break
 
 def main():
+    parser = argparse.ArgumentParser(description="EngWheel - Word divination tool")
+    parser.add_argument(
+        "-q", "--question", 
+        type=str, 
+        help="Question to use for divination session"
+    )
+    
+    args = parser.parse_args()
+    
     if not RICH_AVAILABLE:
         print("Note: Install 'rich' package for enhanced colors and formatting:")
         print("pip install rich")
         print()
     
     app = EngWheelApp()
-    app.run()
+    app.run(initial_question=args.question)
 
 if __name__ == "__main__":
     main()
