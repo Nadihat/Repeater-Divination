@@ -107,7 +107,7 @@ WORD_LIST = [
     "station", "dad", "bread", "charge", "proper", "bar", "offer", "segment", "slave", "duck", "instant",
     "market", "degree", "populate", "chick", "dear", "enemy", "reply", "drink", "occur", "support",
     "speech", "nature", "range", "steam", "motion", "path", "liquid", "log", "meant", "quotient", "teeth",
-    "shell", "neck", "anthro", "cub", "fox", "wolf", "raccoon", "lion", "empty", "beyond"
+    "shell", "neck", "anthro", "cub", "fox", "wolf", "raccoon", "lion", "empty", "beyond", "Disney", "waste"
 ]
 
 HASH_ROUNDS_SESSION = 8888
