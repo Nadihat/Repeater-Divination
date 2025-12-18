@@ -94,6 +94,35 @@ worlds = {
     "Material": ['Malkuth (Kingdom)']
 }
 
+# The Five Worlds - Atmospheric Filters
+FIVE_WORLDS = {
+    "Atziluth": {
+        "name": "Atziluth (Fire/Emanation)",
+        "description": "High Potential, Low Resistance - Energy flows like light",
+        "decay_divisor": 8000.0
+    },
+    "Briah": {
+        "name": "Briah (Air/Creation)", 
+        "description": "High Intelligence, Fast Movement - Energy flows like sound",
+        "decay_divisor": 6000.0
+    },
+    "Yetzirah": {
+        "name": "Yetzirah (Water/Formation)",
+        "description": "High Sensitivity, Swirling Flow - Energy flows like a river", 
+        "decay_divisor": 4000.0
+    },
+    "Assiah": {
+        "name": "Assiah (Earth/Action)",
+        "description": "High Density, High Resistance - Energy flows like lava",
+        "decay_divisor": 2000.0
+    },
+    "Ain Sof Aur": {
+        "name": "Ain Sof Aur (Limitless Light)",
+        "description": "No World - Default reading with no atmospheric modifications",
+        "decay_divisor": 5000.0
+    }
+}
+
 # === HASHING ENGINE ===
 class ProtectiveHasher:
     PROTECTION_ITERATIONS = 888_888
@@ -122,16 +151,25 @@ def hash_for_int(seed: bytes, question: str, salt: str = "") -> int:
     return int.from_bytes(hashed_bytes, 'big')
 
 # === FLOW-BASED READING LOGIC ===
-def calculate_path_conductivity(seed: bytes, question: str, sephirah1: str, sephirah2: str) -> float:
+def select_world(seed: bytes, question: str) -> dict:
+    """Select one of the Five Worlds based on the question hash."""
+    world_keys = list(FIVE_WORLDS.keys())
+    salt = "world-selection"
+    world_index = hash_for_int(seed, question, salt) % len(world_keys)
+    selected_key = world_keys[world_index]
+    return FIVE_WORLDS[selected_key]
+
+def calculate_path_conductivity(seed: bytes, question: str, sephirah1: str, sephirah2: str, decay_divisor: float = 5000.0) -> float:
     """Calculate how 'open' or 'closed' a path is between two Sephirot."""
     # Create a consistent path key regardless of direction
     path_key = tuple(sorted([sephirah1, sephirah2]))
     salt = f"path-conductivity-{path_key[0]}-{path_key[1]}"
     raw_val = hash_for_int(seed, question, salt) % 10000
     # Use exponential decay to create conductivity score (0.0 to 1.0)
-    return math.exp(-raw_val / 5000.0)
+    # The decay_divisor is modified by the selected World
+    return math.exp(-raw_val / decay_divisor)
 
-def get_sephirot_reading(seed: bytes, question: str, count: int) -> List[Tuple[str, str]]:
+def get_sephirot_reading(seed: bytes, question: str, count: int, selected_world: dict) -> List[Tuple[str, str]]:
     """
     Calculate Sephirot states based on energy flow through the Tree of Life network.
     States emerge from the balance of energy inflow vs outflow.
@@ -152,11 +190,12 @@ def get_sephirot_reading(seed: bytes, question: str, count: int) -> List[Tuple[s
         salt = f"potential-{name}"
         potentials[name] = hash_for_int(seed, question, salt) % 100
 
-    # Step 2: Calculate path conductivities for all connections
+    # Step 2: Calculate path conductivities for all connections (modified by World)
+    decay_divisor = selected_world["decay_divisor"]
     path_conductivities = {}
     for sephirah, neighbors in TREE_MAP.items():
         for neighbor in neighbors:
-            conductivity = calculate_path_conductivity(seed, question, sephirah, neighbor)
+            conductivity = calculate_path_conductivity(seed, question, sephirah, neighbor, decay_divisor)
             path_conductivities[(sephirah, neighbor)] = conductivity
 
     # Step 3: Calculate energy flow and determine states
@@ -232,7 +271,7 @@ def get_sephirot_reading(seed: bytes, question: str, count: int) -> List[Tuple[s
     
     return result
 
-def get_paths_reading(seed: bytes, question: str, count: int) -> List[Tuple[str, str]]:
+def get_paths_reading(seed: bytes, question: str, count: int, selected_world: dict) -> List[Tuple[str, str]]:
     """Deterministically selects Paths and calculates their flow states based on the question."""
     if count == 0:
         return []
@@ -264,8 +303,9 @@ def get_paths_reading(seed: bytes, question: str, count: int) -> List[Tuple[str,
             
         seph1, seph2 = PATH_CONNECTIONS[path_name]
         
-        # Calculate conductivity for this specific path
-        conductivity = calculate_path_conductivity(seed, question, seph1, seph2)
+        # Calculate conductivity for this specific path (modified by World)
+        decay_divisor = selected_world["decay_divisor"]
+        conductivity = calculate_path_conductivity(seed, question, seph1, seph2, decay_divisor)
         
         # Calculate potential difference across the path
         potential_diff = abs(potentials[seph1] - potentials[seph2])
@@ -329,18 +369,23 @@ def main():
     auth_hash = ProtectiveHasher.derive_protected_bytes(seed, b"kabbalah-auth")
     auth_string = auth_hash.hex()[:8].upper()
 
+    # Select the World (Atmospheric Filter)
+    selected_world = select_world(seed, question)
+    
     console.print(f"[bold purple]Kabbalistic Divination for:[/bold purple] '{question}'")
     console.print(f"[dim]Entropy Source:[/dim] os.urandom")
     console.print(f"[dim]Auth:[/dim] [bold green]{auth_string}[/bold green]")
+    console.print(f"[bold cyan]World:[/bold cyan] {selected_world['name']}")
+    console.print(f"[dim]{selected_world['description']}[/dim]")
 
 
     # Determine sephirot count
     if revelation_choice in ['1', '3']:
         sephirot_count = int(revelation_choice)
-        revealed_sephirot_with_states = get_sephirot_reading(seed, question, sephirot_count)
+        revealed_sephirot_with_states = get_sephirot_reading(seed, question, sephirot_count, selected_world)
     else: # '10' or '4'
         sephirot_count = 10
-        revealed_sephirot_with_states = get_sephirot_reading(seed, question, 10)
+        revealed_sephirot_with_states = get_sephirot_reading(seed, question, 10, selected_world)
 
     # Determine path count
     if args.paths is not None:
@@ -352,7 +397,7 @@ def main():
         # If not specified, derive it from the query
         path_count = (hash_for_int(seed, question, "path-count-salt") % (NUM_PATHS // 2)) + 1
 
-    revealed_paths_with_states = get_paths_reading(seed, question, path_count)
+    revealed_paths_with_states = get_paths_reading(seed, question, path_count, selected_world)
 
     # --- Display Results ---
     console.print("[bold magenta]The Revealed Sephiroth:[/bold magenta]")
