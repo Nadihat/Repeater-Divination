@@ -229,36 +229,54 @@ def get_sephirot_reading(seed: bytes, question: str, count: int, selected_world:
         net_pressure = inflow - outflow
         flow_pressures.append(net_pressure)
     
-    # Step 4: Use standard deviation to determine relative thresholds
-    if len(flow_pressures) > 1:
-        mean_pressure = sum(flow_pressures) / len(flow_pressures)
-        variance = sum((p - mean_pressure) ** 2 for p in flow_pressures) / len(flow_pressures)
-        std_dev = math.sqrt(variance) if variance > 0 else 1.0
-        threshold = std_dev * 0.8  # Adjust sensitivity
-    else:
-        threshold = 10.0  # Default threshold for single readings
+    # Step 4: Calculate the Ambient Pressure of the Tree (The 10 Sephirot)
+    # We use the absolute values because we care about Magnitude of stress, not direction.
+    abs_pressures = [abs(p) for p in flow_pressures] 
+    mean_pressure = sum(abs_pressures) / len(abs_pressures)
     
-    # Step 5: The Abyssal Logic (Da'at)
-    # Calculate the 'tension' between the Supernal Triad and the rest
-    supernal_inflow = sum(potentials[n] for n in ['Keter (Crown)', 'Chokmah (Wisdom)', 'Binah (Understanding)'])
-    tree_outflow = potentials['Tiferet (Beauty)']
+    # Calculate Standard Deviation of the 10
+    variance = sum((p - mean_pressure) ** 2 for p in abs_pressures) / len(abs_pressures)
+    std_dev = math.sqrt(variance) if variance > 0 else 1.0
+    threshold = std_dev * 0.8  # Adjust sensitivity for normal Sephirot
     
-    daat_revealed = False
-    daat_state = 'Normal'
+    # Step 5: Calculate the Tension of the Abyss (Da'at)
+    # The Gap between the Supernal Triad (Head) and Tiferet (Heart)
+    # We use the RAW potentials here to see the input vs output mismatch
+    supernal_inflow = (potentials['Keter (Crown)'] + potentials['Chokmah (Wisdom)'] + potentials['Binah (Understanding)']) / 3
+    tiferet_outflow = potentials['Tiferet (Beauty)']
     
-    if abs(supernal_inflow - tree_outflow) > (threshold * 2):
-        daat_revealed = True
-        # Determine Da'at's state based on the tension direction
-        if supernal_inflow > tree_outflow:
-            daat_state = 'Excessive'  # Too much divine energy, blocked transmission
-        else:
-            daat_state = 'Deficient'  # Insufficient divine energy reaching the lower tree
-        
-        console.print(f"[bold yellow]The Abyss (Da'at) is revealed - {daat_state}[/bold yellow]")
-        # Add Da'at to the results if it's revealed
-        result.append(('Da\'at (Knowledge)', daat_state))
+    # This is the raw stress on the bridge
+    daat_tension = abs(supernal_inflow - tiferet_outflow)
 
-    # Step 6: Assign states based on relative pressure
+    # Step 6: The Judgment of the Abyss (Sigma Event Logic)
+    # Da'at only appears if it is an OUTLIER (Sigma Event)
+    # We use a multiplier (e.g., 1.5 or 2.0). 
+    # 1.5 = Da'at appears occasionally (Rare)
+    # 2.0 = Da'at appears very rarely (Miracle/Catastrophe)
+    sigma_multiplier = 1.5 
+    
+    daat_state = None # Default is Hidden/Balanced
+
+    if daat_tension > (mean_pressure + (std_dev * sigma_multiplier)):
+        daat_state = "Excessive" 
+    elif daat_tension < (mean_pressure - (std_dev * sigma_multiplier)):
+        # Note: It is very hard for Da'at to be statistically 'Deficient' using abs(), 
+        # so this mostly catches the 'Excessive' spikes, which is metaphysically correct.
+        # Da'at is usually a presence or an absence.
+        daat_state = "Deficient"
+
+    # Step 7: Insert Da'at into the Result ONLY if it has a State
+    if daat_state:
+        # Prepend to the list so it appears at the top
+        result.insert(0, ('Da\'at (Knowledge)', daat_state))
+        
+        # VISUAL FLARE
+        if daat_state == "Excessive":
+            console.print("[bold yellow]⚡ REVELATION: The Abyss (Da'at) is Bridged! ⚡[/bold yellow]")
+        elif daat_state == "Deficient":
+            console.print("[dim]The Abyss is Silent (Deficient Da'at)[/dim]")
+
+    # Step 8: Assign states based on relative pressure for the chosen Sephirot
     for i, (name, net_pressure) in enumerate(zip(chosen_names, flow_pressures)):
         if net_pressure > threshold:
             state = 'Excessive'  # Energy bottleneck - too much coming in, not enough going out
