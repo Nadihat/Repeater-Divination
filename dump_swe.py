@@ -8,10 +8,10 @@ LON = -70.66
 NOW = datetime.now(timezone.utc)
 
 # --- BODIES TO DUMP ---
-# 0-9 = Sun through Pluto
+# 0-9 = Sun through Pluto (excluding Earth at ID 3)
 # 10-14 = Nodes & Moon variations
 # 15-20 = Chiron, Pholus, Ceres, Pallas, Juno, Vesta
-PLANET_IDS = range(0, 21)
+PLANET_IDS = [0, 1, 2, 4, 5, 6, 7, 8, 9] + list(range(10, 21))
 
 FIXED_STARS = ["Sirius", "Canopus", "Arcturus", "Vega", "Capella", "Rigel", "Procyon", "Betelgeuse", "Algol", "Aldebaran", "Spica", "Antares", "Regulus"]
 
