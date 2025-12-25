@@ -56,4 +56,4 @@ August 1, 2025: Added 2Astrology.py, which contains Transits.
 
 cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
 
-The Tarot file is GPL3, and since all the other files were derived from it, they're too.
+The Tarot file once was GPL3, and since all the other files were derived from it, they were too. However, as of December 2025, AnthroHeart/Cio has moved to CC0 for everything he makes, so I have too.
