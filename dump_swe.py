@@ -57,15 +57,15 @@ def main():
             res, flags = swe.calc_ut(jd, pid, flags)
 
             # Calculate visual magnitude and phase
-            mag_phase = None
             try:
                 # pheno_ut returns [phase_angle, phase, elongation, apparent_diameter, apparent_magnitude]
-                pheno_res, pheno_flags = swe.pheno_ut(jd, pid, flags)
+                pheno_result = swe.pheno_ut(jd, pid, flags)
+                pheno_res = pheno_result[0]  # The actual data array
                 magnitude = pheno_res[4]
                 phase = pheno_res[1] * 100  # Convert to percentage
                 mag_str = f"{magnitude:>5.1f}"
                 phase_str = f"{phase:>6.1f}%"
-            except (swe.Error, IndexError):
+            except (swe.Error, IndexError, ValueError):
                 # Some bodies don't have magnitude/phase data
                 mag_str = "  N/A"
                 phase_str = "   N/A"
