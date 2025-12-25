@@ -38,9 +38,9 @@ def main():
     print(f"Delta T:    {swe.deltat(jd)} sec")
 
     # 3. Dump Planets & Asteroids
-    print("\n" + "="*95)
-    print(f"{'ID':<4} {'BODY':<12} {'LONGITUDE':<18} {'LATITUDE':<12} {'DIST (AU)':<12} {'SPEED (deg/day)':<15}")
-    print("="*95)
+    print("\n" + "="*130)
+    print(f"{'ID':<4} {'BODY':<12} {'LONGITUDE':<18} {'LATITUDE':<12} {'DIST (AU)':<12} {'SPEED (deg/day)':<15} {'MAG':<6} {'PHASE':<8}")
+    print("="*130)
 
     for pid in PLANET_IDS:
         try:
@@ -52,13 +52,27 @@ def main():
             # Get name
             name = swe.get_planet_name(pid)
 
-            # Calculate
+            # Calculate position
             # res = [longitude, latitude, distance, speed_long, speed_lat, speed_dist]
             res, flags = swe.calc_ut(jd, pid, flags)
 
+            # Calculate visual magnitude and phase
+            mag_phase = None
+            try:
+                # pheno_ut returns [phase_angle, phase, elongation, apparent_diameter, apparent_magnitude]
+                pheno_res, pheno_flags = swe.pheno_ut(jd, pid, flags)
+                magnitude = pheno_res[4]
+                phase = pheno_res[1] * 100  # Convert to percentage
+                mag_str = f"{magnitude:>5.1f}"
+                phase_str = f"{phase:>6.1f}%"
+            except (swe.Error, IndexError):
+                # Some bodies don't have magnitude/phase data
+                mag_str = "  N/A"
+                phase_str = "   N/A"
+
             retro = " (R)" if res[3] < 0 else ""
 
-            print(f"{pid:<4} {name:<12} {fmt_pos(res[0]):<18} {res[1]:>8.4f}°  {res[2]:>10.5f}   {res[3]:>10.5f}{retro}")
+            print(f"{pid:<4} {name:<12} {fmt_pos(res[0]):<18} {res[1]:>8.4f}°  {res[2]:>10.5f}   {res[3]:>10.5f}{retro} {mag_str} {phase_str}")
         except swe.Error:
             pass # Skip if ephemeris file missing for asteroids
 
