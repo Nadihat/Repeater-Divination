@@ -163,10 +163,10 @@ def calculate_harmonic_chart(planet_positions, harmonic):
     return harmonic_positions
 
 def find_moon_aspects(moon_pos, moon_speed, planet_positions, jd_ut):
-    """Find Moon's aspects with proper VOC calculation."""
+    """Find Moon's aspects with proper VOC calculation and same-sign conjunction detection."""
     moon_sign = int(moon_pos / 30)
     degrees_to_next_sign = (moon_sign + 1) * 30 - moon_pos
-    hours_to_next_sign = degrees_to_next_sign / (moon_speed / 24)  # Convert daily motion to hourly
+    hours_to_next_sign = degrees_to_next_sign / (abs(moon_speed) / 24)  # Convert daily motion to hourly
     
     aspects = []
     applying_aspects_before_sign_change = []
@@ -176,6 +176,36 @@ def find_moon_aspects(moon_pos, moon_speed, planet_positions, jd_ut):
         if name == 'Moon':
             continue
             
+        planet_sign = int(pos / 30)
+        
+        # HORARY RULE: Same-sign conjunction check (regardless of orb)
+        if moon_sign == planet_sign and moon_speed > 0:  # Moon moving forward
+            # Check if Moon is behind the planet (applying conjunction)
+            moon_degree_in_sign = moon_pos % 30
+            planet_degree_in_sign = pos % 30
+            
+            if moon_degree_in_sign < planet_degree_in_sign:
+                # This is an applying same-sign conjunction
+                degrees_to_exact = planet_degree_in_sign - moon_degree_in_sign
+                hours_to_exact = degrees_to_exact / (abs(moon_speed) / 24)
+                
+                applying_aspects_before_sign_change.append({
+                    'planet': name,
+                    'aspect': 'Conjunction (Same Sign)',
+                    'orb': degrees_to_exact,
+                    'direction': 'Applying',
+                    'hours_to_exact': hours_to_exact
+                })
+                
+                aspects.append({
+                    'planet': name,
+                    'aspect': 'Conjunction (Same Sign)',
+                    'orb': degrees_to_exact,
+                    'direction': 'Applying'
+                })
+                continue  # Skip normal aspect calculation for same-sign planets
+        
+        # Normal aspect calculation with orb limits
         aspect_name, orb = calculate_aspect(moon_pos, pos)
         if aspect_name:
             # Calculate if applying or separating
@@ -187,8 +217,6 @@ def find_moon_aspects(moon_pos, moon_speed, planet_positions, jd_ut):
                 direction = "Applying"
                 
                 # Check if aspect will perfect BEFORE Moon changes signs
-                # Calculate degrees Moon needs to travel to perfect the aspect
-                target_degrees = [0, 60, 90, 120, 180]  # Conjunction, Sextile, Square, Trine, Opposition
                 aspect_angles = {'Conjunction': 0, 'Sextile': 60, 'Square': 90, 'Trine': 120, 'Opposition': 180}
                 target_angle = aspect_angles[aspect_name]
                 
