@@ -3,8 +3,6 @@ The Intention Repeater Tarot by Thomas Sweet/AnthroHeart (https://intentionrepea
 
 # EngWheelSuited.html is the ultimate version.
 
-Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recommended me to delete it, so I did.
-
 December 10: You can read commits and code for details. Aastrology.py was updated with os.urandom() and SHA256-PBKDF2-HMAC, the minor bodies have also been gated with a commandline switch/option. Only the top 20 Aspects/Transits are shown by default, but you can change that number. A couple tools have warned that ASTROLOGY.py is faulty and must not be used. 2IngWheel.py is IngWheel.html but adapted for commandline Python (better than early experiments). You select numbers by writing them. KABBALAH5.py is a transition version. KABBALAH6.py has been described as reliable. Excessive/Deficient Sephiroth ratio was dropped to 7.5%/7.5%.<br><br>
 However, KABBALAH7.py is more reliable than it, as it has been updated to use a fluid dynamics model, where the Paths are liquid tubes connecting the Sephiroth by how much inflow and outflow they have.<br><br>
 KABBALAH7.py's inflow/outflow system is tinted (shifted) by one of the 4 worlds, plus the 5th default world that doesn't shift it. K7 also has Da'at (Knowledge), the "hidden" Sephirah..
@@ -57,3 +55,5 @@ August 1, 2025: Added 2Astrology.py, which contains Transits.
 cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
 
 The Tarot file once was GPL3, and since all the other files were derived from it, they were too. However, as of December 2025, AnthroHeart/Cio has moved to CC0 for everything he makes, so I have too.
+
+Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recommended me to delete it, so I did.
