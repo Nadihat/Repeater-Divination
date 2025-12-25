@@ -81,7 +81,7 @@ def main():
     print(f"{'='*40}")
     print(f"ASC: {fmt_pos(ascmc[0])}")
     print(f"MC:  {fmt_pos(ascmc[1])}")
-    for i in range(1, 13):
+    for i in range(1, min(13, len(cusps))):
         print(f"House {i:02}: {fmt_pos(cusps[i])}")
 
     # 5. Fixed Stars
