@@ -9,7 +9,7 @@ December 10: You can read commits and code for details. Aastrology.py was update
 
 All old remaining versions have been moved to the Historical folder.
 
-An astrology reading can be so much data that one AI can answer "Yes", but a second AI can answer "No". Therefore I do not really like it anymore.
+An astrology reading can be so much data that one AI can answer "Yes", but a second AI can answer "No". Therefore I do not really like it anymore. December 25 Update: though Aastrology.py tends to be accurate
 
 September 24: divination.html was an 1 file Divination system that combines Tarot, I Ching, Kabbalah and Runes. DIVINATION.py is its older Python version.<br>
 DivinationColors.html was the v2, with a grid of numbers. DivinationColors2.html includes an automated button.<br>
