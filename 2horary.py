@@ -75,8 +75,12 @@ def calculate_aspect(deg1, deg2):
     
     return None, None
 
-def get_planet_dignity(planet_name, sign_idx):
-    """Determine planetary dignity."""
+def get_planet_dignity(planet_name, position_degrees):
+    """Determine planetary dignity including all 5 levels: Rulership, Exaltation, Triplicity, Term, Face."""
+    sign_idx = int(position_degrees / 30)
+    degree_in_sign = position_degrees % 30
+    
+    # Essential Dignities
     dignities = {
         'Sun': {'rulership': [4], 'exaltation': [0], 'detriment': [10], 'fall': [6]},
         'Moon': {'rulership': [3], 'exaltation': [1], 'detriment': [9], 'fall': [7]},
@@ -87,11 +91,40 @@ def get_planet_dignity(planet_name, sign_idx):
         'Saturn': {'rulership': [9, 10], 'exaltation': [6], 'detriment': [3, 4], 'fall': [0]}
     }
     
+    # Triplicity rulers (Day/Night rulers for Fire, Earth, Air, Water)
+    triplicities = {
+        # Fire signs (Aries, Leo, Sagittarius): Sun/Jupiter
+        0: {'day': 'Sun', 'night': 'Jupiter'}, 4: {'day': 'Sun', 'night': 'Jupiter'}, 8: {'day': 'Sun', 'night': 'Jupiter'},
+        # Earth signs (Taurus, Virgo, Capricorn): Venus/Moon  
+        1: {'day': 'Venus', 'night': 'Moon'}, 5: {'day': 'Venus', 'night': 'Moon'}, 9: {'day': 'Venus', 'night': 'Moon'},
+        # Air signs (Gemini, Libra, Aquarius): Saturn/Mercury
+        2: {'day': 'Saturn', 'night': 'Mercury'}, 6: {'day': 'Saturn', 'night': 'Mercury'}, 10: {'day': 'Saturn', 'night': 'Mercury'},
+        # Water signs (Cancer, Scorpio, Pisces): Venus/Mars
+        3: {'day': 'Venus', 'night': 'Mars'}, 7: {'day': 'Venus', 'night': 'Mars'}, 11: {'day': 'Venus', 'night': 'Mars'}
+    }
+    
+    # Egyptian Terms (simplified version - each planet rules specific degree ranges)
+    terms = {
+        0: [(0, 6, 'Jupiter'), (6, 12, 'Venus'), (12, 20, 'Mercury'), (20, 25, 'Mars'), (25, 30, 'Saturn')],  # Aries
+        1: [(0, 8, 'Venus'), (8, 14, 'Mercury'), (14, 22, 'Jupiter'), (22, 27, 'Saturn'), (27, 30, 'Mars')],   # Taurus
+        2: [(0, 6, 'Mercury'), (6, 12, 'Jupiter'), (12, 17, 'Venus'), (17, 24, 'Mars'), (24, 30, 'Saturn')],   # Gemini
+        3: [(0, 7, 'Mars'), (7, 13, 'Venus'), (13, 19, 'Mercury'), (19, 26, 'Jupiter'), (26, 30, 'Saturn')],   # Cancer
+        4: [(0, 6, 'Jupiter'), (6, 11, 'Venus'), (11, 18, 'Saturn'), (18, 24, 'Mercury'), (24, 30, 'Mars')],   # Leo
+        5: [(0, 7, 'Mercury'), (7, 17, 'Venus'), (17, 21, 'Jupiter'), (21, 28, 'Mars'), (28, 30, 'Saturn')],   # Virgo
+        6: [(0, 6, 'Saturn'), (6, 14, 'Mercury'), (14, 21, 'Jupiter'), (21, 28, 'Venus'), (28, 30, 'Mars')],   # Libra
+        7: [(0, 7, 'Mars'), (7, 11, 'Venus'), (11, 19, 'Mercury'), (19, 24, 'Jupiter'), (24, 30, 'Saturn')],   # Scorpio
+        8: [(0, 12, 'Jupiter'), (12, 17, 'Venus'), (17, 21, 'Mercury'), (21, 26, 'Saturn'), (26, 30, 'Mars')], # Sagittarius
+        9: [(0, 7, 'Mercury'), (7, 14, 'Jupiter'), (14, 22, 'Venus'), (22, 26, 'Saturn'), (26, 30, 'Mars')],   # Capricorn
+        10: [(0, 7, 'Mercury'), (7, 13, 'Venus'), (13, 20, 'Jupiter'), (20, 25, 'Mars'), (25, 30, 'Saturn')], # Aquarius
+        11: [(0, 12, 'Venus'), (12, 16, 'Jupiter'), (16, 19, 'Mercury'), (19, 28, 'Mars'), (28, 30, 'Saturn')] # Pisces
+    }
+    
     if planet_name not in dignities:
         return "Peregrine"
     
     planet_dig = dignities[planet_name]
     
+    # Check major dignities first
     if sign_idx in planet_dig.get('rulership', []):
         return "Rulership"
     elif sign_idx in planet_dig.get('exaltation', []):
@@ -100,8 +133,26 @@ def get_planet_dignity(planet_name, sign_idx):
         return "Detriment"
     elif sign_idx in planet_dig.get('fall', []):
         return "Fall"
-    else:
-        return "Peregrine"
+    
+    # Check Triplicity (assume day chart for simplicity - could be enhanced with actual chart time)
+    triplicity_ruler = triplicities.get(sign_idx, {}).get('day')
+    if triplicity_ruler == planet_name:
+        return "Triplicity"
+    
+    # Check Terms
+    if sign_idx in terms:
+        for start, end, term_ruler in terms[sign_idx]:
+            if start <= degree_in_sign < end and term_ruler == planet_name:
+                return "Term"
+    
+    # Check Face/Decan (each 10° ruled by planets in Chaldean order)
+    face_rulers = ['Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter']
+    decan = int(degree_in_sign / 10)
+    face_ruler_idx = (sign_idx * 3 + decan) % 7
+    if face_rulers[face_ruler_idx] == planet_name:
+        return "Face"
+    
+    return "Peregrine"
 
 def calculate_harmonic_chart(planet_positions, harmonic):
     """Calculate harmonic chart positions."""
@@ -112,14 +163,15 @@ def calculate_harmonic_chart(planet_positions, harmonic):
     return harmonic_positions
 
 def find_moon_aspects(moon_pos, moon_speed, planet_positions, jd_ut):
-    """Find Moon's last and next aspects."""
+    """Find Moon's aspects with proper VOC calculation."""
     moon_sign = int(moon_pos / 30)
     degrees_to_next_sign = (moon_sign + 1) * 30 - moon_pos
     hours_to_next_sign = degrees_to_next_sign / (moon_speed / 24)  # Convert daily motion to hourly
     
     aspects = []
+    applying_aspects_before_sign_change = []
     
-    # Check aspects within the current sign
+    # Check aspects with all planets
     for name, pos in planet_positions.items():
         if name == 'Moon':
             continue
@@ -133,6 +185,32 @@ def find_moon_aspects(moon_pos, moon_speed, planet_positions, jd_ut):
             
             if future_orb < current_orb:
                 direction = "Applying"
+                
+                # Check if aspect will perfect BEFORE Moon changes signs
+                # Calculate degrees Moon needs to travel to perfect the aspect
+                target_degrees = [0, 60, 90, 120, 180]  # Conjunction, Sextile, Square, Trine, Opposition
+                aspect_angles = {'Conjunction': 0, 'Sextile': 60, 'Square': 90, 'Trine': 120, 'Opposition': 180}
+                target_angle = aspect_angles[aspect_name]
+                
+                # Calculate exact aspect position
+                diff = pos - moon_pos
+                if diff < 0:
+                    diff += 360
+                if diff > 180:
+                    diff = diff - 360
+                    
+                degrees_to_exact = abs(abs(diff) - target_angle)
+                hours_to_exact = degrees_to_exact / (abs(moon_speed) / 24)
+                
+                # If aspect perfects before sign change, it's valid
+                if hours_to_exact < hours_to_next_sign:
+                    applying_aspects_before_sign_change.append({
+                        'planet': name,
+                        'aspect': aspect_name,
+                        'orb': orb,
+                        'direction': direction,
+                        'hours_to_exact': hours_to_exact
+                    })
             else:
                 direction = "Separating"
                 
@@ -143,9 +221,10 @@ def find_moon_aspects(moon_pos, moon_speed, planet_positions, jd_ut):
                 'direction': direction
             })
     
-    void_of_course = len([a for a in aspects if a['direction'] == 'Applying']) == 0
+    # True VOC: No applying aspects that perfect before sign change
+    void_of_course = len(applying_aspects_before_sign_change) == 0
     
-    return aspects, void_of_course, hours_to_next_sign
+    return aspects, void_of_course, hours_to_next_sign, applying_aspects_before_sign_change
 
 def main():
     # 1. Get Time (Always UTC for calculation)
@@ -190,8 +269,7 @@ def main():
         planet_positions[name] = lon
         planet_speeds[name] = speed
         
-        sign_idx = int(lon / 30)
-        dignity = get_planet_dignity(name, sign_idx)
+        dignity = get_planet_dignity(name, lon)
         
         print(f"{name:<8}: {get_sign_pos(lon)}{retro} [{dignity}]")
         
@@ -243,12 +321,11 @@ def main():
     moon_pos = planet_positions['Moon']
     moon_speed = planet_speeds['Moon']
     
-    aspects, void_of_course, hours_to_next_sign = find_moon_aspects(
+    aspects, void_of_course, hours_to_next_sign, applying_before_sign_change = find_moon_aspects(
         moon_pos, moon_speed, planet_positions, jd_ut
     )
     
-    moon_sign_idx = int(moon_pos / 30)
-    moon_dignity = get_planet_dignity('Moon', moon_sign_idx)
+    moon_dignity = get_planet_dignity('Moon', moon_pos)
     moon_fast = abs(moon_speed) > 13.0  # Average daily motion is ~13°
     
     print(f"Moon Status: {moon_dignity}, {'Fast' if moon_fast else 'Slow'} Motion")
@@ -261,6 +338,11 @@ def main():
         for aspect in aspects:
             print(f"  {aspect['direction']} {aspect['aspect']} to {aspect['planet']} (orb: {aspect['orb']:.1f}°)")
     
+    if applying_before_sign_change:
+        print("\nApplying Aspects Before Sign Change:")
+        for aspect in applying_before_sign_change:
+            print(f"  {aspect['aspect']} to {aspect['planet']} in {aspect['hours_to_exact']:.1f} hours")
+    
     # 7. HORARY SUMMARY
     print("\n--- HORARY SUMMARY ---")
     asc_ruler_sign = int(ascmc[0] / 30)
@@ -270,7 +352,7 @@ def main():
     }
     
     chart_ruler = asc_ruler_planets[asc_ruler_sign]
-    ruler_dignity = planet_data[chart_ruler]['dignity']
+    ruler_dignity = get_planet_dignity(chart_ruler, planet_positions[chart_ruler])
     
     print(f"Chart Ruler: {chart_ruler} in {ruler_dignity}")
     print(f"Moon: {moon_dignity}, {'Applying' if not void_of_course else 'Void of Course'}")
