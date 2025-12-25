@@ -89,7 +89,7 @@ def main():
 
     for i, cusp in enumerate(cusps):
         if i == 0: continue # Cusp 0 is usually empty in the tuple
-        print(f"House {i}: {fmt_pos(cusp)}")
+        print(f"House {i + 1}: {fmt_pos(cusp)}")
 
     print("\n" + "="*40)
     print("AYANAMSA (Sidereal Offset)")
