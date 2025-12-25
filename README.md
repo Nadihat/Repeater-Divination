@@ -28,7 +28,7 @@ TAROT2.py makes it automatic as I-CHING3.py.
 
 WHEEL.py uses a spinning wheel to generate cards. Hashes are selected by pressing Enter.
 
-I-CHING.py was the equivalent for I-Ching. I-CHING2.py is "Ok, made an update so that it always displays text in the Image, and it keeps up the animation message until drawn." I-CHING3.py is more detailed, but you may prefer to use 2 instead. Your choice.
+I-CHING.py was the equivalent for I-Ching. I-CHING2.py was "Ok, made an update so that it always displays text in the Image, and it keeps up the animation message until drawn." December 25 update (actually earlier): I-CHING3.py had a trigram reversal bug which was fixed. The style of I-CHING2.py was deemed as less info-rich, so it was stashed in Historical.
 
 KABBALAH2.py is MKabbalahv6a.py translated to the new system. KABBALAH3.py was made "automatic" like I-CHING3.py is. You can choose to use it or not.<br>
 KABBALAH4.py becomes like I-CHING3.py: varying results by timestamp.
