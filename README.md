@@ -35,8 +35,6 @@ KABBALAH4.py becomes like I-CHING3.py: varying results by timestamp.
 
 Likewise for RUNES.py.
 
-ANTHRO_ORACLE.py draws animal totems. It isn't automatic.
-
 ---
 
 Symmetrical runes (that look the same any side) such as Gebo do not traditionally have a reversed form. Despite this, recent tool versions do include their reversed forms.
