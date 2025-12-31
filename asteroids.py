@@ -21,7 +21,7 @@ MAJOR_PLANETS = [
 ]
 MINOR_BODIES = [
     'Ceres', 'Pallas', 'Juno', 'Vesta', 'Hygiea', 'Chiron', 'Pholus', 'Eris', 
-    'Haumea', 'Makemake', 'Gonggong', 'Quaoar', 'Sedna', 'Orcus', 'Urania', 'Computatrix', 'Pandora', 'Shiva', 'Tesla', 'Pandora', 'KW9', 'Chaos', 'Beer'
+    'Haumea', 'Makemake', 'Gonggong', 'Quaoar', 'Sedna', 'Orcus', 'Urania', 'Computatrix', 'Pandora', 'Shiva', 'Tesla', 'Soma', 'KW9', 'Chaos', 'Beer'
 ]
 
 # === POWER SCORES ===
