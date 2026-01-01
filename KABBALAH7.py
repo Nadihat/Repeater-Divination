@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-KABBALAH6.py
+KABBALAH7.py
 Kabbalistic readings based on cryptographic hashing and true randomness from os.urandom.
 
 This version provides non-deterministic, non-interactive, and truly random readings based on a user's query,
