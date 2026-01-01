@@ -125,7 +125,7 @@ FIVE_WORLDS = {
 
 # === HASHING ENGINE ===
 class ProtectiveHasher:
-    PROTECTION_ITERATIONS = 888_888
+    PROTECTION_ITERATIONS = 88_888
     HASH_LENGTH = 32
 
     @staticmethod
@@ -184,11 +184,17 @@ def get_sephirot_reading(seed: bytes, question: str, count: int, selected_world:
             index = hash_for_int(seed, question, salt) % len(available_sephirot)
             chosen_names.append(available_sephirot.pop(index))
 
-    # Step 1: Assign base potential to each Sephirah (0-100)
+        # Step 1: Assign base potential to each Sephirah (0-100)
+    # TWEAK: Weighted curve to prevent "flooding" (Jupiter SQ Sun correction).
+    # Instead of flat random, we roll twice and average, slightly favoring moderate energy over chaos.
     potentials = {}
     for name in sephirot_names:
-        salt = f"potential-{name}"
-        potentials[name] = hash_for_int(seed, question, salt) % 100
+        salt_a = f"potential-{name}-a"
+        salt_b = f"potential-{name}-b"
+        roll_a = hash_for_int(seed, question, salt_a) % 100
+        roll_b = hash_for_int(seed, question, salt_b) % 100
+        # Averaging stabilizes the inflow, reducing spikes
+        potentials[name] = (roll_a + roll_b) / 2
 
     # Step 2: Calculate path conductivities for all connections (modified by World)
     decay_divisor = selected_world["decay_divisor"]
