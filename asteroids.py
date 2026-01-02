@@ -28,9 +28,9 @@ MINOR_BODIES = [
 PLANET_POWER = {
     'Sun': 10, 'Moon': 9, 'Pluto': 8, 'Mars': 7, 'Jupiter': 7, 'Saturn': 7,
     'Mercury': 6, 'Uranus': 6, 'Neptune': 6, 'Venus': 5,
-    'Ceres': 4, 'Chiron': 4, 'Pallas': 3, 'Juno': 3, 'Vesta': 3, 'Mean Apogee': 3, 'Osculating Apogee': 2,
-    'Hygiea': 2, 'Pholus': 2, 'Eris': 2, 'Haumea': 1, 'Makemake': 1,
-    'Gonggong': 1, 'Quaoar': 1, 'Sedna': 1, 'Orcus': 1
+    'Ceres': 5, 'Chiron': 4, 'Pallas': 3, 'Juno': 3, 'Vesta': 3, 'Mean Apogee': 3, 'Osculating Apogee': 2,
+    'Hygiea': 2, 'Pholus': 2, 'Eris': 4, 'Haumea': 1, 'Makemake': 1,
+    'Gonggong': 1, 'Quaoar': 1, 'Sedna': 3, 'Orcus': 1
 }
 SIGNS = [
     'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
