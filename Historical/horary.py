@@ -4,7 +4,7 @@ import itertools
 import math
 
 # --- CONFIGURATION ---
-LAT = -33.4489  # Santiago
+LAT = -33.4489
 LON = -70.6693
 # Using Regiomontanus (Standard for Horary)
 HOUSE_SYSTEM = b'R' 
@@ -262,7 +262,7 @@ def main():
 
     print(f"\n" + "="*60)
     print(f" ADVANCED HORARY CHART: {now.strftime('%Y-%m-%d %H:%M:%S')} UTC")
-    print(f" Location: {LAT}, {LON} (Santiago)")
+    print(f" Location: {LAT}, {LON}")
     print("="*60 + "\n")
 
     # 2. Calculate Houses
@@ -402,7 +402,6 @@ def main():
         strongest = min(aspects, key=lambda x: x['orb'])
         print(f"Strongest Lunar Aspect: {strongest['direction']} {strongest['aspect']} to {strongest['planet']}")
 
-    print("\n" + "="*60)
     swe.close()
 
 if __name__ == "__main__":
