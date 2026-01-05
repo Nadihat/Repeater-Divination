@@ -344,6 +344,12 @@ def main():
     for name, pos in list(h5_positions.items())[:5]:
         print(f"{name:<8}: {get_sign_pos(pos)}")
     
+    # 8th Harmonic - Transformation patterns
+    h8_positions = calculate_harmonic_chart(planet_positions, 8)
+    print("\n8th Harmonic (Transformation Patterns):")
+    for name, pos in list(h8_positions.items())[:5]:
+        print(f"{name:<8}: {get_sign_pos(pos)}")
+    
     # 9th Harmonic - Spiritual insights
     h9_positions = calculate_harmonic_chart(planet_positions, 9)
     print("\n9th Harmonic (Spiritual Insights):")
