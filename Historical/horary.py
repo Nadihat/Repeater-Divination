@@ -343,6 +343,12 @@ def main():
     print("\n5th Harmonic (Technical Talents):")
     for name, pos in list(h5_positions.items())[:5]:
         print(f"{name:<8}: {get_sign_pos(pos)}")
+    
+    # 9th Harmonic - Spiritual insights
+    h9_positions = calculate_harmonic_chart(planet_positions, 9)
+    print("\n9th Harmonic (Spiritual Insights):")
+    for name, pos in list(h9_positions.items())[:5]:
+        print(f"{name:<8}: {get_sign_pos(pos)}")
 
     # 6. LUNAR ASPECTARIAN - The Pulse
     print("\n--- LUNAR ASPECTARIAN (The Pulse) ---")
