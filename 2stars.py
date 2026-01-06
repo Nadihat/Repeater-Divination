@@ -30,7 +30,7 @@ PLANET_POWER = {
     'Mercury': 6, 'Uranus': 6, 'Neptune': 6, 'Venus': 5,
     'Ceres': 5, 'Chiron': 4, 'Pallas': 3, 'Juno': 3, 'Vesta': 3, 'Mean Apogee': 3, 'Osculating Apogee': 2,
     'Hygiea': 2, 'Pholus': 2, 'Eris': 4, 'Haumea': 2, 'Makemake': 2,
-    'Gonggong': 2, 'Quaoar': 2, 'Sedna': 3, 'Orcus': 2, 'Regulus': 9, 'Algol': 9, 'Sirius': 9, 'Spica': 9, 'Antares': 9
+    'Gonggong': 2, 'Quaoar': 2, 'Sedna': 3, 'Orcus': 2, 'Regulus': 8, 'Algol': 7, 'Sirius': 8, 'Spica': 8, 'Antares': 7
 }
 SIGNS = [
     'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
