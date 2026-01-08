@@ -30,7 +30,7 @@ PLANET_POWER = {
     'Mercury': 6, 'Uranus': 6, 'Neptune': 6, 'Venus': 5,
     'Ceres': 5, 'Chiron': 4, 'Pallas': 3, 'Juno': 3, 'Vesta': 3, 'Mean Apogee': 3, 'Osculating Apogee': 2,
     'Hygiea': 2, 'Pholus': 2, 'Eris': 4, 'Haumea': 2, 'Makemake': 2,
-    'Gonggong': 2, 'Quaoar': 2, 'Sedna': 3, 'Orcus': 2, 'Regulus': 6, 'Algol': 8, 'Sirius': 5.5, 'Spica': 5, 'Antares': 5.5
+    'Gonggong': 2, 'Quaoar': 2, 'Sedna': 3, 'Orcus': 2, 'Regulus': 6, 'Algol': 8, 'Sirius': 6, 'Spica': 5, 'Antares': 6
 }
 SIGNS = [
     'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
@@ -151,7 +151,7 @@ def find_aspects_between_planets(p1: Dict, p2: Dict, is_transit: bool = False) -
     
     # Check if Sun or Moon is involved for context-aware orbs
     involves_luminary = p1['planet'] in ['Sun', 'Moon'] or p2['planet'] in ['Sun', 'Moon']
-    orb_bonus = 2.0 if involves_luminary else 0.0
+    orb_bonus = 2.0 if involves_luminary else 1.2
     
     # Longitude aspects
     angle = abs(p1['total_degree'] - p2['total_degree'])
