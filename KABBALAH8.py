@@ -276,66 +276,71 @@ def get_paths_reading(seed: bytes, question: str, count: int, selected_world: di
     """Deterministically selects Paths and calculates their flow states based on the question."""
     if count == 0:
         return []
-    
-    # Step 1: Select paths
-    available_paths = paths.copy()
-    chosen_paths = []
-    for i in range(count):
-        salt = f"path-{i}"
-        index = hash_for_int(seed, question, salt) % len(available_paths)
-        chosen_paths.append(available_paths.pop(index))
-    
-    # Step 2: Calculate Sephirot potentials (needed for path flow calculations)
+
+    # --- PHASE 1: GLOBAL SIMULATION (The 22 Paths) ---
+
+    # 1. Calculate Sephirot potentials (needed for path flow calculations)
     potentials = {}
     for name in sephirot_names:
         salt = f"potential-{name}"
         potentials[name] = hash_for_int(seed, question, salt) % 100
-    
-    # Step 3: Calculate path flow states
-    path_flows = []
-    result = []
-    
-    for path_name in chosen_paths:
-        if path_name not in PATH_CONNECTIONS:
-            # Fallback for any missing connections
-            result.append((path_name, 'Normal'))
-            path_flows.append(0.0)
-            continue
-            
-        seph1, seph2 = PATH_CONNECTIONS[path_name]
-        
-        # Calculate conductivity for this specific path (modified by World)
-        decay_divisor = selected_world["decay_divisor"]
+
+    # 2. Calculate Flow Intensity for ALL 22 PATHS
+    all_path_flows = {}
+    raw_flow_values = []
+    decay_divisor = selected_world["decay_divisor"]
+
+    for path_name, (seph1, seph2) in PATH_CONNECTIONS.items():
+        # Calculate conductivity
         conductivity = calculate_path_conductivity(seed, question, seph1, seph2, decay_divisor)
-        
-        # Calculate potential difference across the path
-        potential_diff = abs(potentials[seph1] - potentials[seph2])
-        
-        # Flow intensity = potential difference * conductivity
-        flow_intensity = potential_diff * conductivity
-        path_flows.append(flow_intensity)
-    
-    # Step 4: Use standard deviation to determine relative thresholds
-    if len(path_flows) > 1:
-        mean_flow = sum(path_flows) / len(path_flows)
-        variance = sum((f - mean_flow) ** 2 for f in path_flows) / len(path_flows)
-        std_dev = math.sqrt(variance) if variance > 0 else 1.0
-        threshold = std_dev * 0.8  # Adjust sensitivity
-    else:
-        mean_flow = path_flows[0] if path_flows else 0.0
-        threshold = 10.0  # Default threshold for single readings
-    
-    # Step 5: Assign states based on relative flow intensity
-    for i, (path_name, flow_intensity) in enumerate(zip(chosen_paths, path_flows)):
-        if flow_intensity > (mean_flow + threshold):
-            state = 'Excessive'  # High energy flow - path is overcharged
-        elif flow_intensity < (mean_flow - threshold):
-            state = 'Deficient'  # Low energy flow - path is blocked or weak
+
+        # Calculate potential difference
+        if seph1 in potentials and seph2 in potentials:
+            potential_diff = abs(potentials[seph1] - potentials[seph2])
         else:
-            state = 'Normal'  # Balanced flow
-        
+            potential_diff = 0.0
+
+        # Flow intensity
+        flow_intensity = potential_diff * conductivity
+
+        all_path_flows[path_name] = flow_intensity
+        raw_flow_values.append(flow_intensity)
+
+    # 3. Calculate Global Statistics (Baseline from 22 Paths)
+    mean_flow = sum(raw_flow_values) / len(raw_flow_values)
+    variance = sum((f - mean_flow) ** 2 for f in raw_flow_values) / len(raw_flow_values)
+    std_dev = math.sqrt(variance) if variance > 0 else 1.0
+
+    threshold = std_dev * 0.8  # Adjust sensitivity
+
+    # --- PHASE 2: SELECTION & RESULT ---
+
+    # 4. Select the requested paths
+    available_paths = paths.copy()
+    chosen_paths = []
+
+    # If the user asks for more paths than exist, cap it
+    safe_count = min(count, len(available_paths))
+
+    for i in range(safe_count):
+        salt = f"path-{i}"
+        index = hash_for_int(seed, question, salt) % len(available_paths)
+        chosen_paths.append(available_paths.pop(index))
+
+    # 5. Assign states based on Global Threshold
+    result = []
+    for path_name in chosen_paths:
+        flow_intensity = all_path_flows.get(path_name, 0.0)
+
+        if flow_intensity > (mean_flow + threshold):
+            state = 'Excessive'
+        elif flow_intensity < (mean_flow - threshold):
+            state = 'Deficient'
+        else:
+            state = 'Normal'
+
         result.append((path_name, state))
-    
+
     return result
 
 # === MAIN LOGIC ===
