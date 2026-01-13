@@ -352,9 +352,10 @@ def main():
     parser.add_argument('-q', '--query', required=True, help='Your sacred query.')
     parser.add_argument(
         '-r', '--reading-type',
-        choices=['1', '3', '10', '4'],
+        choices=['0', '1', '3', '10', '4'],
         default='3',
         help="""Type of reading:
+0: Automatic (1-10 based on query)
 1: Single Sephirah & Path
 3: Mind/Heart/Body Pillar Reading (default)
 10: Full Tree of Life
@@ -386,13 +387,27 @@ def main():
     console.print(f"[dim]{selected_world['description']}[/dim]")
 
 
-    # Determine sephirot count
-    if revelation_choice in ['1', '3']:
-        sephirot_count = int(revelation_choice)
-        revealed_sephirot_with_states = get_sephirot_reading(seed, question, sephirot_count, selected_world)
-    else: # '10' or '4'
+# Determine sephirot count
+    if revelation_choice == '4':
+        # The Four Worlds Reading (Special Logic)
         sephirot_count = 10
         revealed_sephirot_with_states = get_sephirot_reading(seed, question, 10, selected_world)
+        # (Printing logic for 4 worlds is handled later in the print section)
+        
+    elif revelation_choice == '0':
+        # NEW: Automatic Mode (1 to 10 Sephiroth)
+        # The query determines how many nodes are relevant
+        sephirot_count = (hash_for_int(seed, question, "sephirot-count") % 10) + 1
+        console.print(f"[dim]Automatic Mode: The query demanded {sephirot_count} Sephiroth.[/dim]")
+        revealed_sephirot_with_states = get_sephirot_reading(seed, question, sephirot_count, selected_world)
+        
+    elif revelation_choice == '10':
+        sephirot_count = 10
+        revealed_sephirot_with_states = get_sephirot_reading(seed, question, 10, selected_world)
+        
+    else: # '1' or '3' (Manual overrides)
+        sephirot_count = int(revelation_choice)
+        revealed_sephirot_with_states = get_sephirot_reading(seed, question, sephirot_count, selected_world)
 
     # Determine path count
     if args.paths is not None:
