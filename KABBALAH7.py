@@ -345,6 +345,7 @@ def get_paths_reading(seed: bytes, question: str, count: int, selected_world: di
         std_dev = math.sqrt(variance) if variance > 0 else 1.0
         threshold = std_dev * 0.8  # Adjust sensitivity
     else:
+        mean_flow = path_flows[0] if path_flows else 0.0
         threshold = 10.0  # Default threshold for single readings
     
     # Step 5: Assign states based on relative flow intensity
