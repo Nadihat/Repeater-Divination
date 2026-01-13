@@ -398,7 +398,7 @@ def main():
         # NEW: Automatic Mode (1 to 10 Sephiroth)
         # The query determines how many nodes are relevant
         sephirot_count = (hash_for_int(seed, question, "sephirot-count") % 10) + 1
-        console.print(f"[dim]Automatic Mode: The query demanded {sephirot_count} Sephiroth.[/dim]")
+        # console.print(f"[dim]Automatic Mode: The query demanded {sephirot_count} Sephiroth.[/dim]")
         revealed_sephirot_with_states = get_sephirot_reading(seed, question, sephirot_count, selected_world)
         
     elif revelation_choice == '10':
