@@ -402,7 +402,7 @@ def main():
             return
     else:
         # If not specified, derive it from the query
-        path_count = (hash_for_int(seed, question, "path-count-salt") % (NUM_PATHS // 2)) + 1
+        path_count = (hash_for_int(seed, question, "path-count-salt") % ((NUM_PATHS // 2) + 1))
 
     revealed_paths_with_states = get_paths_reading(seed, question, path_count, selected_world)
 
