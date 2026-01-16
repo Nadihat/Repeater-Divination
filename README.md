@@ -38,8 +38,6 @@ Likewise for RUNES.py.
 
 Symmetrical runes (that look the same any side) such as Gebo do not traditionally have a reversed form. Despite this, recent tool versions do include their reversed forms.
 
-cio.py is a non-interactive experiment in generating hashed readings from the AnthroHeart Cio Saga.
-
 The Tarot file once was GPL3, and since all the other files were derived from it, they were too. However, as of December 2025, AnthroHeart/Cio has moved to CC0 for everything he makes, so I have too.
 
 Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recommended me to delete it, so I did.
