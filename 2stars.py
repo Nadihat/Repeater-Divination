@@ -17,7 +17,7 @@ console = Console()
 
 # === ASTROLOGICAL DATA ===
 MAJOR_PLANETS = [
-    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Mean Apogee', 'Osculating Apogee', 'Regulus', 'Algol', 'Sirius', 'Spica', 'Antares', 'ASC', 'MC'
+    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Mean Apogee', 'Osculating Apogee', 'Regulus', 'Fomalhaut', 'Sirius', 'Spica', 'Antares', 'ASC', 'MC'
 ]
 MINOR_BODIES = [
     'Ceres', 'Pallas', 'Juno', 'Vesta', 'Hygiea', 'Chiron', 'Pholus', 'Eris', 
