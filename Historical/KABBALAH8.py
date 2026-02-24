@@ -8,7 +8,7 @@ inspired by the automatic nature of I-CHING3.py. It uses os.urandom for its prim
 and a strong key derivation function (PBKDF2) to derive further values.
 
 Usage:
-    python3 KABBALAH6.py -q "Your question here" [options]
+    python3 KABBALAH8.py -q "Your question here" [options]
 
 Options:
     -r, --reading-type [1|3|10|4]  Selects the type of reading. (Default: 3)
