@@ -80,7 +80,7 @@ ASPECTS = {
 # === HASH FUNCTION ===
 def hash_question(seed: bytes, question: str, salt: str = "", times: int = THINK_DEPTH) -> int:
     # Add os.urandom for better entropy in the initial seed
-    password = random_bytes + (question + salt).encode()
+    password = seed + (question + salt).encode()
     # Use PBKDF2 with SHA-256 for cryptographically secure hashing
     h = pbkdf2_hmac('sha256', password, b'astrology_salt', times)
     return int.from_bytes(h, 'big')
