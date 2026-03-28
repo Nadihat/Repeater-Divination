@@ -366,9 +366,15 @@ def main():
     )
     
     moon_dignity = get_planet_dignity('Moon', moon_pos)
-    moon_fast = abs(moon_speed) > 13.0  # Average daily motion is ~13°
+    abs_speed = abs(moon_speed)
+    if abs_speed >= 13.1667:
+        speed_label = "Fast"
+    elif abs_speed <= 11.75:
+        speed_label = "Slow"
+    else:
+        speed_label = "Regular"
     
-    print(f"Moon Status: {moon_dignity}, {'Fast' if moon_fast else 'Slow'} Motion")
+    print(f"Moon Status: {moon_dignity}, {speed_label} Motion")
     print(f"Daily Motion: {moon_speed:.2f}°")
     print(f"Hours to Next Sign: {hours_to_next_sign:.1f}")
     print(f"Void of Course: {'YES' if void_of_course else 'NO'}")
