@@ -225,7 +225,6 @@ def main():
         table.add_row(str(i), f"0x{idx:02X} ({idx})", WORDS[idx])
 
     console.print(table)
-    console.print(f"\n[dim italic]Mapping complete.[/dim italic]\n")
 
 if __name__ == "__main__":
     try:
