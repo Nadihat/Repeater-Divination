@@ -1,11 +1,11 @@
 # Repeater Divination
 The Intention Repeater Tarot by Thomas Sweet/AnthroHeart (https://intentionrepeater.boards.net; https://github.com/tsweet77/openrouter-tarot) was translated by Gemini CLI (Pro 2.5) into Runes, Astrology, Kabbalah and probably others to come. Enjoy!
 
-# EngWheelSuited.html is the ultimate version. 3stars.py just for Astrology.
+# DivinationAdvancedTool3.html is the ultimate version. 3stars.py just for Astrology.
 
 April 4 2026: super_kabbalah.py is the best Kabbalah version, without fluid dynamics artificial restrictions nor artificial Excessive/Balanced/Deficient rates. Among the old versions, KABBALAH4.py has the ideal rate numbers.
 
-December 10: You can read commits and code for details. Aastrology.py was updated with os.urandom() and SHA256-PBKDF2-HMAC, the minor bodies have also been gated with a commandline switch/option. Only the top 20 Aspects/Transits are shown by default, but you can change that number. A couple tools have warned that ASTROLOGY.py is faulty and must not be used. 2IngWheel.py is IngWheel.html but adapted for commandline Python (better than early experiments). You select numbers by writing them. KABBALAH6.py has been described as reliable. Excessive/Deficient Sephiroth ratio was dropped to 7.5%/7.5%.<br><br>
+December 10: You can read commits and code for details. Aastrology.py was updated with os.urandom() and SHA256-PBKDF2-HMAC, the minor bodies have also been gated with a commandline switch/option. Only the top 20 Aspects/Transits are shown by default, but you can change that number. A couple tools have warned that ASTROLOGY.py is faulty and must not be used. 2IngWheel.py is IngWheel.html but adapted for commandline Python (better than early experiments). You select numbers by writing them.<br><br>
 
 All old remaining versions have been moved to the Historical folder.
 
@@ -26,7 +26,7 @@ All older files are obsolete and will be upgraded with the new mechanisms soon.
 TAROT.py was further beautified/cleaned up by GPT5. AnthroHeart/@Anthro really likes it.<br>
 TAROT2.py makes it automatic as I-CHING3.py.
 
-I-CHING2.py was "Ok, made an update so that it always displays text in the Image, and it keeps up the animation message until drawn." December 25 update (actually earlier): I-CHING3.py had a trigram reversal bug which was fixed. The style of I-CHING2.py was deemed as less info-rich, so it was stashed in Historical.
+December 25 update (actually earlier): I-CHING3.py had a trigram reversal bug which was fixed. The style of I-CHING2.py was deemed as less info-rich, so it was stashed in Historical.
 
 KABBALAH3.py was made "automatic" like I-CHING3.py is. You can choose to use it or not.<br>
 KABBALAH4.py becomes like I-CHING3.py: varying results by timestamp.
