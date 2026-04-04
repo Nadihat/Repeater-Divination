@@ -3,7 +3,8 @@ The Intention Repeater Tarot by Thomas Sweet/AnthroHeart (https://intentionrepea
 
 # DivinationAdvancedTool3.html is the ultimate version. 3stars.py just for Astrology.
 
-April 4 2026: super_kabbalah.py is the best Kabbalah version, without fluid dynamics artificial restrictions nor artificial Excessive/Balanced/Deficient rates. Among the old versions, KABBALAH4.py has the ideal rate numbers.
+April 4 2026: super_kabbalah.py is the best Kabbalah version, without fluid dynamics artificial restrictions nor artificial Excessive/Balanced/Deficient rates. Among the old versions, KABBALAH4.py has the ideal rate numbers.<br>
+WordFinder.html relies on your spiritual/psychic senses, but it's the most accurate tool we have, used to great effect in the Intention Repeater Forum.
 
 December 10: You can read commits and code for details. Aastrology.py was updated with os.urandom() and SHA256-PBKDF2-HMAC, the minor bodies have also been gated with a commandline switch/option. Only the top 20 Aspects/Transits are shown by default, but you can change that number. A couple tools have warned that ASTROLOGY.py is faulty and must not be used. 2IngWheel.py is IngWheel.html but adapted for commandline Python (better than early experiments). You select numbers by writing them.<br><br>
 
