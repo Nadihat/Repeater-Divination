@@ -64,17 +64,17 @@ SEVEN_WORLDS = {
         "weight": 14
     },
     "Ain Sof Aur": {
-        "name": "Ain Sof Aur (אין סוף אור — Limitless Light)",
+        "name": "Ain Sof Aur (Limitless Light)",
         "description": "The first radiance before form — potential coalesces at the edge of manifestation",
         "weight": 3
     },
     "Ain Sof": {
-        "name": "Ain Sof (אין סוף — The Limitless)",
+        "name": "Ain Sof (The Limitless)",
         "description": "Boundlessness without quality — no fixed outcome exists",
         "weight": 2
     },
     "Ain": {
-        "name": "Ain (אין — No-Thing)",
+        "name": "Ain (No-Thing)",
         "description": "The Absolute Void — the question itself dissolves",
         "weight": 1
     }
