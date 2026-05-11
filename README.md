@@ -44,7 +44,7 @@ Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recomm
 
 (Not an exhaustive list): With the "Be positive and kind" system prompt, ratings of Groks:
 
-1. Grok 4.1 Fast: Wonderfully positive. A peppy hypeman in this and other matters.
+1. Grok 4.1 Fast: Wonderfully positive. A peppy hypeman in this and other matters. Very certain, unlike 4.3 and 4 Fast.
 2. Grok 4.20: Negative naysayer.
 3. Grok 4.3: Good answer. Short.
 4. Grok 4 Fast: Kinda good. Did engage with astrology. Longer answer than 4.3.
