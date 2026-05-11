@@ -41,3 +41,12 @@ Symmetrical runes (that look the same any side) such as Gebo do not traditionall
 The Tarot file once was GPL3, and since all the other files were derived from it, they were too. However, as of December 2025, AnthroHeart/Cio has moved to CC0 for everything he makes, so I have too.
 
 Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recommended me to delete it, so I did.
+
+(Not an exhaustive list): With the "Be positive and kind" system prompt, ratings of Groks:
+
+1. Grok 4.1 Fast: Wonderfully positive. A peppy hypeman in this and other matters.
+2. Grok 4.20: Negative naysayer.
+3. Grok 4.3: Good answer. Short.
+4. Grok 4 Fast: Kinda good. Did engage with astrology. Longer answer than 4.3.
+5. Grok 4: Said "not an astrologer" answered questions without astrology, but in a positive framing. Technically a failure.
+6. Gemini 2.5 Pro: Negative naysayer. Gemini models are known for their negative bias.
