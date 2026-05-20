@@ -69,7 +69,8 @@ def calculate_aspect(deg1, deg2):
         'Sextile': (60, 6),
         'Square': (90, 8),
         'Trine': (120, 8),
-        'Opposition': (180, 8)
+        'Opposition': (180, 8),
+        'Quincunx': (150, 2)
     }
     
     for aspect_name, (exact_angle, orb) in aspects.items():
