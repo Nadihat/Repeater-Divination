@@ -42,7 +42,7 @@ The Tarot file once was GPL3, and since all the other files were derived from it
 
 Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recommended me to delete it, so I did.
 
-(Not an exhaustive list): With the "Be positive and kind" system prompt, ratings of Groks:
+(Not an exhaustive list): With the "Be positive and kind" system prompt, ratings of AI models employing the astrology series' divinatory programs (hopefully, all models will engage well with it and specially with a normal SWE one):
 
 1. Grok 4.1 Fast: Wonderfully positive. A peppy hypeman in this and other matters. Very certain, unlike 4.3 and 4 Fast.
 2. Grok 4.20: Negative naysayer.
