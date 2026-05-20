@@ -339,25 +339,25 @@ def main():
     # 4th Harmonic - Stress patterns
     h4_positions = calculate_harmonic_chart(planet_positions, 4)
     print("4th Harmonic (Stress Patterns):")
-    for name, pos in list(h4_positions.items())[:5]:
+    for name, pos in list(h4_positions.items())[:7]:
         print(f"{name:<8}: {get_sign_pos(pos)}")
     
     # 5th Harmonic - Technical talents
     h5_positions = calculate_harmonic_chart(planet_positions, 5)
     print("\n5th Harmonic (Technical Talents):")
-    for name, pos in list(h5_positions.items())[:5]:
+    for name, pos in list(h5_positions.items())[:7]:
         print(f"{name:<8}: {get_sign_pos(pos)}")
     
     # 8th Harmonic - Transformation patterns
     h8_positions = calculate_harmonic_chart(planet_positions, 8)
     print("\n8th Harmonic (Transformation Patterns):")
-    for name, pos in list(h8_positions.items())[:5]:
+    for name, pos in list(h8_positions.items())[:7]:
         print(f"{name:<8}: {get_sign_pos(pos)}")
     
     # 9th Harmonic - Spiritual insights
     h9_positions = calculate_harmonic_chart(planet_positions, 9)
     print("\n9th Harmonic (Spiritual Insights):")
-    for name, pos in list(h9_positions.items())[:5]:
+    for name, pos in list(h9_positions.items())[:7]:
         print(f"{name:<8}: {get_sign_pos(pos)}")
 
     # 6. LUNAR ASPECTARIAN - The Pulse
