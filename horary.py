@@ -268,14 +268,21 @@ def print_element_modality_table(planet_positions):
 
     # Initialize counts
     grid = {e: {m: 0 for m in range(3)} for e in range(4)}
+     
+    # Iterate over all planets stored in planet_positions (including Node, Chiron, etc.)
+    for name, pos in planet_positions.items():
+        sign_idx = int(pos / 30)
+        elem_idx = sign_idx % 4
+        mod_idx = sign_idx % 3
+        grid[elem_idx][mod_idx] += 1
 
-    for name in major_planets:
-        if name in planet_positions:
-            pos = planet_positions[name]
-            sign_idx = int(pos / 30)
-            elem_idx = sign_idx % 4
-            mod_idx = sign_idx % 3
-            grid[elem_idx][mod_idx] += 1
+    ##for name in major_planets:
+    ##    if name in planet_positions:
+    ##        pos = planet_positions[name]
+    ##        sign_idx = int(pos / 30)
+    ##        elem_idx = sign_idx % 4
+    ##        mod_idx = sign_idx % 3
+    ##        grid[elem_idx][mod_idx] += 1
 
     print("\n--- ELEMENT & MODALITY DISTRIBUTION ---")
     print("          Card  Fixed  Mut   Tot")
