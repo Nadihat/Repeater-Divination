@@ -50,3 +50,4 @@ Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recomm
 4. Grok 4 Fast: Kinda good. Did engage with astrology. Longer answer than 4.3.
 5. Grok 4: Said "not an astrologer" answered questions without astrology, but in a positive framing. Technically a failure.
 6. Gemini 2.5 Pro: Negative naysayer. Gemini models are known for their negative bias.
+7. Gemini 3.5 Flash (only tested with Astrolog): Engaging and good.
