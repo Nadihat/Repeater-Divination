@@ -221,7 +221,7 @@ def find_moon_aspects(moon_pos, moon_speed, planet_positions, jd_ut):
                 direction = "Applying"
                 
                 # Check if aspect will perfect BEFORE Moon changes signs
-                aspect_angles = {'Conjunction': 0, 'Sextile': 60, 'Square': 90, 'Trine': 120, 'Opposition': 180}
+                aspect_angles = {'Conjunction': 0, 'Sextile': 60, 'Square': 90, 'Trine': 120, 'Opposition': 180, 'Quincunx': 150}
                 target_angle = aspect_angles[aspect_name]
                 
                 # Calculate exact aspect position
