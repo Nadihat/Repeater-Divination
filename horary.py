@@ -2,6 +2,7 @@ import swisseph as swe
 from datetime import datetime, timezone
 import itertools
 import math
+swe.set_ephe_path('.')
 
 # --- CONFIGURATION ---
 LAT = -33.4489
@@ -25,7 +26,9 @@ PLANETS = {
     "Uranus": swe.URANUS,
     "Neptune": swe.NEPTUNE,
     "Pluto": swe.PLUTO,
-    "Node": swe.MEAN_NODE # Critical for Horary
+    "Node": swe.MEAN_NODE, # Critical for Horary
+    "Apogee": swe.MEAN_APOG,
+    "Chiron": swe.CHIRON
 }
 
 def get_sign_pos(decimal_degrees):
