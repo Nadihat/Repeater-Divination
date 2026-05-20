@@ -258,38 +258,96 @@ def find_moon_aspects(moon_pos, moon_speed, planet_positions, jd_ut):
     
     return aspects, void_of_course, hours_to_next_sign, applying_aspects_before_sign_change
 
-def print_element_modality_table(planet_positions):
-    """Generates and prints an Astrolog-style element and modality distribution table."""
-    # We only count the 10 main planets to keep standard distribution balance
-    major_planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"]
+def get_house_position(planet_lon, cusps):
+    """Determine the 2D house placement of a planet based on house cusps."""
+    # Convert cusps to 0-indexed list of 12 house boundaries
+    c = list(cusps[1:]) if len(cusps) == 13 else list(cusps)
+    
+    for i in range(12):
+        c1 = c[i]
+        c2 = c[(i + 1) % 12]
+        if c1 < c2:
+            if c1 <= planet_lon < c2:
+                return i + 1
+        else: # Handle wrapping across 360°/0° boundary
+            if planet_lon >= c1 or planet_lon < c2:
+                return i + 1
+    return 1
 
-    elements = {0: "Fire", 1: "Earth", 2: "Air", 3: "Water"}
-    modalities = {0: "Cardinal", 1: "Fixed", 2: "Mutable"}
-
-    # Initialize counts
+def print_element_modality_table(planet_positions, cusps):
+    """Generates and prints an Astrolog-style element, modality, and hemisphere table."""
+    # We count all calculated planets/points currently active in the chart
+    active_planets = list(planet_positions.keys())
+    
+    elements = {0: "Fir", 1: "Ear", 2: "Air", 3: "Wat"}
+    modalities = {0: "Car", 1: "Fix", 2: "Mut"}
+    
+    # Initialize element/modality grid
     grid = {e: {m: 0 for m in range(3)} for e in range(4)}
-     
-    # Iterate over all planets stored in planet_positions (including Node, Chiron, etc.)
-    for name, pos in planet_positions.items():
-        sign_idx = int(pos / 30)
-        elem_idx = sign_idx % 4
-        mod_idx = sign_idx % 3
-        grid[elem_idx][mod_idx] += 1
+    
+    # Initialize right-hand side counters
+    co_yang = 0
+    co_learn = 0
+    co_mc = 0
+    co_asc = 0
+    co_hemi = 0
+    co_sum = 0
 
-    ##for name in major_planets:
-    ##    if name in planet_positions:
-    ##        pos = planet_positions[name]
-    ##        sign_idx = int(pos / 30)
-    ##        elem_idx = sign_idx % 4
-    ##        mod_idx = sign_idx % 3
-    ##        grid[elem_idx][mod_idx] += 1
+    for name in active_planets:
+        if name in planet_positions:
+            pos = planet_positions[name]
+            sign_idx = int(pos / 30)
+            elem_idx = sign_idx % 4
+            mod_idx = sign_idx % 3
+            
+            # Element & Modality grid
+            grid[elem_idx][mod_idx] += 1
+            co_sum += 1
+            
+            # Yang (+) vs Yin (-)
+            # Odd-indexed signs in 1-based index (Aries=1, Gemini=3, etc.) are Yang
+            if (sign_idx + 1) % 2 != 0:
+                co_yang += 1
+                
+            # Learning (<) vs Sharing (>)
+            # First six signs (Aries through Virgo) are subjective/learning
+            if sign_idx < 6:
+                co_learn += 1
+                
+            # Calculate House Hemispheres
+            house = get_house_position(pos, cusps)
+            co_hemi += 1
+            
+            # Southern (MC) vs Northern (IC)
+            if house >= 7:
+                co_mc += 1
+                
+            # Eastern (Asc) vs Western (Des)
+            if house < 4 or house >= 10:
+                co_asc += 1
 
-    print("\n--- ELEMENT & MODALITY DISTRIBUTION ---")
-    print("          Card  Fixed  Mut   Tot")
+    # Derivative totals
+    co_yin = co_sum - co_yang
+    co_ic = co_hemi - co_mc
+    co_des = co_hemi - co_asc
 
+    # Print the combined table
+    print("\n--- ELEMENT, MODALITY & HEMISPHERE DISTRIBUTION ---")
+    print("          Car  Fix  Mut  TOT        +: %2d" % co_yang)
+    
     elem_totals = [0, 0, 0, 0]
     mod_totals = [0, 0, 0]
-
+    
+    # Row variables mapped for right column print alignment
+    right_col = [
+        "-: %2d" % co_yin,
+        "M: %2d" % co_mc,
+        "N: %2d" % co_ic,
+        "A: %2d" % co_asc,
+        "D: %2d" % co_des,
+        "<: %2d" % co_learn
+    ]
+    
     for e in range(4):
         row_str = f"{elements[e]:<8}:"
         row_total = 0
@@ -299,11 +357,59 @@ def print_element_modality_table(planet_positions):
             mod_totals[m] += count
             row_str += f"{count:5d}"
         elem_totals[e] = row_total
-        print(f"{row_str} | {row_total:3d}")
-
-    print(" " * 9 + "-" * 23)
+        print(f"{row_str} | {row_total:3d}      {right_col[e]}")
+        
     total_all = sum(elem_totals)
-    print(f"Total   : {mod_totals[0]:5d}{mod_totals[1]:5d}{mod_totals[2]:5d} | {total_all:3d}")
+    print("          -----------------      %s" % right_col[4])
+    print(f"TOT     :{mod_totals[0]:5d}{mod_totals[1]:5d}{mod_totals[2]:5d} | {total_all:3d}      {right_col[5]}")
+
+###older version of function
+##def print_element_modality_table(planet_positions):
+##    """Generates and prints an Astrolog-style element and modality distribution table."""
+##    # We only count the 10 main planets to keep standard distribution balance
+##    major_planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"]
+##
+##    elements = {0: "Fire", 1: "Earth", 2: "Air", 3: "Water"}
+##    modalities = {0: "Cardinal", 1: "Fixed", 2: "Mutable"}
+##
+##    # Initialize counts
+##    grid = {e: {m: 0 for m in range(3)} for e in range(4)}
+##     
+##    # Iterate over all planets stored in planet_positions (including Node, Chiron, etc.)
+##    for name, pos in planet_positions.items():
+##        sign_idx = int(pos / 30)
+##        elem_idx = sign_idx % 4
+##        mod_idx = sign_idx % 3
+##        grid[elem_idx][mod_idx] += 1
+##	#older version that only did the main 10 planets
+##    ##for name in major_planets:
+##    ##    if name in planet_positions:
+##    ##        pos = planet_positions[name]
+##    ##        sign_idx = int(pos / 30)
+##    ##        elem_idx = sign_idx % 4
+##    ##        mod_idx = sign_idx % 3
+##    ##        grid[elem_idx][mod_idx] += 1
+##
+##    print("\n--- ELEMENT & MODALITY DISTRIBUTION ---")
+##    print("          Card  Fixed  Mut   Tot")
+##
+##    elem_totals = [0, 0, 0, 0]
+##    mod_totals = [0, 0, 0]
+##
+##    for e in range(4):
+##        row_str = f"{elements[e]:<8}:"
+##        row_total = 0
+##        for m in range(3):
+##            count = grid[e][m]
+##            row_total += count
+##            mod_totals[m] += count
+##            row_str += f"{count:5d}"
+##        elem_totals[e] = row_total
+##        print(f"{row_str} | {row_total:3d}")
+##
+##    print(" " * 9 + "-" * 23)
+##    total_all = sum(elem_totals)
+##    print(f"Total   : {mod_totals[0]:5d}{mod_totals[1]:5d}{mod_totals[2]:5d} | {total_all:3d}")
 
 def main():
     # 1. Get Time (Always UTC for calculation)
@@ -360,7 +466,8 @@ def main():
         }
 
     # Print the distribution grid
-    print_element_modality_table(planet_positions)
+    ##print_element_modality_table(planet_positions)
+    print_element_modality_table(planet_positions, cusps)
 
     # 4. MIDPOINT TREES - The Plutonian Insight
     print("\n--- MIDPOINT TREES (Plutonian Insight) ---")
