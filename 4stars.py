@@ -17,7 +17,7 @@ console = Console()
 
 # === ASTROLOGICAL DATA ===
 MAJOR_PLANETS = [
-    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Mean Apogee', 'Regulus', 'Fomalhaut', 'Sirius', 'Spica', 'Antares', 'ASC', 'MC'
+    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Mean Apogee', 'Regulus', 'Fomalhaut', 'Sirius', 'Spica', 'Antares', 'ASC', 'MC', 'North Node'
 ]
 MINOR_BODIES = [
     'Chiron'
@@ -27,7 +27,7 @@ MINOR_BODIES = [
 PLANET_POWER = {
     'Sun': 10, 'Moon': 9, 'Pluto': 8, 'Mars': 7, 'Jupiter': 7, 'Saturn': 7,
     'Mercury': 6, 'Uranus': 6, 'Neptune': 6, 'Venus': 5,
-    'Chiron': 4, 'Mean Apogee': 3, 'Regulus': 6, 'Fomalhaut': 9, 'Sirius': 6, 'Spica': 5, 'Antares': 6, 'ASC': 10, 'MC': 10
+    'Chiron': 4, 'Mean Apogee': 3, 'Regulus': 6, 'Fomalhaut': 9, 'Sirius': 6, 'Spica': 5, 'Antares': 6, 'ASC': 10, 'MC': 10, 'North Node': 5
 }
 SIGNS = [
     'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
