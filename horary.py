@@ -258,6 +258,46 @@ def find_moon_aspects(moon_pos, moon_speed, planet_positions, jd_ut):
     
     return aspects, void_of_course, hours_to_next_sign, applying_aspects_before_sign_change
 
+def print_element_modality_table(planet_positions):
+    """Generates and prints an Astrolog-style element and modality distribution table."""
+    # We only count the 10 main planets to keep standard distribution balance
+    major_planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"]
+
+    elements = {0: "Fire", 1: "Earth", 2: "Air", 3: "Water"}
+    modalities = {0: "Cardinal", 1: "Fixed", 2: "Mutable"}
+
+    # Initialize counts
+    grid = {e: {m: 0 for m in range(3)} for e in range(4)}
+
+    for name in major_planets:
+        if name in planet_positions:
+            pos = planet_positions[name]
+            sign_idx = int(pos / 30)
+            elem_idx = sign_idx % 4
+            mod_idx = sign_idx % 3
+            grid[elem_idx][mod_idx] += 1
+
+    print("\n--- ELEMENT & MODALITY DISTRIBUTION ---")
+    print("          Card  Fixed  Mut   Tot")
+
+    elem_totals = [0, 0, 0, 0]
+    mod_totals = [0, 0, 0]
+
+    for e in range(4):
+        row_str = f"{elements[e]:<8}:"
+        row_total = 0
+        for m in range(3):
+            count = grid[e][m]
+            row_total += count
+            mod_totals[m] += count
+            row_str += f"{count:5d}"
+        elem_totals[e] = row_total
+        print(f"{row_str} | {row_total:3d}")
+
+    print(" " * 9 + "-" * 23)
+    total_all = sum(elem_totals)
+    print(f"Total   : {mod_totals[0]:5d}{mod_totals[1]:5d}{mod_totals[2]:5d} | {total_all:3d}")
+
 def main():
     # 1. Get Time (Always UTC for calculation)
     now = datetime.now(timezone.utc)
@@ -311,6 +351,9 @@ def main():
             'dignity': dignity,
             'retrograde': speed < 0
         }
+
+    # Print the distribution grid
+    print_element_modality_table(planet_positions)
 
     # 4. MIDPOINT TREES - The Plutonian Insight
     print("\n--- MIDPOINT TREES (Plutonian Insight) ---")
