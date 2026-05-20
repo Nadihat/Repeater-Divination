@@ -47,27 +47,28 @@ ASPECTS = {
     
     # Minor Aspects - Rebalanced
     "Quincunx": {"type": "longitude", "angle": 150, "orb": 2.0, "power": 5},
-    "Semi-Square": {"type": "longitude", "angle": 45, "orb": 2.0, "power": 4},
-    "Sesquisquare": {"type": "longitude", "angle": 135, "orb": 2.0, "power": 4},
+    #uncomment the rest if you want them
+    ##"Semi-Square": {"type": "longitude", "angle": 45, "orb": 2.0, "power": 4},
+    ##"Sesquisquare": {"type": "longitude", "angle": 135, "orb": 2.0, "power": 4},
     
     # Quintiles - Boosted power
-    "Quintile": {"type": "longitude", "angle": 72, "orb": 2.0, "power": 6},
-    "Biquintile": {"type": "longitude", "angle": 144, "orb": 2.0, "power": 6},
-    "Semi-Quintile": {"type": "longitude", "angle": 36, "orb": 1.5, "power": 4},
+    ##"Quintile": {"type": "longitude", "angle": 72, "orb": 2.0, "power": 6},
+    ##"Biquintile": {"type": "longitude", "angle": 144, "orb": 2.0, "power": 6},
+    ##"Semi-Quintile": {"type": "longitude", "angle": 36, "orb": 1.5, "power": 4},
     
     # Septiles - Boosted power
-    "Septile": {"type": "longitude", "angle": 360/7, "orb": 1.5, "power": 5},
-    "Bi-Septile": {"type": "longitude", "angle": 2 * (360/7), "orb": 1.5, "power": 5},
-    "Tri-Septile": {"type": "longitude", "angle": 3 * (360/7), "orb": 1.5, "power": 5},
+    ##"Septile": {"type": "longitude", "angle": 360/7, "orb": 1.5, "power": 5},
+    ##"Bi-Septile": {"type": "longitude", "angle": 2 * (360/7), "orb": 1.5, "power": 5},
+    ##"Tri-Septile": {"type": "longitude", "angle": 3 * (360/7), "orb": 1.5, "power": 5},
     
     # Noviles - Boosted power
-    "Novile": {"type": "longitude", "angle": 40, "orb": 1.5, "power": 4},
-    "Bi-Novile": {"type": "longitude", "angle": 80, "orb": 1.5, "power": 4},
-    "Quatro-Novile": {"type": "longitude", "angle": 160, "orb": 1.5, "power": 4},
+    ##"Novile": {"type": "longitude", "angle": 40, "orb": 1.5, "power": 4},
+    ##"Bi-Novile": {"type": "longitude", "angle": 80, "orb": 1.5, "power": 4},
+    ##"Quatro-Novile": {"type": "longitude", "angle": 160, "orb": 1.5, "power": 4},
     
     # Other minor aspects
-    "Semi-Sextile": {"type": "longitude", "angle": 30, "orb": 2.0, "power": 2},
-    "Quindecile": {"type": "longitude", "angle": 165, "orb": 2.0, "power": 2},
+    ##"Semi-Sextile": {"type": "longitude", "angle": 30, "orb": 2.0, "power": 2},
+    ##"Quindecile": {"type": "longitude", "angle": 165, "orb": 2.0, "power": 2},
 
     # Declination Aspects
     "Parallel": {"type": "declination", "orb": 1.0, "power": 7},
