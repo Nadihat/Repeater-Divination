@@ -17,10 +17,10 @@ console = Console()
 
 # === ASTROLOGICAL DATA ===
 MAJOR_PLANETS = [
-    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Mean Apogee', 'Regulus', 'Fomalhaut', 'Sirius', 'Spica', 'Antares', 'ASC', 'MC', 'North Node'
+    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Mean Apogee', 'ASC', 'MC', 'North Node', 'Chiron'
 ]
 MINOR_BODIES = [
-    'Chiron'
+    'Regulus', 'Fomalhaut', 'Sirius', 'Spica', 'Antares'
 ]
 
 # === POWER SCORES ===
