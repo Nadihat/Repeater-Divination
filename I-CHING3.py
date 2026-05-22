@@ -1334,10 +1334,10 @@ def main():
         '--save',
         help='Save reading to JSON file'
     )
-    parser.add_argument(
-        '--seed',
-        help='Use specific seed for testing (bypasses timestamp)'
-    )
+    #parser.add_argument(
+    #    '--seed',
+    #    help='Use specific seed for testing (bypasses timestamp)'
+    #) ##permanently removed
     
     args = parser.parse_args()
     
