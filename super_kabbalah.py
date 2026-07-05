@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-pure_kabbalah.py — Kabbalistic divination from unbiased atmospheric entropy.
+super_kabbalah.py — Kabbalistic divination from unbiased atmospheric entropy.
 Every decision is one random byte → one outcome. No averaging. No flow models.
 No relative thresholds. The atmosphere speaks directly.
 """
