@@ -442,22 +442,22 @@ def main():
     planet_positions = {}
     planet_speeds = {}
     planet_data = {}
-    
+
     print("\n--- PLANET POSITIONS & DIGNITIES ---")
     for name, id in PLANETS.items():
         res, err = swe.calc_ut(jd_ut, id, swe.FLG_SWIEPH | swe.FLG_SPEED)
-        
+
         lon = res[0]
         speed = res[3]
         retro = " (R)" if speed < 0 else ""
-        
+
         planet_positions[name] = lon
         planet_speeds[name] = speed
-        
+
         dignity = get_planet_dignity(name, lon)
-        
+
         print(f"{name:<8}: {get_sign_pos(lon)}{retro} [{dignity}]")
-        
+
         planet_data[name] = {
             'position': lon,
             'speed': speed,
@@ -465,8 +465,31 @@ def main():
             'retrograde': speed < 0
         }
 
-    # Print the distribution grid
-    ##print_element_modality_table(planet_positions)
+    # ---------------------------------------------------------
+    # PART OF FORTUNE CALCULATION (Must be strictly aligned here, OUTSIDE the loop!)
+    # ---------------------------------------------------------
+    sun_lon = planet_positions['Sun']
+    moon_lon = planet_positions['Moon']
+    asc_lon = ascmc[0]
+    
+    sun_house = get_house_position(sun_lon, cusps)
+    is_day_chart = sun_house >= 7
+
+    if is_day_chart:
+        pof_lon = (asc_lon + moon_lon - sun_lon) % 360
+        calc_type = "Day Chart"
+    else:
+        pof_lon = (asc_lon + sun_lon - moon_lon) % 360
+        calc_type = "Night Chart"
+
+    # Add to main dictionary
+    planet_positions['Fortuna'] = pof_lon
+    
+    # Print it directly under the PLANETS list
+    print(f"{'Fortuna':<8}: {get_sign_pos(pof_lon)} [{calc_type}]")
+    # ---------------------------------------------------------
+
+    # Print the distribution grid (Fortuna is now automatically included in these counts)
     print_element_modality_table(planet_positions, cusps)
 
     # 4. MIDPOINT TREES - The Plutonian Insight
