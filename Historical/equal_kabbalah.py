@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-ii_super_kabbalah.py — Kabbalistic divination from unbiased atmospheric entropy.
+equal_kabbalah.py — Kabbalistic divination from unbiased atmospheric entropy.
 Every decision is one random byte → one outcome. No averaging. No flow models.
 No relative thresholds. The atmosphere speaks directly.
-Now with more things that are read.
 """
 
 import sys
@@ -237,9 +236,14 @@ def main():
     auth_string = hashlib.sha256(auth_bytes).hexdigest()[:8].upper()
 
     # --- CORE DIAGNOSTIC THROWS ---
-    world_key = pool.draw_weighted(list(SEVEN_WORLDS.keys()), [SEVEN_WORLDS[k]["weight"] for k in SEVEN_WORLDS])
-    soul_key = pool.draw_weighted(list(SOUL_LEVELS.keys()), [SOUL_LEVELS[k]["weight"] for k in SOUL_LEVELS])
-    partzuf_key = pool.draw_weighted(list(PARTZUFIM.keys()), [PARTZUFIM[k]["weight"] for k in PARTZUFIM])
+    world_keys = list(SEVEN_WORLDS.keys())
+    world_key = world_keys[pool.draw_uniform(len(world_keys))]
+
+    soul_keys = list(SOUL_LEVELS.keys())
+    soul_key = soul_keys[pool.draw_uniform(len(soul_keys))]
+
+    partzuf_keys = list(PARTZUFIM.keys())
+    partzuf_key = partzuf_keys[pool.draw_uniform(len(partzuf_keys))]
 
     sel_world = SEVEN_WORLDS[world_key]
     sel_soul = SOUL_LEVELS[soul_key]
