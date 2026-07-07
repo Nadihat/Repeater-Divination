@@ -3,6 +3,8 @@ The Intention Repeater Tarot by Thomas Sweet/AnthroHeart (https://intentionrepea
 
 # DivinationAdvancedTool3.html is the ultimate version. 3stars.py just for Astrology.
 
+July 7 2026: I forgot what was in pure_kabbalah.py that made me abandon it so I put it in Historical.
+
 May 20 2026: Simplified 4stars.py's body and transit list to make less contradictory outputs.
 
 April 4 2026: super_kabbalah.py is the best Kabbalah version, without fluid dynamics artificial restrictions nor artificial Excessive/Balanced/Deficient rates. Among the old versions, KABBALAH4.py has the ideal rate numbers.<br>
@@ -12,7 +14,7 @@ December 10: You can read commits and code for details. Aastrology.py was update
 
 All old remaining versions have been moved to the Historical folder.
 
-An astrology reading can be so much data that one AI can answer "Yes", but a second AI can answer "No". Therefore I do not really like it anymore. December 25 Update: though Aastrology.py tends to be accurate
+An astrology reading can be so much data that one AI can answer "Yes", but a second AI can answer "No". At that time (historical log) I had said I didn't like it anymore. December 25 Update: though Aastrology.py tends to be accurate. July 7 2026 Update: nowadays my astrology is mostly fulfilled by pyswisseph and Astrolog.
 
 September 24: divination.html was an 1 file Divination system that combines Tarot, I Ching, Kabbalah and Runes. DIVINATION.py is its older Python version.<br>
 DivinationColors.html was the v2, with a grid of numbers. DivinationColors2.html includes an automated button.<br>
