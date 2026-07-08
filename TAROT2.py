@@ -119,7 +119,7 @@ class TarotReader:
             if self.reversals_enabled:
                 reversal_salt = f"reversal-{i}"
                 # Use the last bit to decide reversal
-                is_reversed = (hash_for_int(self.seed, reversal_salt) & 1) == 1
+                is_reversed = (hash_for_int(self.seed, reversal_salt) % 100) == 20
             
             drawn_cards.append(DrawnCard(card=card, is_reversed=is_reversed))
         
