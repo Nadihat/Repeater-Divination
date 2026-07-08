@@ -55,18 +55,18 @@ SEVEN_WORLDS = {
 }
 
 SOUL_LEVELS = {
-    "Nefesh": {"name": "Nefesh (The Animal Soul)", "description": "Driven by physical survival, habits, health, and materiality.", "weight": 35},
-    "Ruach": {"name": "Ruach (The Wind/Spirit)", "description": "Driven by emotions, relationships, and moral friction.", "weight": 30},
-    "Neshamah": {"name": "Neshamah (The Breath)", "description": "Driven by higher intellect, life purpose, and spiritual clarity.", "weight": 20},
-    "Chayah": {"name": "Chayah (The Living Force)", "description": "Driven by systemic forces and the collective unconscious.", "weight": 10},
-    "Yechidah": {"name": "Yechidah (The Singularity)", "description": "Driven by absolute unity; the human ego dissolves completely.", "weight": 5}
+    "Nefesh": {"name": "Nefesh (The Animal Soul)", "description": "Driven by physical survival, habits, health, and materiality.", "weight": 55},
+    "Ruach": {"name": "Ruach (The Wind/Spirit)", "description": "Driven by emotions, relationships, and moral friction.", "weight": 34},
+    "Neshamah": {"name": "Neshamah (The Breath)", "description": "Driven by higher intellect, life purpose, and spiritual clarity.", "weight": 21},
+    "Chayah": {"name": "Chayah (The Living Force)", "description": "Driven by systemic forces and the collective unconscious.", "weight": 13},
+    "Yechidah": {"name": "Yechidah (The Singularity)", "description": "Driven by absolute unity; the human ego dissolves completely.", "weight": 8}
 }
 
 PARTZUFIM = {
-    "Zeir Anpin": {"name": "Zeir Anpin (The Short Face)", "description": "High volatility: impulsive, emotional, short-term conflict and resolution.", "weight": 35},
-    "Nukva": {"name": "Nukva (The Bride/Daughter)", "description": "Pure receptivity: grounding, receiving, and materializing the outcome.", "weight": 25},
-    "Imma": {"name": "Imma (The Mother)", "description": "Gestation: processing, analyzing, and setting hard boundaries.", "weight": 20},
-    "Abba": {"name": "Abba (The Father)", "description": "The Flash: sudden inspiration, raw unformed potential.", "weight": 12},
+    "Zeir Anpin": {"name": "Zeir Anpin (The Short Face)", "description": "High volatility: impulsive, emotional, short-term conflict and resolution.", "weight": 55},
+    "Nukva": {"name": "Nukva (The Bride/Daughter)", "description": "Pure receptivity: grounding, receiving, and materializing the outcome.", "weight": 34},
+    "Imma": {"name": "Imma (The Mother)", "description": "Gestation: processing, analyzing, and setting hard boundaries.", "weight": 21},
+    "Abba": {"name": "Abba (The Father)", "description": "The Flash: sudden inspiration, raw unformed potential.", "weight": 13},
     "Arik Anpin": {"name": "Arik Anpin (The Long Face)", "description": "Macro-scale: infinite patience, absolute mercy, massive timing over years.", "weight": 8}
 }
 
