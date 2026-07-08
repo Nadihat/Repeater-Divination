@@ -49,9 +49,9 @@ SEVEN_WORLDS = {
     "Yetzirah": {"name": "Yetzirah (Water/Formation)", "description": "High Sensitivity, Swirling Flow — Energy flows like a river", "weight": 55},
     "Briah": {"name": "Briah (Air/Creation)", "description": "High Intelligence, Fast Movement — Energy flows like sound", "weight": 34},
     "Atziluth": {"name": "Atziluth (Fire/Emanation)", "description": "High Potential, Low Resistance — Energy flows like light", "weight": 21},
-    "Ain Sof Aur": {"name": "Ain Sof Aur (Limitless Light)", "description": "The first radiance before form", "weight": 8},
-    "Ain Sof": {"name": "Ain Sof (The Limitless)", "description": "Boundlessness without quality", "weight": 5},
-    "Ain": {"name": "Ain (No-Thing)", "description": "The Absolute Void", "weight": 3}
+    "Ain Sof Aur": {"name": "Ain Sof Aur (Limitless Light)", "description": "The first radiance before form", "weight": 13},
+    "Ain Sof": {"name": "Ain Sof (The Limitless)", "description": "Boundlessness without quality", "weight": 8},
+    "Ain": {"name": "Ain (No-Thing)", "description": "The Absolute Void", "weight": 5}
 }
 
 SOUL_LEVELS = {
