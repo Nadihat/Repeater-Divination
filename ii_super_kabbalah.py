@@ -45,13 +45,13 @@ worlds_grouping = {
 # --- DIAGNOSTIC METRICS ---
 
 SEVEN_WORLDS = {
-    "Assiah": {"name": "Assiah (Earth/Action)", "description": "High Density, High Resistance — Energy flows like lava", "weight": 30},
-    "Yetzirah": {"name": "Yetzirah (Water/Formation)", "description": "High Sensitivity, Swirling Flow — Energy flows like a river", "weight": 28},
-    "Briah": {"name": "Briah (Air/Creation)", "description": "High Intelligence, Fast Movement — Energy flows like sound", "weight": 22},
-    "Atziluth": {"name": "Atziluth (Fire/Emanation)", "description": "High Potential, Low Resistance — Energy flows like light", "weight": 14},
-    "Ain Sof Aur": {"name": "Ain Sof Aur (Limitless Light)", "description": "The first radiance before form", "weight": 3},
-    "Ain Sof": {"name": "Ain Sof (The Limitless)", "description": "Boundlessness without quality", "weight": 2},
-    "Ain": {"name": "Ain (No-Thing)", "description": "The Absolute Void", "weight": 1}
+    "Assiah": {"name": "Assiah (Earth/Action)", "description": "High Density, High Resistance — Energy flows like lava", "weight": 89},
+    "Yetzirah": {"name": "Yetzirah (Water/Formation)", "description": "High Sensitivity, Swirling Flow — Energy flows like a river", "weight": 55},
+    "Briah": {"name": "Briah (Air/Creation)", "description": "High Intelligence, Fast Movement — Energy flows like sound", "weight": 34},
+    "Atziluth": {"name": "Atziluth (Fire/Emanation)", "description": "High Potential, Low Resistance — Energy flows like light", "weight": 21},
+    "Ain Sof Aur": {"name": "Ain Sof Aur (Limitless Light)", "description": "The first radiance before form", "weight": 8},
+    "Ain Sof": {"name": "Ain Sof (The Limitless)", "description": "Boundlessness without quality", "weight": 5},
+    "Ain": {"name": "Ain (No-Thing)", "description": "The Absolute Void", "weight": 3}
 }
 
 SOUL_LEVELS = {
