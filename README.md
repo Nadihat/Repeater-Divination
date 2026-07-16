@@ -60,3 +60,5 @@ Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recomm
 
 With the default OpenRouter system prompt, ratings of AI models employing the Tarot divinatory programs:
 1. Gemini 3.1 Pro Preview: You need to lead up with the Kabbalah series as the very first message, or it will pathologize you (imaginary nonsense)
+
+3.0 Flash may be better in this ranking
