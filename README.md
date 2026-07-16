@@ -57,3 +57,6 @@ Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recomm
 7. Gemini 3.5 Flash%: Engaging and good.
 8. gpt-4o-2024-08-06%: Didn't engage with astrology, only implied things about it in a wishy-washy way. A failure.
 9. gpt-5.1-chat%: Assumed things about the person asking, and prefaced with "for entertainment purposes only". A failure.
+
+With the default OpenRouter system prompt, ratings of AI models employing the Tarot divinatory programs:
+1. Gemini 3.1 Pro Preview: You need to lead up with the Kabbalah series as the very first message, or it will pathologize you (imaginary nonsense)
