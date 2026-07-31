@@ -70,4 +70,4 @@ No therapyspeak allowed." system prompt (only one newline if you're reading this
 With the default OpenRouter system prompt, ratings of AI models employing the Tarot divinatory programs:
 1. Gemini 3.1 Pro Preview: You need to lead up with the Kabbalah series as the very first message, or it will pathologize you (imaginary nonsense)
 
-3.0 Flash may be better in this ranking
+3.0 Flash may be better in this ranking. I'm not sure how smart it is in Astrology readings, but in Tarot ones, it's good.
