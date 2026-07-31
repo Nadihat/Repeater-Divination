@@ -3,6 +3,8 @@ The Intention Repeater Tarot by Thomas Sweet/AnthroHeart (https://intentionrepea
 
 # DivinationAdvancedTool3.html is the ultimate version. 3stars.py just for Astrology.
 
+July 30, 2026: Will eventually add the Descendant (also known as the 7th House Cusp) to the scripts (both the hashing one as well as the SwissEphemerides version), as well as the 3rd House Cusp
+
 July 7 2026: I forgot what was in pure_kabbalah.py that made me abandon it so I put it in Historical.
 
 May 20 2026: Simplified 4stars.py's body and transit list to make less contradictory outputs.
@@ -57,6 +59,13 @@ Geomancy's 15 "drawables" felt too slanted to negativity, and I-CHING3.py recomm
 7. Gemini 3.5 Flash%: Engaging and good.
 8. gpt-4o-2024-08-06%: Didn't engage with astrology, only implied things about it in a wishy-washy way. A failure.
 9. gpt-5.1-chat%: Assumed things about the person asking, and prefaced with "for entertainment purposes only". A failure.
+
+With the "Be positive and friendly. Interpret the divination tool output.
+
+No therapyspeak allowed." system prompt (only one newline if you're reading this Markdown raw):
+1. Grok 4.20: Kinda good
+2. Grok 4.5: A bit worse, sounds like older Groks (all jumping through different topics)
+3. Gemini Pro 3.1: Overall, it's okay, but if garbage fake-safety words begin leaking in, you must edit. Do not allow them to pollute the reading.
 
 With the default OpenRouter system prompt, ratings of AI models employing the Tarot divinatory programs:
 1. Gemini 3.1 Pro Preview: You need to lead up with the Kabbalah series as the very first message, or it will pathologize you (imaginary nonsense)
