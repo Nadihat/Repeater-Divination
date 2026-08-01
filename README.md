@@ -3,7 +3,7 @@ The Intention Repeater Tarot by Thomas Sweet/AnthroHeart (https://intentionrepea
 
 # DivinationAdvancedTool3.html is the ultimate version. 3stars.py just for Astrology.
 
-July 30, 2026: Will eventually add the Descendant (also known as the 7th House Cusp) to the scripts (both the hashing one as well as the SwissEphemerides version), as well as the 3rd House Cusp
+July 30 2026: Will eventually add the Descendant (also known as the 7th House Cusp) to the scripts (both the hashing one as well as the SwissEphemerides version), as well as the 3rd House Cusp
 
 July 7 2026: I forgot what was in pure_kabbalah.py that made me abandon it so I put it in Historical.
 
@@ -12,13 +12,13 @@ May 20 2026: Simplified 4stars.py's body and transit list to make less contradic
 April 4 2026: super_kabbalah.py is the best Kabbalah version, without fluid dynamics artificial restrictions nor artificial Excessive/Balanced/Deficient rates. Among the old versions, KABBALAH4.py has the ideal rate numbers.<br>
 WordFinder.html relies on your spiritual/psychic senses, but it's the most accurate tool we have, used to great effect in the Intention Repeater Forum.
 
-December 10: You can read commits and code for details. Aastrology.py was updated with os.urandom() and SHA256-PBKDF2-HMAC, the minor bodies have also been gated with a commandline switch/option. Only the top 20 Aspects/Transits are shown by default, but you can change that number. A couple tools have warned that ASTROLOGY.py is faulty and must not be used. 2IngWheel.py is IngWheel.html but adapted for commandline Python (better than early experiments). You select numbers by writing them.<br><br>
+December 10 2025: You can read commits and code for details. Aastrology.py was updated with os.urandom() and SHA256-PBKDF2-HMAC, the minor bodies have also been gated with a commandline switch/option. Only the top 20 Aspects/Transits are shown by default, but you can change that number. A couple tools have warned that ASTROLOGY.py is faulty and must not be used. 2IngWheel.py is IngWheel.html but adapted for commandline Python (better than early experiments). You select numbers by writing them.<br><br>
 
 All old remaining versions have been moved to the Historical folder.
 
-An astrology reading can be so much data that one AI can answer "Yes", but a second AI can answer "No". At that time (historical log) I had said I didn't like it anymore. December 25 Update: though Aastrology.py tends to be accurate. July 7 2026 Update: nowadays my astrology is mostly fulfilled by pyswisseph and Astrolog.
+An astrology reading can be so much data that one AI can answer "Yes", but a second AI can answer "No". At that time (historical log) I had said I didn't like it anymore. December 25 2025 Update: though Aastrology.py tends to be accurate. July 7 2026 Update: nowadays my astrology is mostly fulfilled by pyswisseph and Astrolog.
 
-September 24: divination.html was an 1 file Divination system that combines Tarot, I Ching, Kabbalah and Runes. DIVINATION.py is its older Python version.<br>
+September 24 2025: divination.html was an 1 file Divination system that combines Tarot, I Ching, Kabbalah and Runes. DIVINATION.py is its older Python version.<br>
 DivinationColors.html was the v2, with a grid of numbers. DivinationColors2.html includes an automated button.<br>
 DivinationColors3.html is the newest version with < > buttons for going back and forth on automated draws.<br>
 DivinationToolAdvanced.html includes Dreamspell and Taixuanjing, a Chinese divination book, similar to IChing, but with 81 tetragrams.<br>
@@ -26,14 +26,14 @@ DivinationAdvancedTool2.html includes Lingqinjing.<br>
 
 DivinationAdvancedTool3.html includes Astrology, Ogham, and Meihua Yishu, as well as removing the number grid. This is the ultimate version.
 
-August 22 Update: `tarot_reader.py` was made by 4.1 Opus and uses SHA256-PBKDF2-HMAC rather than plain SHA512. `"The formula is essentially HMAC(password, salt + iteration_count)"` which is richer for free compared to the older methods. It also supports piped input, does reversals and "verifies its output".
+August 22 2025 Update: `tarot_reader.py` was made by 4.1 Opus and uses SHA256-PBKDF2-HMAC rather than plain SHA512. `"The formula is essentially HMAC(password, salt + iteration_count)"` which is richer for free compared to the older methods. It also supports piped input, does reversals and "verifies its output".
 
 All older files are obsolete and will be upgraded with the new mechanisms soon.
 
 TAROT.py was further beautified/cleaned up by GPT5. AnthroHeart/@Anthro really likes it.<br>
 TAROT2.py makes it automatic as I-CHING3.py.
 
-December 25 update (actually earlier): I-CHING3.py had a trigram reversal bug which was fixed. The style of I-CHING2.py was deemed as less info-rich, so it was stashed in Historical.
+December 25 2025 update (actually earlier): I-CHING3.py had a trigram reversal bug which was fixed. The style of I-CHING2.py was deemed as less info-rich, so it was stashed in Historical.
 
 KABBALAH3.py was made "automatic" like I-CHING3.py is. You can choose to use it or not.<br>
 KABBALAH4.py becomes like I-CHING3.py: varying results by timestamp.
