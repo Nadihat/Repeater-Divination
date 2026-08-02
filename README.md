@@ -67,7 +67,9 @@ No therapyspeak allowed." system prompt (only one newline if you're reading this
 2. Grok 4.5: A bit worse, sounds like older Groks (all jumping through different topics)
 3. Gemini Pro 3.1: Overall, it's okay, but if garbage fake-safety words begin leaking in, you must edit. Do not allow them to pollute the reading.
 
-With the default OpenRouter system prompt, ratings of AI models employing the Tarot divinatory programs:
-1. Gemini 3.1 Pro Preview: You need to lead up with the Kabbalah series as the very first message, or it will pathologize you (imaginary nonsense)
+With the default OpenRouter system prompt ("You are model_name from model_creator, today°s date is date, markdown, formatting, latex tags rules"), ratings of AI models employing the Tarot divinatory programs:
+1. Gemma 4 31B (CoreWeave, Max reasoning): Excellent. Thanks to the false safety filter not being present, it is incredibly empathetic in a real way.
+2. Gemini 3.1 Pro Preview: You need to lead up with the Kabbalah series as the very first message, or it will pathologize you (imaginary nonsense)
+3. Gemini 2.5 Pro: Tends to be gloomy, but it's acceptable.
 
 3.0 Flash may be better in this ranking. I'm not sure how smart it is in Astrology readings, but in Tarot ones, it's good.
