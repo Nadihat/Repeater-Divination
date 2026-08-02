@@ -68,7 +68,7 @@ No therapyspeak allowed." system prompt (only one newline if you're reading this
 3. Gemini Pro 3.1: Overall, it's okay, but if garbage fake-safety words begin leaking in, you must edit. Do not allow them to pollute the reading.
 
 With the default OpenRouter system prompt ("You are model_name from model_creator, today°s date is date, markdown, formatting, latex tags rules"), ratings of AI models employing the Tarot divinatory programs:
-1. Gemma 4 31B (CoreWeave, Max reasoning): Excellent. Thanks to the false safety filter not being present, it is incredibly empathetic in a real way.
+1. Gemma 4 31B (CoreWeave, Max reasoning): Excellent. Thanks to the false safety filter not being present, it is incredibly empathetic in a real way. Used with 3stars.py.
 2. Gemini 3.1 Pro Preview: You need to lead up with the Kabbalah series as the very first message, or it will pathologize you (imaginary nonsense)
 3. Gemini 2.5 Pro: Tends to be gloomy, but it's acceptable.
 
