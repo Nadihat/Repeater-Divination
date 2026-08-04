@@ -437,6 +437,7 @@ def main():
             print(f"House {i+1:02d}: {get_sign_pos(cusps[i])}")
 
     print(f"MC:      {get_sign_pos(ascmc[1])}")
+    print("DSC:     7th House Cusp")
 
     # 3. Calculate Planet Positions and Store Data
     planet_positions = {}
