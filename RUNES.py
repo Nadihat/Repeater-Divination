@@ -143,6 +143,52 @@ class RuneReading:
 
 class RuneCaster:
     """Main rune divination system."""
+    def scatter_cast(self, query: str) -> RuneReading:
+        """
+        Perform a True Casting (Scatter Method) for the given query.
+        All 24 runes are thrown, each with a 50% chance of landing face up.
+        """
+        timestamp = datetime.now(timezone.utc).isoformat(timespec='seconds')
+        seed_material = f"{query}|{timestamp}".encode('utf-8')
+        base_seed = hashlib.sha256(seed_material).digest()
+
+        # Authentication hash (first 8 hex chars)
+        auth_hash = secure_hash(base_seed, b"rune-auth")
+        auth_string = auth_hash.hex()[:8].upper()
+
+        drawn_runes_list = []
+
+        # Evaluate all 24 runes
+        for rune in RUNE_DATABASE:
+            # Derive entropy to determine if the rune lands face-up (active)
+            faceup_salt = f"rune-faceup-{rune['name']}".encode('utf-8')
+            faceup_hash = secure_hash(base_seed, faceup_salt)
+            
+            # Using the least significant bit provides exactly a 50% chance
+            is_faceup = (faceup_hash[0] & 1) == 1
+
+            if is_faceup:
+                # Derive entropy for determining orientation (upright/reversed)
+                orientation_salt = f"rune-orient-{rune['name']}".encode('utf-8')
+                orientation_hash = secure_hash(base_seed, orientation_salt)
+
+                is_reversed = (orientation_hash[0] & 1) == 1
+
+                # Override reversal if the rune is not reversible
+                if not rune['reversible']:
+                    is_reversed = False
+
+                drawn_runes_list.append(DrawnRune(
+                    rune_info=rune,
+                    is_reversed=is_reversed
+                ))
+
+        return RuneReading(
+            query=query,
+            timestamp=timestamp,
+            authentication=auth_string,
+            drawn_runes=drawn_runes_list
+        )
     
     def cast(self, query: str, num_runes: int) -> RuneReading:
         """
@@ -198,29 +244,33 @@ class RuneCaster:
 # === Display Functions ===
 def display_reading(reading: RuneReading):
     """Display the complete rune reading."""
-    
-    # Define position labels for common spreads
+
     num_drawn = len(reading.drawn_runes)
     position_labels = {
         1: ["The Situation"],
         3: ["Past", "Present", "Future"],
         5: ["Situation", "Challenge", "Guidance", "Potential", "Outcome"]
     }
-    labels = position_labels.get(num_drawn, [f"Rune #{i+1}" for i in range(num_drawn)])
+    labels = position_labels.get(num_drawn, [f"Active Rune #{i+1}" for i in range(num_drawn)])
 
     if RICH_AVAILABLE:
         console.rule(f"[bold cyan]ᛟ RUNE DIVINATION ᛟ[/bold cyan]")
         console.print(f"[dim]Query:[/dim] {reading.query}")
         console.print(f"[dim]Time:[/dim] {reading.timestamp}")
         console.print(f"[dim]Auth:[/dim] [bold green]{reading.authentication}[/bold green]")
+        console.print(f"[dim]Total Active Runes:[/dim] [bold yellow]{num_drawn}[/bold yellow]")
         console.print()
+
+        if num_drawn == 0:
+            console.print(Panel("All runes landed face down. The Norns are silent on this matter.", border_style="yellow"))
+            return
 
         for i, drawn_rune in enumerate(reading.drawn_runes):
             rune = drawn_rune.rune_info
-            
+
             orientation_text = Text("Reversed", style="bold red") if drawn_rune.is_reversed else Text("Upright", style="bold green")
             meaning = rune['reversed_meaning'] if drawn_rune.is_reversed else rune['upright_meaning']
-            
+
             panel_content = Text()
             panel_content.append(f"{rune['symbol']} {rune['name']} ({rune['phonetic'].upper()})\n", style="bold white")
             panel_content.append("Orientation: ", style="dim")
@@ -228,9 +278,9 @@ def display_reading(reading: RuneReading):
             panel_content.append("\nMeaning: ", style="dim")
             panel_content.append(meaning)
 
-            title = f"[bold]{labels[i]}[/bold]" if i < len(labels) else f"[bold]Rune #{i+1}[/bold]"
+            title = f"[bold]{labels[i]}[/bold]" if i < len(labels) else f"[bold]Active Rune #{i+1}[/bold]"
             console.print(Panel(panel_content, title=title, border_style="cyan", expand=False))
-            
+
     else: # Plain text output
         print("\n" + "="*60)
         print("RUNE DIVINATION")
@@ -238,13 +288,19 @@ def display_reading(reading: RuneReading):
         print(f"Query: {reading.query}")
         print(f"Time: {reading.timestamp}")
         print(f"Auth: {reading.authentication}")
+        print(f"Total Active Runes: {num_drawn}")
+
+        if num_drawn == 0:
+            print("\nAll runes landed face down. The Norns are silent on this matter.")
+            print("\n" + "="*60)
+            return
 
         for i, drawn_rune in enumerate(reading.drawn_runes):
             rune = drawn_rune.rune_info
             orientation = "Reversed" if drawn_rune.is_reversed else "Upright"
             meaning = rune['reversed_meaning'] if drawn_rune.is_reversed else rune['upright_meaning']
-            label = labels[i] if i < len(labels) else f"Rune #{i+1}"
-            
+            label = labels[i] if i < len(labels) else f"Active Rune #{i+1}"
+
             print("\n" + "---" * 10)
             print(f"Position: {label}")
             print(f"Rune: {rune['symbol']} {rune['name']} ({rune['phonetic'].upper()})")
@@ -271,21 +327,32 @@ def main():
         help='Number of runes to cast (1, 3, or 5). Default is 3 (Nornir cast).'
     )
     parser.add_argument(
+        '-s', '--scatter',
+        action='store_true',
+        help='Use the True Casting (Scatter Method). Throws all 24 runes, reading only those that land face-up.'
+    )
+    parser.add_argument(
         '--save',
         help='Save the detailed reading to a JSON file (e.g., reading.json or readings.jsonl)'
     )
     args = parser.parse_args()
 
     caster = RuneCaster()
-    
+
     if RICH_AVAILABLE:
         with console.status("[bold cyan]Casting the runes...[/bold cyan]", spinner="dots"):
-            reading = caster.cast(args.query, args.number)
+            if args.scatter:
+                reading = caster.scatter_cast(args.query)
+            else:
+                reading = caster.cast(args.query, args.number)
     else:
         print("Casting the runes...", end="", flush=True)
-        reading = caster.cast(args.query, args.number)
+        if args.scatter:
+            reading = caster.scatter_cast(args.query)
+        else:
+            reading = caster.cast(args.query, args.number)
         print(" done.")
-        
+
     display_reading(reading)
 
     if args.save:
@@ -299,7 +366,7 @@ def main():
 
             save_path = Path(args.save)
             save_data = asdict(reading)
-            
+
             if save_path.suffix.lower() == '.jsonl':
                 # Append mode for JSONL
                 with open(save_path, 'a', encoding='utf-8') as f:
@@ -314,7 +381,7 @@ def main():
                 console.print(f"\n[green]{output_msg}[/green]")
             else:
                 print(f"\n{output_msg}")
-                
+
         except Exception as e:
             logger.error(f"Failed to save reading: {e}")
 
