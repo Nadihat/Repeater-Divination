@@ -3,7 +3,8 @@ The Intention Repeater Tarot by Thomas Sweet/AnthroHeart (https://intentionrepea
 
 # DivinationAdvancedTool3.html is the ultimate version. 3stars.py just for Astrology.
 
-August 5 2026: Added scatter mode (all 24 runes with 50% chance to ignore each), a traditional style of casting.
+August 5 2026: Added scatter mode (all 24 runes with 50% chance to ignore each), a traditional style of casting.<br>
+"When traditional practitioners used the scatter method, they often read the runes contextually based on where they landed on the cloth (e.g., runes touching each other modified each other's meanings, runes near the center were more important than runes on the edges)."
 
 July 30 2026: Will eventually add the Descendant (also known as the 7th House Cusp) to the scripts (both the hashing one as well as the SwissEphemerides version), as well as the 3rd House Cusp
 
